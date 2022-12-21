@@ -67,6 +67,10 @@ export default function AddReaderPage() {
       });
   };
 
+  const handleCancel = (e) => {
+    navigate("/readerList");
+  };
+
   return (
     <div>
       <div className="row">
@@ -262,7 +266,11 @@ export default function AddReaderPage() {
                           >
                             <FontAwesomeIcon icon={faSave} /> Lưu
                           </Button>
-                          <Button type="button" className="btn btn-danger">
+                          <Button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleCancel}
+                          >
                             &times; Cancel
                           </Button>
                         </div>

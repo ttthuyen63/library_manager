@@ -65,6 +65,11 @@ export default function AddBorrowPage() {
         // getBorrowApi();
       });
   };
+
+  const handleCancel = (e) => {
+    navigate("/borrow");
+  };
+
   return (
     <div>
       <div className="row">
@@ -190,7 +195,11 @@ export default function AddBorrowPage() {
                           >
                             <FontAwesomeIcon icon={faSave} /> Lưu
                           </Button>
-                          <Button type="button" className="btn btn-danger">
+                          <Button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleCancel}
+                          >
                             &times; Cancel
                           </Button>
                         </div>

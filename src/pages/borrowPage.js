@@ -42,6 +42,20 @@ export default function BorrowPage() {
       console.log("Lỗi");
     }
   };
+
+  const handleDelete = async (id) => {
+    console.log("id: ", id);
+    // const convertIdNumber = Number(id);
+    // console.log("convert: ", convertIdNumber);
+    try {
+      await customAxios.delete(`borrowList/${id}`);
+      getBorrowApi();
+      // console.log(dataID.id);
+    } catch (error) {
+      console.log("Lỗi", error);
+    }
+  };
+
   const navigate = useNavigate();
   return (
     <div>
@@ -178,6 +192,7 @@ export default function BorrowPage() {
                             </span>
                           </button>
                           <button
+                            onClick={() => handleDelete(item?.id)}
                             type="button"
                             className="btn btn-danger btn-xs"
                             data-toggle="modal"
