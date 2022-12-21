@@ -66,9 +66,13 @@ export default function BorrowPage() {
                     <option value="enpire">Enpire</option>
                     <option value="lose">Lose</option>
                   </select>
-                  <button className="btn btn-success mb-2 mr-3 mg-right">
-                    <i className="fa fa-plus-circle"></i> Thêm
-                  </button>
+                  <Link
+                    className="btn btn-success mb-2 mr-3 mg-right"
+                    type="button"
+                    to="/addBorrow"
+                  >
+                    <FontAwesomeIcon icon={faPlusCircle} /> Thêm
+                  </Link>
                 </form>
 
                 <table className="table recently-violated">

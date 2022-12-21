@@ -86,7 +86,7 @@ export default function AddBorrowPage() {
                         <option value="losed">Losed</option>
                       </select>
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <div className="col-sm-offset-2 col-sm-10">
                         <button type="button" className="btn btn-success">
                           <FontAwesomeIcon icon={faSave} /> Lưu
@@ -95,7 +95,7 @@ export default function AddBorrowPage() {
                           &times; Cancel
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="form-horizontal col-sm-5">
@@ -120,6 +120,16 @@ export default function AddBorrowPage() {
                         Hết hạn:
                       </label>
                       <input type="date" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <div className="col-sm-offset-2 col-sm-10">
+                        <button type="button" className="btn btn-success">
+                          <FontAwesomeIcon icon={faSave} /> Lưu
+                        </button>
+                        <button type="button" className="btn btn-danger">
+                          &times; Cancel
+                        </button>
+                      </div>
                     </div>
                     {/* <!-- <div className="form-group">
                                     <label className="control-label" for="email">Ngày hết hạn:</label>
