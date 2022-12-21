@@ -17,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { addListBook } from "../redux/bookSlice";
-const URL = "https://635a75b46f97ae73a62d386d.mockapi.io";
+// const URL = "https://635a75b46f97ae73a62d386d.mockapi.io";
 
 export default function BookPage() {
   const [bookState, setbookState] = useState(null);
@@ -44,21 +44,27 @@ export default function BookPage() {
       console.log("Lỗi");
     }
   };
-  // const data = bookState?.reduce((bookState, value, index) => {
-  //   return { ...bookState, index: value };
-  // }, {});
-  const dataBook = Object.assign({}, bookState);
-  console.log("data", dataBook);
-  // const dataID = Object.values(dataBook);
-  const dataID = Object.keys(dataBook).forEach((key) => {
-    return dataBook[key];
-  });
-  console.log("value", dataID);
-  const handleDelete = async (dataBook) => {
+
+  // const handleEdit = async (index, item) => {
+  //   try {
+  //     await customAxios.put(`bookList/${item.id}`, {
+  //       nameBook: nameBookEdit,
+  //       isCheck: item.isCheck,
+  //     });
+  //     getBookApi();
+  //   } catch (error) {
+  //     console.log("bị lỗi rồi");
+  //   }
+  // };
+
+  const handleDelete = async (id) => {
+    console.log("id: ", id);
+    // const convertIdNumber = Number(id);
+    // console.log("convert: ", convertIdNumber);
     try {
-      await customAxios.delete(`${URL}/${dataID.id}`);
+      await customAxios.delete(`bookList/${id}`);
       getBookApi();
-      console.log(dataID.id);
+      // console.log(dataID.id);
     } catch (error) {
       console.log("Lỗi", error);
     }
@@ -201,6 +207,7 @@ export default function BookPage() {
                           <button
                             type="button"
                             className="btn btn-secondary btn-xs"
+                            // onClick={handleEdit}
                           >
                             <span
                               className={{
@@ -212,7 +219,7 @@ export default function BookPage() {
                             </span>
                           </button>
                           <button
-                            onClick={handleDelete}
+                            onClick={() => handleDelete(item?.id)}
                             type="button"
                             className="btn btn-danger btn-xs"
                             data-toggle="modal"

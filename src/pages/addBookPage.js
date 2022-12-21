@@ -66,6 +66,10 @@ export default function AddBookPage() {
       });
   };
 
+  const handleCancel = (e) => {
+    navigate("/bookList");
+  };
+
   return (
     <div>
       <div className="row">
@@ -179,6 +183,28 @@ export default function AddBookPage() {
                       </div>
                     </div>
 
+                    <div class="form-horizontal col-sm-5">
+                      <div className="avatar-wrapper">
+                        <img className="profile-pic" src="" />
+                        <div className="upload-button">
+                          <i
+                            className="fa fa-arrow-circle-up"
+                            aria-hidden="true"
+                          >
+                            <FontAwesomeIcon icon={faArrowAltCircleUp} />
+                          </i>
+                        </div>
+                        <input
+                          value={imageBookData}
+                          ref={imageBookRef}
+                          onClick={(e) => setImageBookData(e.target.value)}
+                          className="file-upload"
+                          type="file"
+                          accept="image/*"
+                        />
+                      </div>
+                    </div>
+
                     <div className="form-horizontal col-sm-5">
                       <div className="form-group">
                         <label className="control-label">Mô tả:</label>
@@ -222,7 +248,11 @@ export default function AddBookPage() {
                           >
                             <FontAwesomeIcon icon={faSave} /> Lưu
                           </Button>
-                          <Button type="button" className="btn btn-danger">
+                          <Button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={handleCancel}
+                          >
                             &times; Cancel
                           </Button>
                         </div>
