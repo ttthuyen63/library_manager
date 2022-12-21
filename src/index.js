@@ -17,6 +17,8 @@ import ReaderListPage from "./pages/readerListPage";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import "bootstrap/dist/css/bootstrap.css";
+import store from "./redux/store";
+import ProtectRouter from "./components/ProtectRouter";
 
 const router = createBrowserRouter([
   {
@@ -25,39 +27,76 @@ const router = createBrowserRouter([
   },
   {
     path: "/addBook",
-    element: <AddBookPage />,
+
+    element: (
+      <ProtectRouter>
+        <AddBookPage />,
+      </ProtectRouter>
+    ),
   },
   {
     path: "/addBorrow",
-    element: <AddBorrowPage />,
+    element: (
+      <ProtectRouter>
+        <AddBorrowPage />
+      </ProtectRouter>
+    ),
   },
   {
     path: "/addReader",
-    element: <AddReaderPage />,
+    element: (
+      <ProtectRouter>
+        <AddReaderPage />
+      </ProtectRouter>
+    ),
   },
   {
     path: "/bookList",
-    element: <BookPage />,
+    element: (
+      <ProtectRouter>
+        <BookPage />
+      </ProtectRouter>
+    ),
   },
   {
     path: "/borrow",
-    element: <BorrowPage />,
+    element: (
+      <ProtectRouter>
+        <BorrowPage />
+      </ProtectRouter>
+    ),
   },
   {
     path: "/editBook",
-    element: <EditBookPage />,
+    element: (
+      <ProtectRouter>
+        <EditBookPage />
+      </ProtectRouter>
+    ),
   },
   {
     path: "/editBorrow",
-    element: <EditBorrowPage />,
+    element: (
+      <ProtectRouter>
+        <EditBorrowPage />,
+      </ProtectRouter>
+    ),
   },
   {
     path: "/editReader",
-    element: <EditReaderPage />,
+    element: (
+      <ProtectRouter>
+        <EditReaderPage />,
+      </ProtectRouter>
+    ),
   },
   {
     path: "/readerList",
-    element: <ReaderListPage />,
+    element: (
+      <ProtectRouter>
+        <ReaderListPage />,
+      </ProtectRouter>
+    ),
   },
   {
     path: "/login",
@@ -67,13 +106,12 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    {/* // <Provider store={store}> */}
+  <Provider store={store}>
     {/* // <Provider> */}
     <RouterProvider router={router} />
     {/* <App /> */}
-    {/* // </Provider>, */}
-  </React.StrictMode>
+    //{" "}
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

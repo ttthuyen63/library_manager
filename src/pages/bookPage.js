@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { button, Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,9 +13,57 @@ import {
   faStickyNote,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { customAxios } from "../config/api";
+import { addListBook } from "../redux/bookSlice";
+const URL = "https://635a75b46f97ae73a62d386d.mockapi.io";
 
 export default function BookPage() {
+  const [bookState, setbookState] = useState(null);
+  console.log("bookState...", bookState);
+  const bookList = useSelector((state) => state.bookReducer);
+  // const bookList = Object.entries(bookState);
+  // const bookList = Object.values(bookState).map(Object.values);
+  // bookList.push(bookState);
+
+  console.log("bookList...", bookList);
+  // console.log("id", bookState.id);
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getBookApi();
+  }, []);
+  const getBookApi = async () => {
+    try {
+      const res = await customAxios.get("/bookList");
+      dispatch(addListBook(res.data));
+      setbookState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  // const data = bookState?.reduce((bookState, value, index) => {
+  //   return { ...bookState, index: value };
+  // }, {});
+  const dataBook = Object.assign({}, bookState);
+  console.log("data", dataBook);
+  // const dataID = Object.values(dataBook);
+  const dataID = Object.keys(dataBook).forEach((key) => {
+    return dataBook[key];
+  });
+  console.log("value", dataID);
+  const handleDelete = async (dataBook) => {
+    try {
+      await customAxios.delete(`${URL}/${dataID.id}`);
+      getBookApi();
+      console.log(dataID.id);
+    } catch (error) {
+      console.log("Lỗi", error);
+    }
+  };
+  const navigate = useNavigate();
   return (
     <div>
       <div className="row">
@@ -89,79 +137,101 @@ export default function BookPage() {
                       <th scope="col">Thể loại</th>
                       <th scope="col">Số lượng</th>
                       <th scope="col">Tác giả</th>
-                      <th scope="col">Giá</th>
                       <th scope="col">Trạng thái</th>
                       <th scope="col">Hành động</th>
                     </tr>
                   </thead>
                   <tbody id="myTable">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Thu Huyền</td>
-                      <td>jhdfgb</td>
-                      <td>Văn học</td>
-                      <td>20</td>
-                      <td>Murata</td>
-                      <td>200.000</td>
+                    {bookState?.map((item, index) => (
+                      <tr>
+                        {/* <th scope="row"></th> */}
+                        <td>{item.id}</td>
+                        <td>{item.nameBook}</td>
+                        <td>{item.codeBook}</td>
+                        <td>{item.genreBook}</td>
+                        <td>{item.quantityBook}</td>
+                        <td>{item.authorBook}</td>
+                        <td>
+                          {/* <button
+                            type="button"
+                            className="btn btn-success btn-xs"
+                            disabled
+                          > */}
+                          {item.statusBook === "active" ? (
+                            <button
+                              type="button"
+                              className="btn btn-success btn-xs"
+                              disabled
+                            >
+                              Active
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-danger btn-xs"
+                              disabled
+                            >
+                              Inactive
+                            </button>
+                          )}
+                          {/* {<button
+                                type="button"
+                                style={{item.statusBook }}
+                                className="btn btn-success btn-xs"
+                                disabled
+                              ></button>} */}
+                        </td>
 
-                      {/* <!-- Disable thì đổi className thành btn btn-danger --> */}
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-success btn-xs"
-                          disabled
-                        >
-                          Active
-                        </button>
-                      </td>
-
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-xs"
-                          data-toggle="modal"
-                          data-target="#moreModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xem thêm",
-                            }}
+                        <td>
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-xs"
+                            data-toggle="modal"
+                            data-target="#moreModal"
                           >
-                            <FontAwesomeIcon icon={faStickyNote} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-secondary btn-xs"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Chỉnh sửa",
-                            }}
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Xem thêm",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faStickyNote} />
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-xs"
                           >
-                            <FontAwesomeIcon icon={faPencilSquare} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-xs"
-                          data-toggle="modal"
-                          data-target="#delModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xóa",
-                            }}
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Chỉnh sửa",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faPencilSquare} />
+                            </span>
+                          </button>
+                          <button
+                            onClick={handleDelete}
+                            type="button"
+                            className="btn btn-danger btn-xs"
+                            data-toggle="modal"
+                            data-target="#delModal"
                           >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Xóa",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
+                  {/* <BookItem bookList={bookState} /> */}
                 </table>
                 {/* <!-- Modal xóa --> */}
                 <div id="delModal" className="modal fade" role="dialog">

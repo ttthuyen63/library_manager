@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,9 +13,32 @@ import {
   faStickyNote,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { customAxios } from "../config/api";
+import { addListReader } from "../redux/readerSlice";
+import HomePage from "./homePage";
 
-export default function ReaderListPage() {
+export default function ReaderListPage(props) {
+  const [readerState, setreaderState] = useState(null);
+  console.log("bookState...", readerState);
+  const readerList = useSelector((state) => state.readerReducer);
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getReaderApi();
+  }, []);
+  const getReaderApi = async () => {
+    try {
+      const res = await customAxios.get("/readerList");
+      dispatch(addListReader(res.data));
+      setreaderState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  const navigate = useNavigate();
   return (
     <div>
       <div className="row">
@@ -90,130 +113,79 @@ export default function ReaderListPage() {
                     </tr>
                   </thead>
                   <tbody id="myTable">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Nguyễn Văn A</td>
-                      <td>jhdfg1a</td>
-                      <td>Nam</td>
-                      <td>20-11-2022</td>
-                      {/* <!-- Disable thì đổi className thành btn btn-danger --> */}
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-success"
-                          disabled
-                        >
-                          Active
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-xs"
-                          data-toggle="modal"
-                          data-target="#moreModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xem thêm",
-                            }}
+                    {readerState?.map((item, index) => (
+                      <tr>
+                        <td>{item.id}</td>
+                        <td>{item.nameReader}</td>
+                        <td>{item.codeReader}</td>
+                        <td>{item.genderReader}</td>
+                        <td>{item.birthReader}</td>
+                        <td>
+                          {item.statusReader === "active" ? (
+                            <button
+                              type="button"
+                              className="btn btn-success btn-xs"
+                              disabled
+                            >
+                              Active
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-danger btn-xs"
+                              disabled
+                            >
+                              Inactive
+                            </button>
+                          )}
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-xs"
+                            data-toggle="modal"
+                            data-target="#moreModal"
                           >
-                            <FontAwesomeIcon icon={faStickyNote} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-secondary btn-xs"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Chỉnh sửa",
-                            }}
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Xem thêm",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faStickyNote} />
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-xs"
                           >
-                            <FontAwesomeIcon icon={faPencilSquare} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-xs"
-                          data-toggle="modal"
-                          data-target="#delModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xóa",
-                            }}
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Chỉnh sửa",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faPencilSquare} />
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-xs"
+                            data-toggle="modal"
+                            data-target="#delModal"
                           >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Nguyễn Văn B</td>
-                      <td>tyotruf</td>
-                      <td>Nam</td>
-                      <td>20-11-2021</td>
-                      {/* <!-- Disable thì đổi className thành btn btn-danger --> */}
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-success"
-                          disabled
-                        >
-                          Active
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-xs"
-                          data-toggle="modal"
-                          data-target="#moreModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xem thêm",
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faStickyNote} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-secondary btn-xs"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Chỉnh sửa",
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faPencilSquare} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-xs"
-                          data-toggle="modal"
-                          data-target="#delModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xóa",
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Xóa",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
                 {/* <!-- Modal xóa --> */}

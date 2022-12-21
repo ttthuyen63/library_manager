@@ -1,5 +1,6 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useState, useRef } from "react";
+import { Button, Container, Form } from "react-bootstrap";
+import "../index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -10,8 +11,62 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { addListReader, addReader } from "../redux/readerSlice";
+import { customAxios } from "../config/api";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export default function AddReaderPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [imageReaderData, setImageReaderData] = useState();
+  const [genderReaderData, setgenderReaderData] = useState();
+  const [activeReaderData, setactiveReaderData] = useState();
+  const nameReaderRef = useRef(null);
+  const codeReaderRef = useRef(null);
+  const genderReaderRef = useRef(null);
+  const birthReaderRef = useRef(null);
+  const addressReaderRef = useRef(null);
+  const phoneReaderRef = useRef(null);
+  const statusReaderRef = useRef(null);
+  const dateAddReaderRef = useRef(null);
+  const imageReaderRef = useRef(null);
+  const dateEndReaderRef = useRef(null);
+
+  const getReaderApi = async () => {
+    try {
+      const res = await customAxios.post("/readerList");
+      dispatch(addListReader(res.data));
+      // setbookState(res?.data);
+    } catch (error) {
+      console.log("Lỗi", error);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
+    dispatch(
+      addReader({
+        nameReader: nameReaderRef.current.value,
+        codeReader: codeReaderRef.current.value,
+        genderReader: genderReaderRef.current.value,
+        birthReader: birthReaderRef.current.value,
+        addressReader: addressReaderRef.current.value,
+        phoneReader: phoneReaderRef.current.value,
+        statusReader: statusReaderRef.current.value,
+        codeReader: codeReaderRef.current.value,
+        dateAddReader: dateAddReaderRef.current.value,
+        // imageBook: imageBookData,
+        dateEndReader: dateEndReaderRef.current.value,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/readerList");
+        // getReaderApi();
+      });
+  };
+
   return (
     <div>
       <div className="row">
@@ -50,90 +105,77 @@ export default function AddReaderPage() {
             <div className="control-addReader container">
               <div className="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
                 <h4 className="ml-0 mt-0">Thêm bạn đọc</h4>
-                <div className="row">
-                  <div className="form-horizontal col-sm-5">
-                    <div className="form-group">
-                      <label className="control-label">Họ và tên:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter name"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label for="">Giới tính</label>
-                      <select className="browser-default custom-select mb-2 mr-3">
-                        <option selected disabled>
-                          Choose gender
-                        </option>
-                        <option value="male">Nam</option>
-                        <option value="fermale">Nữ</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label for="">Ngày sinh:</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        placeholder="dd-mm-yy"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label for="email">Địa chỉ:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter address"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label for="email">Số điện thoại:</label>
-                      <input
-                        type="tel"
-                        className="form-control"
-                        placeholder="Enter telephone number"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label for="">Trạng thái bạn đọc:</label>
-                      <select className="browser-default custom-select mb-2 mr-3">
-                        <option selected disabled>
-                          Status reader
-                        </option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                      </select>
-                    </div>
-                    <div className="avatar-wrapper">
-                      <img className="profile-pic" src="" />
-                      <div className="upload-button">
-                        <i
-                          className="fa fa-arrow-circle-up"
-                          aria-hidden="true"
-                        ></i>
+                <Form>
+                  <div className="row">
+                    <div className="form-horizontal col-sm-5">
+                      <div className="form-group">
+                        <label className="control-label">Họ và tên:</label>
+                        <input
+                          ref={nameReaderRef}
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter name"
+                        />
                       </div>
-                      <input
-                        className="file-upload"
-                        type="file"
-                        accept="image/*"
-                      />
-                    </div>
-                    {/* <div className="form-group">
-                      <div className="col-sm-offset-2 col-sm-10">
-                        <button type="button" className="btn btn-success">
-                          <FontAwesomeIcon icon={faSave} /> Lưu
-                        </button>
-                        <button type="button" className="btn btn-danger">
-                          &times; Cancel
-                        </button>
+                      <div className="form-group">
+                        <label for="">Giới tính</label>
+                        <select
+                          className="browser-default custom-select mb-2 mr-3"
+                          ref={genderReaderRef}
+                          onChange={(e) => setgenderReaderData(e.target.value)}
+                        >
+                          <option selected disabled>
+                            Choose gender
+                          </option>
+                          <option value="male">Nam</option>
+                          <option value="fermale">Nữ</option>
+                        </select>
                       </div>
-                    </div> */}
-                  </div>
 
-                  <div className="form-horizontal col-sm-5">
+                      <div className="form-group">
+                        <label for="">Ngày sinh:</label>
+                        <input
+                          ref={birthReaderRef}
+                          type="date"
+                          className="form-control"
+                          placeholder="dd-mm-yy"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label for="email">Địa chỉ:</label>
+                        <input
+                          ref={addressReaderRef}
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter address"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label for="email">Số điện thoại:</label>
+                        <input
+                          ref={phoneReaderRef}
+                          type="tel"
+                          className="form-control"
+                          placeholder="Enter telephone number"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label for="">Trạng thái bạn đọc:</label>
+                        <select
+                          className="browser-default custom-select mb-2 mr-3"
+                          ref={statusReaderRef}
+                          onChange={(e) => setactiveReaderData(e.target.value)}
+                        >
+                          <option selected disabled>
+                            Status reader
+                          </option>
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </div>
+                    </div>
                     {/* <div className="avatar-wrapper">
                       <img className="profile-pic" src="" />
                       <div className="upload-button">
@@ -148,41 +190,8 @@ export default function AddReaderPage() {
                         accept="image/*"
                       />
                     </div> */}
-
-                    <div className="form-group">
-                      <label className="control-label" for="pwd">
-                        Mã bạn đọc:
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter code reader"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label className="control-label" for="email">
-                        Ngày tạo:
-                      </label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        placeholder="dd-mm-yy"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label className="control-label" for="email">
-                        Ngày hết hạn:
-                      </label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        placeholder="dd-mm-yy"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <div className="col-sm-offset-2 col-sm-10">
+                    {/* <div className="form-group"> */}
+                    {/* <div className="col-sm-offset-2 col-sm-10">
                         <button type="button" className="btn btn-success">
                           <FontAwesomeIcon icon={faSave} /> Lưu
                         </button>
@@ -190,9 +199,77 @@ export default function AddReaderPage() {
                           &times; Cancel
                         </button>
                       </div>
+                    </div>*/}
+                    {/* </div>  */}
+
+                    {/* <div className="form-horizontal col-sm-5"> */}
+                    {/* <div className="avatar-wrapper">
+                      <img className="profile-pic" src="" />
+                      <div className="upload-button">
+                        <i
+                          className="fa fa-arrow-circle-up"
+                          aria-hidden="true"
+                        ></i>
+                      </div>
+                      <input
+                        className="file-upload"
+                        type="file"
+                        accept="image/*"
+                      />
+                    </div> */}
+                    <div className="form-horizontal col-sm-5">
+                      <div className="form-group">
+                        <label className="control-label" for="pwd">
+                          Mã bạn đọc:
+                        </label>
+                        <input
+                          ref={codeReaderRef}
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter code reader"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="control-label" for="date">
+                          Ngày tạo:
+                        </label>
+                        <input
+                          ref={dateAddReaderRef}
+                          type="date"
+                          className="form-control"
+                          placeholder="dd-mm-yy"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="control-label" for="date">
+                          Ngày hết hạn:
+                        </label>
+                        <input
+                          ref={dateEndReaderRef}
+                          type="date"
+                          className="form-control"
+                          placeholder="dd-mm-yy"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <div className="col-sm-offset-2 col-sm-10">
+                          <Button
+                            type="button"
+                            className="btn btn-success"
+                            onClick={handleSubmit}
+                          >
+                            <FontAwesomeIcon icon={faSave} /> Lưu
+                          </Button>
+                          <Button type="button" className="btn btn-danger">
+                            &times; Cancel
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Form>
               </div>
             </div>
           </div>

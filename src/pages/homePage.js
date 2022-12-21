@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
-export default function HomePage() {
+export default function HomePage(props) {
   // const [first, setfirst] = useState(second);
   const navigate = useNavigate();
 

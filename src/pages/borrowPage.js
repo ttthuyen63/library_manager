@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,9 +13,36 @@ import {
   faStickyNote,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { customAxios } from "../config/api";
+import { addListBorrow } from "../redux/borrowSlice";
 
 export default function BorrowPage() {
+  const [borrowState, setborrowState] = useState(null);
+  console.log("borrowState...", borrowState);
+  const borrowList = useSelector((state) => state.borrowReducer);
+  // const bookList = Object.entries(bookState);
+  // const bookList = Object.values(bookState).map(Object.values);
+  // bookList.push(bookState);
+
+  console.log("borrowList...", borrowList);
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getBorrowApi();
+  }, []);
+  const getBorrowApi = async () => {
+    try {
+      const res = await customAxios.get("/borrowList");
+      dispatch(addListBorrow(res.data));
+      setborrowState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  const navigate = useNavigate();
   return (
     <div>
       <div className="row">
@@ -89,73 +116,85 @@ export default function BorrowPage() {
                     </tr>
                   </thead>
                   <tbody id="myTable">
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>mx4</td>
-                      <td>rd33</td>
-                      <td>2</td>
-                      <td>20-11-2022</td>
-                      <td>21-11-2022</td>
-
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-xs"
-                          disabled
-                        >
-                          Enpired
-                        </button>
-                      </td>
-                      {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
+                    {borrowState?.map((item, index) => (
+                      <tr>
+                        {/* <th scope="row"></th> */}
+                        <td>{item.id}</td>
+                        <td>{item.codeBookBorrow}</td>
+                        <td>{item.codeReaderBorrow}</td>
+                        <td>{item.quantityBorrow}</td>
+                        <td>{item.dateAddBorrow}</td>
+                        <td>{item.dateEndBorrow}</td>
+                        <td>
+                          {item.statusBorrow === "borrowing" ? (
+                            <button
+                              type="button"
+                              className="btn btn-warning btn-xs"
+                              disabled
+                            >
+                              Borrowing
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-success btn-xs"
+                              disabled
+                            >
+                              Paid
+                            </button>
+                          )}
+                        </td>
+                        {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
                             <!-- Expired thì đổi className thành btn btn-warning -->                            
                             <!-- Losed thì đổi className thành btn btn-danger -->                             */}
 
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-xs"
-                          data-toggle="modal"
-                          data-target="#moreModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xem thêm",
-                            }}
+                        <td>
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-xs"
+                            data-toggle="modal"
+                            data-target="#moreModal"
                           >
-                            <FontAwesomeIcon icon={faStickyNote} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-secondary btn-xs"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Chỉnh sửa",
-                            }}
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Xem thêm",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faStickyNote} />
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary btn-xs"
                           >
-                            <FontAwesomeIcon icon={faPencilSquare} />
-                          </span>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-xs"
-                          data-toggle="modal"
-                          data-target="#delModal"
-                        >
-                          <span
-                            className={{
-                              dataToggle: Tooltip,
-                              title: "Xóa",
-                            }}
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Chỉnh sửa",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faPencilSquare} />
+                            </span>
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-xs"
+                            data-toggle="modal"
+                            data-target="#delModal"
                           >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
+                            <span
+                              className={{
+                                dataToggle: Tooltip,
+                                title: "Xóa",
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
                 {/* <!-- Modal xóa --> */}

@@ -1,5 +1,6 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useState, useRef } from "react";
+import "../index.css";
+import { Button, Container, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -10,8 +11,60 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { customAxios } from "../config/api";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addBorrow, addListBorrow } from "../redux/borrowSlice";
 
 export default function AddBorrowPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [imageBookData, setImageBookData] = useState();
+  const [genreBookData, setgenreBookData] = useState();
+  const [statusBorrowData, setstatusBorrowData] = useState();
+  const codeBookBorrowRef = useRef(null);
+  const codeReaderBorrowRef = useRef(null);
+  const quantityBorrowRef = useRef(null);
+  const statusBorrowRef = useRef(null);
+  const descriptionBorrowRef = useRef(null);
+  const dateAddBorrowRef = useRef(null);
+  const dateEndBorrowRef = useRef(null);
+  // const statusBookRef = useRef(null);
+  // const codeBookRef = useRef(null);
+  // const dateAddBookRef = useRef(null);
+  // const imageBookRef = useRef(null);
+
+  const getBorrowApi = async () => {
+    try {
+      const res = await customAxios.post("/borrowList");
+      dispatch(addListBorrow(res.data));
+      // setbookState(res?.data);
+    } catch (error) {
+      console.log("Lỗi", error);
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
+    dispatch(
+      addBorrow({
+        codeBookBorrow: codeBookBorrowRef.current.value,
+        codeReaderBorrow: codeReaderBorrowRef.current.value,
+        quantityBorrow: quantityBorrowRef.current.value,
+        statusBorrow: statusBorrowRef.current.value,
+        descriptionBorrow: descriptionBorrowRef.current.value,
+        dateAddBorrow: dateAddBorrowRef.current.value,
+        dateEndBorrow: dateEndBorrowRef.current.value,
+        // codeBook: codeBookRef.current.value,
+        // dateAddBook: dateAddBookRef.current.value,
+        // imageBook: imageBookData,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        navigate("/borrow");
+        // getBorrowApi();
+      });
+  };
   return (
     <div>
       <div className="row">
@@ -46,92 +99,103 @@ export default function AddBorrowPage() {
             <div className="control-addReader container">
               <div className="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
                 <h4 className="ml-0 mt-0">Mượn sách</h4>
-                <div className="row">
-                  <div className="form-horizontal col-sm-5">
-                    <div className="form-group">
-                      <label className="control-label">Mã sách:</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Enter code book"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label for="">Mã bạn đọc:</label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Enter code reader"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label for="email">Số lượng:</label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Enter number"
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label for="">Trạng thái:</label>
-                      <select className="browser-default custom-select mb-2 mr-3">
-                        <option selected disabled>
-                          Status borrowing
-                        </option>
-                        <option value="borrowed">Borrowed</option>
-                        <option value="enpired">Enpired</option>
-                        <option value="losed">Losed</option>
-                      </select>
-                    </div>
-                    {/* <div className="form-group">
-                      <div className="col-sm-offset-2 col-sm-10">
-                        <button type="button" className="btn btn-success">
-                          <FontAwesomeIcon icon={faSave} /> Lưu
-                        </button>
-                        <button type="button" className="btn btn-danger">
-                          &times; Cancel
-                        </button>
+                <Form>
+                  <div className="row">
+                    <div className="form-horizontal col-sm-5">
+                      <div className="form-group">
+                        <label className="control-label">Mã sách:</label>
+                        <input
+                          ref={codeBookBorrowRef}
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter code book"
+                        />
                       </div>
-                    </div> */}
-                  </div>
 
-                  <div className="form-horizontal col-sm-5">
-                    <div className="form-group">
-                      <label className="control-label">Ghi chú:</label>
-                      <textarea
-                        rows="4"
-                        cols="50"
-                        className="form-control"
-                      ></textarea>
-                    </div>
+                      <div className="form-group">
+                        <label for="">Mã bạn đọc:</label>
+                        <input
+                          ref={codeReaderBorrowRef}
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter code reader"
+                        />
+                      </div>
 
-                    <div className="form-group">
-                      <label className="control-label" for="email">
-                        Ngày thêm:
-                      </label>
-                      <input type="date" className="form-control" />
-                    </div>
+                      <div className="form-group">
+                        <label for="email">Số lượng:</label>
+                        <input
+                          ref={quantityBorrowRef}
+                          type="number"
+                          className="form-control"
+                          placeholder="Enter number"
+                        />
+                      </div>
 
-                    <div className="form-group">
-                      <label className="control-label" for="email">
-                        Hết hạn:
-                      </label>
-                      <input type="date" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                      <div className="col-sm-offset-2 col-sm-10">
-                        <button type="button" className="btn btn-success">
-                          <FontAwesomeIcon icon={faSave} /> Lưu
-                        </button>
-                        <button type="button" className="btn btn-danger">
-                          &times; Cancel
-                        </button>
+                      <div className="form-group">
+                        <label for="">Trạng thái:</label>
+                        <select
+                          className="browser-default custom-select mb-2 mr-3"
+                          ref={statusBorrowRef}
+                          onChange={(e) => setstatusBorrowData(e.target.value)}
+                        >
+                          <option selected disabled>
+                            Status borrowing
+                          </option>
+                          <option value="borrowing">Borrowing</option>
+                          <option value="paid">Paid</option>
+                          <option value="losed">Losed</option>
+                        </select>
                       </div>
                     </div>
-                    {/* <!-- <div className="form-group">
+
+                    <div className="form-horizontal col-sm-5">
+                      <div className="form-group">
+                        <label className="control-label">Ghi chú:</label>
+                        <textarea
+                          ref={descriptionBorrowRef}
+                          rows="4"
+                          cols="50"
+                          className="form-control"
+                        ></textarea>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="control-label" for="email">
+                          Ngày thêm:
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          ref={dateAddBorrowRef}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="control-label" for="email">
+                          Hết hạn:
+                        </label>
+                        <input
+                          type="date"
+                          className="form-control"
+                          ref={dateEndBorrowRef}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <div className="col-sm-offset-2 col-sm-10">
+                          <Button
+                            type="button"
+                            className="btn btn-success"
+                            onClick={handleSubmit}
+                          >
+                            <FontAwesomeIcon icon={faSave} /> Lưu
+                          </Button>
+                          <Button type="button" className="btn btn-danger">
+                            &times; Cancel
+                          </Button>
+                        </div>
+                      </div>
+                      {/* <!-- <div className="form-group">
                                     <label className="control-label" for="email">Ngày hết hạn:</label>
                                     <input type="date" className="form-control" placeholder="dd-mm-yy">
                                 </div>
@@ -144,8 +208,9 @@ export default function AddBorrowPage() {
                                         <option value="inactive">Inactive</option>
                                     </select>   
                                 </div> --> */}
+                    </div>
                   </div>
-                </div>
+                </Form>
               </div>
             </div>
           </div>
