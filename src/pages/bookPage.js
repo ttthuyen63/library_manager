@@ -19,7 +19,7 @@ import { customAxios } from "../config/api";
 import { addListBook } from "../redux/bookSlice";
 // const URL = "https://635a75b46f97ae73a62d386d.mockapi.io";
 
-export default function BookPage() {
+export default function BookPage(props) {
   const [bookState, setbookState] = useState(null);
   console.log("bookState...", bookState);
   const bookList = useSelector((state) => state.bookReducer);
@@ -29,7 +29,9 @@ export default function BookPage() {
 
   console.log("bookList...", bookList);
   // console.log("id", bookState.id);
-
+  const goToDetail = (id) => {
+    navigate("/bookList/" + id);
+  };
   const queryParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -69,6 +71,7 @@ export default function BookPage() {
       console.log("Lỗi", error);
     }
   };
+
   const navigate = useNavigate();
   return (
     <div>
@@ -190,10 +193,12 @@ export default function BookPage() {
 
                         <td>
                           <button
+                            onClick={() => goToDetail(item.id)}
                             type="button"
                             className="btn btn-primary btn-xs"
                             data-toggle="modal"
                             data-target="#moreModal"
+                            variant="primary"
                           >
                             <span
                               className={{

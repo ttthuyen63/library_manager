@@ -18,7 +18,6 @@ export default function HomePage(props) {
   const navigate = useNavigate();
 
   return (
-    // <Container>
     <div className="row">
       <div className="col-sm-3" style={{ padding: 0 }}>
         <div className="menu">
@@ -133,7 +132,7 @@ export default function HomePage(props) {
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>Con thỏ sida</td>
+                    <td>Con thỏ</td>
                     <td>10</td>
                     <td>2</td>
                     <td>19-11-2022</td>
@@ -158,8 +157,8 @@ export default function HomePage(props) {
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>Thu Huyền</td>
-                    <td>Con thỏ sida</td>
+                    <td>Reader1</td>
+                    <td>Con thỏ</td>
                     <td>20-11-2022</td>
                     <td>Quá hạn</td>
                     <td>500.000</td>
@@ -183,7 +182,7 @@ export default function HomePage(props) {
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>Thu Huyền</td>
+                    <td>Reader2</td>
                     <td>Con thỏ</td>
                     <td>20-11-2022</td>
                     <td>19-11-2022</td>
@@ -195,6 +194,5 @@ export default function HomePage(props) {
         </div>
       </div>
     </div>
-    // </Container>
   );
 }

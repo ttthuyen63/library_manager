@@ -19,6 +19,8 @@ import { Provider } from "react-redux";
 import "bootstrap/dist/css/bootstrap.css";
 import store from "./redux/store";
 import ProtectRouter from "./components/ProtectRouter";
+import BookDetail from "./pages/bookDetail";
+import ReaderDetail from "./pages/readerDetail";
 
 const router = createBrowserRouter([
   {
@@ -95,6 +97,22 @@ const router = createBrowserRouter([
     element: (
       <ProtectRouter>
         <ReaderListPage />,
+      </ProtectRouter>
+    ),
+  },
+  {
+    path: "/bookList/:bookId",
+    element: (
+      <ProtectRouter>
+        <BookDetail />,
+      </ProtectRouter>
+    ),
+  },
+  {
+    path: "/readerList/:readId",
+    element: (
+      <ProtectRouter>
+        <ReaderDetail />,
       </ProtectRouter>
     ),
   },

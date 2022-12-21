@@ -50,6 +50,10 @@ export default function ReaderListPage(props) {
       console.log("Lỗi", error);
     }
   };
+  const goToDetail = (id) => {
+    navigate("/readerList/" + id);
+  };
+
   const navigate = useNavigate();
   return (
     <div>
@@ -153,6 +157,8 @@ export default function ReaderListPage(props) {
                         </td>
                         <td>
                           <button
+                            onClick={() => goToDetail(item.id)}
+                            variant="primary"
                             type="button"
                             className="btn btn-primary btn-xs"
                             data-toggle="modal"
