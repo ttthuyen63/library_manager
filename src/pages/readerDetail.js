@@ -12,22 +12,23 @@ import { customAxios } from "../config/api";
 
 export default function ReaderDetail() {
   const params = useParams();
-  const readerId = params.readerId;
-//   console.log("id: ", bookId);
+  const readerId = params.readId;
+  console.log("id: ", readerId);
 
   const [detailReader, setdetailReader] = useState(null);
-  useEffect(() => {
-    getDetail();
-  }, []);
+
   const getDetail = async () => {
     try {
-      const dataDetail = await customAxios.get(`/readerList/${readerId}.json`);
+      const dataDetail = await customAxios.get(`/readerList/${readerId}`);
       setdetailReader(dataDetail.data);
       console.log("id: ", readerId);
     } catch (error) {
       console.log("Lỗi: ", error);
     }
   };
+  useEffect(() => {
+    getDetail();
+  }, []);
   // console.log("detail: ", detailReader);
   return (
     <div>
@@ -90,13 +91,17 @@ export default function ReaderDetail() {
                         <th>Ngày sinh: </th>
                         <td>{detailReader?.birthReader}</td>
                       </tr>
-                      <tr>
+                      {/* <tr>
                         <th>Địa chỉ: </th>
                         <td>{detailReader?.addressReader}</td>
-                      </tr>
-                      <tr>
+                      </tr> */}
+                      {/* <tr>
                         <th>Số điện thoại: </th>
                         <td>{detailReader?.phoneReader}</td>
+                      </tr> */}
+                      <tr>
+                        <th>Mã bạn đọc: </th>
+                        <td>{detailReader?.codeReader}</td>
                       </tr>
                       {/* <tr>
                         <th>Số phát hành: </th>

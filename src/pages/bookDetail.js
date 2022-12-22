@@ -21,7 +21,7 @@ export default function BookDetail() {
   }, []);
   const getDetail = async () => {
     try {
-      const dataDetail = await customAxios.get(`/bookList/${bookId}.json`);
+      const dataDetail = await customAxios.get(`/bookList/${bookId}`);
       setdetailBook(dataDetail.data);
       console.log("id: ", bookId);
     } catch (error) {
@@ -73,24 +73,38 @@ export default function BookDetail() {
                 />
               </div> */}
                   <div className="form-group">
-                    <Table>
-                      <tr>
-                        <th>Tên sách: </th>
+                    <Table
+                      style={{
+                        border: "1px solid black",
+                      }}
+                    >
+                      <tr style={{
+                        border: "1px solid black",
+                      }}>
+                        <th style={{ width: "10%" }}>Tên sách: </th>
                         <td>{detailBook?.nameBook}</td>
                       </tr>
-                      <tr>
+                      <tr style={{
+                        border: "1px solid black",
+                      }}>
                         <th>Mã sách: </th>
                         <td>{detailBook?.codeBook}</td>
                       </tr>
-                      <tr>
+                      <tr style={{
+                        border: "1px solid black",
+                      }}>
                         <th>Tác giả: </th>
                         <td>{detailBook?.authorBook}</td>
                       </tr>
-                      <tr>
+                      <tr style={{
+                        border: "1px solid black",
+                      }}>
                         <th>Thể loại: </th>
                         <td>{detailBook?.genreBook}</td>
                       </tr>
-                      <tr>
+                      <tr style={{
+                        border: "1px solid black",
+                      }}>
                         <th>Mô tả: </th>
                         <td>{detailBook?.descriptionBook}</td>
                       </tr>
