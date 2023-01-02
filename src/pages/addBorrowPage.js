@@ -129,6 +129,15 @@ export default function AddBorrowPage() {
                           placeholder="Enter code reader"
                         />
                       </div>
+                      <div className="form-group">
+                        <label for="">Tên bạn đọc:</label>
+                        <input
+                          ref={nameReaderBorrowRef}
+                          type="text"
+                          className="form-control"
+                          placeholder="Enter name reader"
+                        />
+                      </div>
 
                       <div className="form-group">
                         <label for="email">Số lượng:</label>

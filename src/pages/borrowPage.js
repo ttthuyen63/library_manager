@@ -142,7 +142,7 @@ export default function BorrowPage() {
                       <th scope="col">#</th>
                       <th scope="col">Mã bạn đọc</th>
                       <th scope="col">Tên bạn đọc</th>
-                      <th scope="col">Số lượng</th>
+                      <th scope="col">Đang mượn</th>
                       {/* <th scope="col">Ngày mượn</th> */}
                       {/* <th scope="col">Hết hạn</th> */}
                       {/* <th scope="col">Trạng thái</th> */}
@@ -158,10 +158,10 @@ export default function BorrowPage() {
                           {/* <td>{item.codeBookBorrow}</td> */}
                           <td>{item.codeReaderBorrow}</td>
                           <td>{item.nameReaderBorrow}</td>
-                          <td>{item.quantityBorrow}</td>
+                          <td>{item.quantityBorrow}/10</td>
                           {/* <td>{item.dateAddBorrow}</td>
                           <td>{item.dateEndBorrow}</td> */}
-                          <td>
+                          {/* <td>
                             {item.statusBorrow === "borrowing" ? (
                               <button
                                 type="button"
@@ -179,7 +179,7 @@ export default function BorrowPage() {
                                 Quá hạn
                               </button>
                             )}
-                          </td>
+                          </td> */}
                           {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
                             <!-- Expired thì đổi className thành btn btn-warning -->                            
                             <!-- Losed thì đổi className thành btn btn-danger -->                             */}
@@ -249,7 +249,7 @@ export default function BorrowPage() {
                           <td>{item.quantityBorrow}</td>
                           <td>{item.dateAddBorrow}</td>
                           <td>{item.dateEndBorrow}</td>
-                          <td>
+                          {/* <td>
                             {item.statusBorrow === "borrowing" ? (
                               <button
                                 type="button"
@@ -267,7 +267,7 @@ export default function BorrowPage() {
                                 Paid
                               </button>
                             )}
-                          </td>
+                          </td> */}
                           {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
                             <!-- Expired thì đổi className thành btn btn-warning -->                            
                             <!-- Losed thì đổi className thành btn btn-danger -->                             */}

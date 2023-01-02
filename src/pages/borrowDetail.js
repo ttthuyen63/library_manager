@@ -22,6 +22,21 @@ export default function BorrowDetail() {
   const params = useParams();
   const borrowId = params.borrowId;
   // console.log("id: ", bookId);
+  const [borrowState, setborrowState] = useState(null);
+  const queryParams = new URLSearchParams(window.location.search);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getBorrowApi();
+  }, []);
+  const getBorrowApi = async () => {
+    try {
+      const res = await customAxios.get("/borrowList");
+      dispatch(addListBorrow(res.data));
+      setborrowState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
 
   const [detailBorrow, setdetailBorrow] = useState(null);
   useEffect(() => {
@@ -29,11 +44,23 @@ export default function BorrowDetail() {
   }, []);
   const getDetail = async () => {
     try {
-      const dataDetail = await customAxios.get(`/borrow/${borrowId}`);
+      const dataDetail = await customAxios.get(`/borrowList/${borrowId}`);
       setdetailBorrow(dataDetail.data);
       console.log("id: ", borrowId);
     } catch (error) {
       console.log("Lỗi: ", error);
+    }
+  };
+  const handleDelete = async (id) => {
+    console.log("id: ", id);
+    // const convertIdNumber = Number(id);
+    // console.log("convert: ", convertIdNumber);
+    try {
+      await customAxios.delete(`borrowList/${id}`);
+      getBorrowApi();
+      // console.log(dataID.id);
+    } catch (error) {
+      console.log("Lỗi", error);
     }
   };
 
@@ -91,56 +118,71 @@ export default function BorrowDetail() {
                       <h4>{detailBorrow?.nameReaderBorrow}</h4>
                       <h4>Chi tiết mượn / trả</h4>
 
-                      <Table
-                        style={{
-                          border: "1px solid black",
-                        }}
-                      >
-                        <tr
-                          style={{
-                            border: "1px solid black",
-                          }}
-                        >
-                          <th style={{ width: "10%" }}>Tên sách: </th>
-                          <td>{detailBorrow?.nameBook}</td>
-                        </tr>
-                        <tr
-                          style={{
-                            border: "1px solid black",
-                          }}
-                        >
-                          <th>Mã bạn đọc: </th>
-                          <td>{detailBorrow?.codeBook}</td>
-                        </tr>
-                        <tr
-                          style={{
-                            border: "1px solid black",
-                          }}
-                        >
-                          <th>Tác giả: </th>
-                          <td>{detailBorrow?.authorBook}</td>
-                        </tr>
-                        <tr
-                          style={{
-                            border: "1px solid black",
-                          }}
-                        >
-                          <th>Thể loại: </th>
-                          <td>{detailBorrow?.genreBook}</td>
-                        </tr>
-                        <tr
-                          style={{
-                            border: "1px solid black",
-                          }}
-                        >
-                          <th>Mô tả: </th>
-                          <td>{detailBorrow?.descriptionBook}</td>
-                        </tr>
-                        {/* <tr>
-                        <th>Số phát hành: </th>
-                        <td>{detailBook?.issueBook}</td>
-                      </tr> */}
-                      </Table>
+                      <table className="table recently-violated">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Mã sách</th>
+                            <th scope="col">Tên sách</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Ngày mượn</th>
+                            <th scope="col">Hết hạn</th>
+                            <th scope="col">Trạng thái</th>
+                            {/* <th scope="col">Hành động</th> */}
+                          </tr>
+                        </thead>
+                        <tbody id="myTable">
+                          {borrowState?.map((item, index) => (
+                            <tr>
+                              {/* <th scope="row"></th> */}
+                              <td>{item.id}</td>
+                              <td>{item.codeBookBorrow}</td>
+                              <td>{item.nameBookBorrow}</td>
+                              {/* <td>{item.nameReaderBorrow}</td> */}
+                              <td>{item.quantityBorrow}</td>
+                              <td>{item.dateAddBorrow}</td>
+                              <td>{item.dateEndBorrow}</td>
+                              <td>
+                                {item.statusBorrow === "borrowing" ? (
+                                  <button
+                                    type="button"
+                                    className="btn btn-warning btn-xs"
+                                    disabled
+                                  >
+                                    Borrowing
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    className="btn btn-success btn-xs"
+                                    disabled
+                                  >
+                                    Paid
+                                  </button>
+                                )}
+                              </td>
+                              <td>
+                                <button
+                                  onClick={() => handleDelete(item?.id)}
+                                  type="button"
+                                  className="btn btn-danger btn-xs"
+                                  data-toggle="modal"
+                                  data-target="#delModal"
+                                >
+                                  <span
+                                    className={{
+                                      dataToggle: Tooltip,
+                                      title: "Xóa",
+                                    }}
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </span>
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>

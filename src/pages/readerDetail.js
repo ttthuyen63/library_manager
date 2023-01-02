@@ -6,8 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Button, Table } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
 
 export default function ReaderDetail() {
@@ -29,6 +29,10 @@ export default function ReaderDetail() {
   useEffect(() => {
     getDetail();
   }, []);
+  const navigate = useNavigate();
+  const goToDetail = (id) => {
+    navigate("/borrow/" + id);
+  };
   // console.log("detail: ", detailReader);
   return (
     <div>
@@ -78,34 +82,89 @@ export default function ReaderDetail() {
                 />
               </div> */}
                   <div className="form-group">
-                    <Table>
-                      <tr>
-                        <th>Họ và tên: </th>
+                    <Table
+                      style={{
+                        border: "1px solid black",
+                        width: "75%",
+                      }}
+                    >
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Mã bạn đọc:{" "}
+                        </th>
+                        <td>{detailReader?.codeReader}</td>
+                      </tr>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Tên bạn đọc:{" "}
+                        </th>
                         <td>{detailReader?.nameReader}</td>
                       </tr>
-                      <tr>
-                        <th>Giới tính: </th>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Giới tính:{" "}
+                        </th>
                         <td>{detailReader?.genderReader}</td>
                       </tr>
-                      <tr>
-                        <th>Ngày sinh: </th>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Ngày sinh:{" "}
+                        </th>
                         <td>{detailReader?.birthReader}</td>
                       </tr>
-                      {/* <tr>
-                        <th>Địa chỉ: </th>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Địa chỉ:{" "}
+                        </th>
                         <td>{detailReader?.addressReader}</td>
-                      </tr> */}
-                      {/* <tr>
-                        <th>Số điện thoại: </th>
+                      </tr>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Số điện thoại:{" "}
+                        </th>
                         <td>{detailReader?.phoneReader}</td>
-                      </tr> */}
-                      <tr>
-                        <th>Mã bạn đọc: </th>
-                        <td>{detailReader?.codeReader}</td>
+                      </tr>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
+                        <th style={{ padding: "10px", width: "200px" }}>
+                          Đang mượn:{" "}
+                        </th>
+                        <td>
+                          <a onClick={() => goToDetail(detailReader?.id)}>
+                            {}/10
+                          </a>
+                        </td>
                       </tr>
                       {/* <tr>
                         <th>Số phát hành: </th>
-                        <td>{detailReader?.issueBook}</td>
+                        <td>{detailBook?.issueBook}</td>
                       </tr> */}
                     </Table>
                   </div>

@@ -74,16 +74,25 @@ export default function BookDetail() {
               </div> */}
                   <div className="form-group">
                     <Table
+                      striped
+                      bordered
+                      hover
+                      size="sm"
+                      className="table table-bordered"
                       style={{
                         border: "1px solid black",
+                        width: "75%",
                       }}
                     >
+                      {/* <table className="table table-bordered"> */}
                       <tr
                         style={{
                           border: "1px solid black",
                         }}
                       >
-                        <th style={{ width: "10%" }}>Tên sách: </th>
+                        <th style={{ padding: "10px", width: "100px" }}>
+                          Tên sách:
+                        </th>
                         <td>{detailBook?.nameBook}</td>
                       </tr>
                       <tr
@@ -91,7 +100,9 @@ export default function BookDetail() {
                           border: "1px solid black",
                         }}
                       >
-                        <th>Mã sách: </th>
+                        <th style={{ padding: "10px", width: "100px" }}>
+                          Mã sách:{" "}
+                        </th>
                         <td>{detailBook?.codeBook}</td>
                       </tr>
                       <tr
@@ -99,7 +110,9 @@ export default function BookDetail() {
                           border: "1px solid black",
                         }}
                       >
-                        <th>Tác giả: </th>
+                        <th style={{ padding: "10px", width: "100px" }}>
+                          Tác giả:{" "}
+                        </th>
                         <td>{detailBook?.authorBook}</td>
                       </tr>
                       <tr
@@ -107,7 +120,9 @@ export default function BookDetail() {
                           border: "1px solid black",
                         }}
                       >
-                        <th>Thể loại: </th>
+                        <th style={{ padding: "10px", width: "100px" }}>
+                          Thể loại:{" "}
+                        </th>
                         <td>{detailBook?.genreBook}</td>
                       </tr>
                       <tr
@@ -115,7 +130,9 @@ export default function BookDetail() {
                           border: "1px solid black",
                         }}
                       >
-                        <th>Mô tả: </th>
+                        <th style={{ padding: "10px", width: "100px" }}>
+                          Mô tả:{" "}
+                        </th>
                         <td>{detailBook?.descriptionBook}</td>
                       </tr>
                       {/* <tr>
