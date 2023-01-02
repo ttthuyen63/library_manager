@@ -53,16 +53,19 @@ export default function BorrowDetail() {
   };
   const handleDelete = async (id) => {
     console.log("id: ", id);
-    // const convertIdNumber = Number(id);
-    // console.log("convert: ", convertIdNumber);
     try {
       await customAxios.delete(`borrowList/${id}`);
       getBorrowApi();
-      // console.log(dataID.id);
     } catch (error) {
       console.log("Lỗi", error);
     }
   };
+  const current = new Date();
+  const date = `${current.getFullYear()}-${
+    current.getMonth() + 1
+  }-${current.getDate()}`;
+  const nowDate = Number(date.slice(0, 10).split("-").join(""));
+  console.log("date", nowDate);
 
   const navigate = useNavigate();
   return (
@@ -114,10 +117,25 @@ export default function BorrowDetail() {
                 />
               </div> */}
                     <div className="form-group">
-                      <h4>{detailBorrow?.codeReaderBorrow}</h4>
-                      <h4>{detailBorrow?.nameReaderBorrow}</h4>
+                      {/* <h4>{detailBorrow?.codeReaderBorrow}</h4>
+                      <h4>{detailBorrow?.nameReaderBorrow}</h4> */}
                       <h4>Chi tiết mượn / trả</h4>
-
+                      <form className="form-inline w-100">
+                        <select className="browser-default custom-select w-30 mb-2 mr-3">
+                          <option selected disabled>
+                            Trạng thái
+                          </option>
+                          <option value="borrowed">Đang mượn</option>
+                          <option value="lose">Quá hạn</option>
+                        </select>
+                        <Link
+                          className="btn btn-success mb-2 mr-3 mg-right"
+                          type="button"
+                          to="/addBorrow"
+                        >
+                          <FontAwesomeIcon icon={faPlusCircle} /> Thêm
+                        </Link>
+                      </form>
                       <table className="table recently-violated">
                         <thead>
                           <tr>
@@ -143,6 +161,30 @@ export default function BorrowDetail() {
                               <td>{item.dateAddBorrow}</td>
                               <td>{item.dateEndBorrow}</td>
                               <td>
+                                {Number(
+                                  item.dateEndBorrow
+                                    .slice(0, 10)
+                                    .split("-0")
+                                    .join("")
+                                ) > nowDate ? (
+                                  <button
+                                    type="button"
+                                    className="btn btn-success btn-xs"
+                                    disabled
+                                  >
+                                    Đang mượn
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger btn-xs"
+                                    disabled
+                                  >
+                                    Quá hạn
+                                  </button>
+                                )}
+                              </td>
+                              {/* <td>
                                 {item.statusBorrow === "borrowing" ? (
                                   <button
                                     type="button"
@@ -160,7 +202,7 @@ export default function BorrowDetail() {
                                     Paid
                                   </button>
                                 )}
-                              </td>
+                              </td> */}
                               <td>
                                 <button
                                   onClick={() => handleDelete(item?.id)}

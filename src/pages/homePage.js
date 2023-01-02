@@ -171,20 +171,26 @@ export default function HomePage() {
                 <thead>
                   <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Mã sách</th>
                     <th scope="col">Tên sách</th>
                     <th scope="col">Số lượng</th>
-                    <th scope="col">Giá thành</th>
+                    {/* <th scope="col">Giá thành</th> */}
                     <th scope="col">Ngày nhập</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Con thỏ</td>
-                    <td>10</td>
-                    <td>2</td>
-                    <td>19-11-2022</td>
-                  </tr>
+                <tbody id="myTable">
+                  {bookStateLength?.map((item, index) => (
+                    <tr>
+                      {/* <th scope="row"></th> */}
+                      <td>{item.id}</td>
+                      <td>{item.codeBook}</td>
+                      <td>{item.nameBook}</td>
+                      {/* <td>{item.codeBook}</td>
+                      <td>{item.genreBook}</td> */}
+                      <td>{item.quantityBook}</td>
+                      <td>{item.dateAddBook}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -210,30 +216,6 @@ export default function HomePage() {
                     <td>20-11-2022</td>
                     <td>Quá hạn</td>
                     <td>500.000</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div className="recently-table shadow-sm p-3 mb-5 bg-white rounded">
-              <h4>Bạn đọc đang mượn</h4>
-              <table className="table recently-borrow">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Tên bạn đọc</th>
-                    <th scope="col">Tên sách</th>
-                    <th scope="col">Ngày hết hạn</th>
-                    <th scope="col">Ngày mượn</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Reader2</td>
-                    <td>Con thỏ</td>
-                    <td>20-11-2022</td>
-                    <td>19-11-2022</td>
                   </tr>
                 </tbody>
               </table>

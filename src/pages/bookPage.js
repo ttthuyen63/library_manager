@@ -130,7 +130,7 @@ export default function BookPage() {
                   <input
                     type="text"
                     className="book-search form-control w-30 mb-2 mr-3"
-                    placeholder="Tìm kiếm"
+                    placeholder="Tìm kiếm theo tên sách"
                     name="search"
                     id="search"
                     // value={search}

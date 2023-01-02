@@ -24,7 +24,6 @@ export default function AddBorrowPage() {
   const [statusBorrowData, setstatusBorrowData] = useState();
   const codeBookBorrowRef = useRef(null);
   const codeReaderBorrowRef = useRef(null);
-  const nameReaderBorrowRef = useRef(null);
   const quantityBorrowRef = useRef(null);
   const statusBorrowRef = useRef(null);
   const descriptionBorrowRef = useRef(null);
@@ -56,7 +55,6 @@ export default function AddBorrowPage() {
         dateAddBorrow: dateAddBorrowRef.current.value,
         dateEndBorrow: dateEndBorrowRef.current.value,
         typeBorrow: typeBorrowRef.current.value,
-        nameReaderBorrow: nameReaderBorrowRef.current.value,
         // codeBook: codeBookRef.current.value,
         // dateAddBook: dateAddBookRef.current.value,
         // imageBook: imageBookData,
@@ -127,15 +125,6 @@ export default function AddBorrowPage() {
                           type="text"
                           className="form-control"
                           placeholder="Enter code reader"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label for="">Tên bạn đọc:</label>
-                        <input
-                          ref={nameReaderBorrowRef}
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter name reader"
                         />
                       </div>
 
