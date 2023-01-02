@@ -32,7 +32,7 @@ export default function BookDetail() {
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -54,7 +54,7 @@ export default function BookDetail() {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div class="control-addReader container">
             <div class="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
               <h4 class="ml-0 mt-0">Chi tiết sách</h4>
@@ -78,33 +78,43 @@ export default function BookDetail() {
                         border: "1px solid black",
                       }}
                     >
-                      <tr style={{
-                        border: "1px solid black",
-                      }}>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
                         <th style={{ width: "10%" }}>Tên sách: </th>
                         <td>{detailBook?.nameBook}</td>
                       </tr>
-                      <tr style={{
-                        border: "1px solid black",
-                      }}>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
                         <th>Mã sách: </th>
                         <td>{detailBook?.codeBook}</td>
                       </tr>
-                      <tr style={{
-                        border: "1px solid black",
-                      }}>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
                         <th>Tác giả: </th>
                         <td>{detailBook?.authorBook}</td>
                       </tr>
-                      <tr style={{
-                        border: "1px solid black",
-                      }}>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
                         <th>Thể loại: </th>
                         <td>{detailBook?.genreBook}</td>
                       </tr>
-                      <tr style={{
-                        border: "1px solid black",
-                      }}>
+                      <tr
+                        style={{
+                          border: "1px solid black",
+                        }}
+                      >
                         <th>Mô tả: </th>
                         <td>{detailBook?.descriptionBook}</td>
                       </tr>

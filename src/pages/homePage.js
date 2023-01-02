@@ -12,19 +12,67 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { customAxios } from "../config/api";
+import { addListBook } from "../redux/bookSlice";
+import { useState } from "react";
+import { addListReader } from "../redux/readerSlice";
+import { addListBorrow } from "../redux/borrowSlice";
 
-export default function HomePage(props) {
+export default function HomePage() {
   // const [first, setfirst] = useState(second);
+  const [bookStateLength, setbookStateLength] = useState(null);
+  const [readerStateLength, setreaderStateLength] = useState(null);
+  const [borrowStateLength, setborrowStateLength] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getBookApi();
+    getReaderApi();
+    getBorrowApi();
+  }, []);
+  const getBookApi = async () => {
+    try {
+      const res = await customAxios.get("/bookList");
+      dispatch(addListBook(res.data));
+      setbookStateLength(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  const getReaderApi = async () => {
+    try {
+      const res = await customAxios.get("/readerList");
+      dispatch(addListReader(res.data));
+      setreaderStateLength(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  const getBorrowApi = async () => {
+    try {
+      const res = await customAxios.get("/borrowList");
+      dispatch(addListBorrow(res.data));
+      setborrowStateLength(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
 
   return (
     <div className="row">
-      <div className="col-sm-3" style={{ padding: 0 }}>
+      <div className="col-sm-2" style={{ padding: 0 }}>
         <div className="menu">
           <h4 className="menu-header">Library Manager</h4>
           <div className="d-flex align-items-start">
             <div className="nav flex-column nav-pills">
-              <Link className="nav-link active" type="button" to="/">
+              <Link
+                className="nav-link active"
+                type="button"
+                to="/"
+                style={{ color: "white" }}
+              >
                 <FontAwesomeIcon icon={faHome} /> Home
               </Link>
               <Link className="nav-link" type="button" to="/readerList">
@@ -41,7 +89,7 @@ export default function HomePage(props) {
         </div>
       </div>
 
-      <div className="col-sm-9" style={{ padding: 0 }}>
+      <div className="col-sm-10" style={{ padding: 0 }}>
         <div className="content">
           <div className="content-header">
             <h5 className="content-account">Admin</h5>
@@ -53,7 +101,7 @@ export default function HomePage(props) {
           <div className="statistical">
             <div className="statistical-card bg-blue m-2">
               <div className="statistical-info ml-4 mt-4">
-                <h2 className="number-reader">12</h2>
+                <h2 className="number-reader">{readerStateLength?.length}</h2>
                 <p className="statistical-item">Bạn đọc</p>
               </div>
               <span className="statistical-icon">
@@ -69,7 +117,7 @@ export default function HomePage(props) {
 
             <div className="statistical-card bg-green m-2">
               <div className="statistical-info ml-4 mt-4">
-                <h2 className="number-reader">12</h2>
+                <h2 className="number-reader">{bookStateLength?.length}</h2>
                 <p className="statistical-item">Cuốn sách</p>
               </div>
               <span className="statistical-icon">
@@ -85,8 +133,8 @@ export default function HomePage(props) {
 
             <div className="statistical-card bg-orange m-2">
               <div className="statistical-info ml-4 mt-4">
-                <h2 className="number-reader">12</h2>
-                <p className="statistical-item">Sách đang được mượn</p>
+                <h2 className="number-reader">{borrowStateLength?.length}</h2>
+                <p className="statistical-item">Số lượng đang mượn</p>
               </div>
               <span className="statistical-icon">
                 <FontAwesomeIcon icon={faBookBookmark} />

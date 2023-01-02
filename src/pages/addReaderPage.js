@@ -74,7 +74,7 @@ export default function AddReaderPage() {
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -100,7 +100,7 @@ export default function AddReaderPage() {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
               <h6 className="content-account">Admin</h6>
@@ -180,47 +180,7 @@ export default function AddReaderPage() {
                         </select>
                       </div>
                     </div>
-                    {/* <div className="avatar-wrapper">
-                      <img className="profile-pic" src="" />
-                      <div className="upload-button">
-                        <i
-                          className="fa fa-arrow-circle-up"
-                          aria-hidden="true"
-                        ></i>
-                      </div>
-                      <input
-                        className="file-upload"
-                        type="file"
-                        accept="image/*"
-                      />
-                    </div> */}
-                    {/* <div className="form-group"> */}
-                    {/* <div className="col-sm-offset-2 col-sm-10">
-                        <button type="button" className="btn btn-success">
-                          <FontAwesomeIcon icon={faSave} /> Lưu
-                        </button>
-                        <button type="button" className="btn btn-danger">
-                          &times; Cancel
-                        </button>
-                      </div>
-                    </div>*/}
-                    {/* </div>  */}
 
-                    {/* <div className="form-horizontal col-sm-5"> */}
-                    {/* <div className="avatar-wrapper">
-                      <img className="profile-pic" src="" />
-                      <div className="upload-button">
-                        <i
-                          className="fa fa-arrow-circle-up"
-                          aria-hidden="true"
-                        ></i>
-                      </div>
-                      <input
-                        className="file-upload"
-                        type="file"
-                        accept="image/*"
-                      />
-                    </div> */}
                     <div className="form-horizontal col-sm-5">
                       <div className="form-group">
                         <label className="control-label" for="pwd">

@@ -73,7 +73,7 @@ export default function AddBookPage() {
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -95,7 +95,7 @@ export default function AddBookPage() {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
               <h6 className="content-account">Admin</h6>
@@ -166,24 +166,9 @@ export default function AddBookPage() {
                           placeholder="Enter quantity"
                         />
                       </div>
-
-                      <div className="form-group">
-                        <label for="">Trạng thái sách: </label>
-                        <select
-                          className="browser-default custom-select mb-2 mr-3"
-                          ref={statusBookRef}
-                          onChange={(e) => setstatusBookData(e.target.value)}
-                        >
-                          <option selected disabled>
-                            Status book
-                          </option>
-                          <option value="active">Active</option>
-                          <option value="inactive">Inactive</option>
-                        </select>
-                      </div>
                     </div>
 
-                    <div class="form-horizontal col-sm-5">
+                    {/* <div class="form-horizontal col-sm-5">
                       <div className="avatar-wrapper">
                         <img className="profile-pic" src="" />
                         <div className="upload-button">
@@ -203,7 +188,7 @@ export default function AddBookPage() {
                           accept="image/*"
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="form-horizontal col-sm-5">
                       <div className="form-group">

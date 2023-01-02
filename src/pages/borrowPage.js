@@ -20,6 +20,8 @@ import { addListBorrow } from "../redux/borrowSlice";
 
 export default function BorrowPage() {
   const [borrowState, setborrowState] = useState(null);
+  const [search, setSearch] = useState(borrowState);
+  const [show, setShow] = useState(false);
   console.log("borrowState...", borrowState);
   const borrowList = useSelector((state) => state.borrowReducer);
   // const bookList = Object.entries(bookState);
@@ -56,11 +58,29 @@ export default function BorrowPage() {
     }
   };
 
+  const handleChangeSearch = (e) => {
+    const query = e.target.value;
+    var searchList = [...borrowState];
+    // console.log("search bookstate", bookState);
+    searchList = searchList.filter((item) => {
+      return (
+        item.codeReaderBorrow.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      );
+      // console.log("item", typeof item.nameBook);
+    });
+    setSearch(searchList);
+    setShow(true);
+  };
+
+  const goToDetail = (id) => {
+    navigate("/borrow/" + id);
+  };
+
   const navigate = useNavigate();
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -82,7 +102,7 @@ export default function BorrowPage() {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
               <h6 className="content-account">Admin</h6>
@@ -97,15 +117,15 @@ export default function BorrowPage() {
                     type="text"
                     className="book-search form-control w-30 mb-2 mr-3"
                     placeholder="Tìm kiếm"
+                    onChange={handleChangeSearch}
                   />
 
                   <select className="browser-default custom-select w-30 mb-2 mr-3">
                     <option selected disabled>
                       Trạng thái
                     </option>
-                    <option value="borrowed">Borrowed</option>
-                    <option value="enpire">Enpire</option>
-                    <option value="lose">Lose</option>
+                    <option value="borrowed">Đang mượn</option>
+                    <option value="lose">Quá hạn</option>
                   </select>
                   <Link
                     className="btn btn-success mb-2 mr-3 mg-right"
@@ -120,97 +140,192 @@ export default function BorrowPage() {
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Mã sách</th>
                       <th scope="col">Mã bạn đọc</th>
+                      <th scope="col">Tên bạn đọc</th>
                       <th scope="col">Số lượng</th>
-                      <th scope="col">Ngày mượn</th>
-                      <th scope="col">Hết hạn</th>
-                      <th scope="col">Trạng thái</th>
+                      {/* <th scope="col">Ngày mượn</th> */}
+                      {/* <th scope="col">Hết hạn</th> */}
+                      {/* <th scope="col">Trạng thái</th> */}
                       <th scope="col">Hành động</th>
                     </tr>
                   </thead>
-                  <tbody id="myTable">
-                    {borrowState?.map((item, index) => (
-                      <tr>
-                        {/* <th scope="row"></th> */}
-                        <td>{item.id}</td>
-                        <td>{item.codeBookBorrow}</td>
-                        <td>{item.codeReaderBorrow}</td>
-                        <td>{item.quantityBorrow}</td>
-                        <td>{item.dateAddBorrow}</td>
-                        <td>{item.dateEndBorrow}</td>
-                        <td>
-                          {item.statusBorrow === "borrowing" ? (
-                            <button
-                              type="button"
-                              className="btn btn-warning btn-xs"
-                              disabled
-                            >
-                              Borrowing
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              className="btn btn-success btn-xs"
-                              disabled
-                            >
-                              Paid
-                            </button>
-                          )}
-                        </td>
-                        {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
+                  {show === false ? (
+                    <tbody id="myTable">
+                      {borrowState?.map((item, index) => (
+                        <tr>
+                          {/* <th scope="row"></th> */}
+                          <td>{item.id}</td>
+                          {/* <td>{item.codeBookBorrow}</td> */}
+                          <td>{item.codeReaderBorrow}</td>
+                          <td>{item.nameReaderBorrow}</td>
+                          <td>{item.quantityBorrow}</td>
+                          {/* <td>{item.dateAddBorrow}</td>
+                          <td>{item.dateEndBorrow}</td> */}
+                          <td>
+                            {item.statusBorrow === "borrowing" ? (
+                              <button
+                                type="button"
+                                className="btn btn-success btn-xs"
+                                disabled
+                              >
+                                Đang mượn
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-danger btn-xs"
+                                disabled
+                              >
+                                Quá hạn
+                              </button>
+                            )}
+                          </td>
+                          {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
                             <!-- Expired thì đổi className thành btn btn-warning -->                            
                             <!-- Losed thì đổi className thành btn btn-danger -->                             */}
 
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-primary btn-xs"
-                            data-toggle="modal"
-                            data-target="#moreModal"
-                          >
-                            <span
-                              className={{
-                                dataToggle: Tooltip,
-                                title: "Xem thêm",
-                              }}
+                          <td>
+                            <button
+                              onClick={() => goToDetail(item.id)}
+                              variant="primary"
+                              type="button"
+                              className="btn btn-primary btn-xs"
+                              data-toggle="modal"
+                              data-target="#moreModal"
                             >
-                              <FontAwesomeIcon icon={faStickyNote} />
-                            </span>
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-secondary btn-xs"
-                          >
-                            <span
-                              className={{
-                                dataToggle: Tooltip,
-                                title: "Chỉnh sửa",
-                              }}
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xem thêm",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faStickyNote} />
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-xs"
                             >
-                              <FontAwesomeIcon icon={faPencilSquare} />
-                            </span>
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item?.id)}
-                            type="button"
-                            className="btn btn-danger btn-xs"
-                            data-toggle="modal"
-                            data-target="#delModal"
-                          >
-                            <span
-                              className={{
-                                dataToggle: Tooltip,
-                                title: "Xóa",
-                              }}
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Chỉnh sửa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faPencilSquare} />
+                              </span>
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item?.id)}
+                              type="button"
+                              className="btn btn-danger btn-xs"
+                              data-toggle="modal"
+                              data-target="#delModal"
                             >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </span>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xóa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  ) : (
+                    ""
+                  )}
+                  {show === true ? (
+                    <tbody id="myTable">
+                      {search?.map((item, index) => (
+                        <tr>
+                          {/* <th scope="row"></th> */}
+                          <td>{item.id}</td>
+                          <td>{item.codeBookBorrow}</td>
+                          <td>{item.codeReaderBorrow}</td>
+                          <td>{item.quantityBorrow}</td>
+                          <td>{item.dateAddBorrow}</td>
+                          <td>{item.dateEndBorrow}</td>
+                          <td>
+                            {item.statusBorrow === "borrowing" ? (
+                              <button
+                                type="button"
+                                className="btn btn-warning btn-xs"
+                                disabled
+                              >
+                                Borrowing
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-success btn-xs"
+                                disabled
+                              >
+                                Paid
+                              </button>
+                            )}
+                          </td>
+                          {/* <!-- Borrowed thì đổi className thành btn btn-info -->                            
+                            <!-- Expired thì đổi className thành btn btn-warning -->                            
+                            <!-- Losed thì đổi className thành btn btn-danger -->                             */}
+
+                          <td>
+                            <button
+                              onClick={() => goToDetail(item.id)}
+                              variant="primary"
+                              type="button"
+                              className="btn btn-primary btn-xs"
+                              data-toggle="modal"
+                              data-target="#moreModal"
+                            >
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xem thêm",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faStickyNote} />
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-xs"
+                            >
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Chỉnh sửa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faPencilSquare} />
+                              </span>
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item?.id)}
+                              type="button"
+                              className="btn btn-danger btn-xs"
+                              data-toggle="modal"
+                              data-target="#delModal"
+                            >
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xóa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  ) : (
+                    ""
+                  )}
                 </table>
                 {/* <!-- Modal xóa --> */}
                 <div id="delModal" className="modal fade" role="dialog">

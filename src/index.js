@@ -21,6 +21,7 @@ import store from "./redux/store";
 import ProtectRouter from "./components/ProtectRouter";
 import BookDetail from "./pages/bookDetail";
 import ReaderDetail from "./pages/readerDetail";
+import BorrowDetail from "./pages/borrowDetail";
 
 const router = createBrowserRouter([
   {
@@ -31,90 +32,99 @@ const router = createBrowserRouter([
     path: "/addBook",
 
     element: (
-      <ProtectRouter>
-        <AddBookPage />,
-      </ProtectRouter>
+      // <ProtectRouter>
+      <AddBookPage />
     ),
+    // </ProtectRouter>
+    // ),
   },
   {
     path: "/addBorrow",
     element: (
-      <ProtectRouter>
-        <AddBorrowPage />
-      </ProtectRouter>
+      // <ProtectRouter>
+      <AddBorrowPage />
     ),
+    // </ProtectRouter>
   },
   {
     path: "/addReader",
     element: (
-      <ProtectRouter>
-        <AddReaderPage />
-      </ProtectRouter>
+      // <ProtectRouter>
+      <AddReaderPage />
     ),
+    // </ProtectRouter>
   },
   {
     path: "/bookList",
     element: (
-      <ProtectRouter>
-        <BookPage />
-      </ProtectRouter>
+      // <ProtectRouter>
+      <BookPage />
+      // </ProtectRouter>
     ),
   },
   {
     path: "/borrow",
     element: (
-      <ProtectRouter>
-        <BorrowPage />
-      </ProtectRouter>
+      // <ProtectRouter>
+      <BorrowPage />
+      // </ProtectRouter>
     ),
   },
   {
     path: "/editBook",
     element: (
-      <ProtectRouter>
-        <EditBookPage />
-      </ProtectRouter>
+      // <ProtectRouter>
+      <EditBookPage />
+      // </ProtectRouter>
     ),
   },
   {
     path: "/editBorrow",
     element: (
-      <ProtectRouter>
-        <EditBorrowPage />,
-      </ProtectRouter>
+      // <ProtectRouter>
+      <EditBorrowPage />
     ),
+    // </ProtectRouter>
   },
   {
     path: "/editReader",
     element: (
-      <ProtectRouter>
-        <EditReaderPage />,
-      </ProtectRouter>
+      // <ProtectRouter>
+      <EditReaderPage />
     ),
+    // </ProtectRouter>
   },
   {
     path: "/readerList",
     element: (
-      <ProtectRouter>
-        <ReaderListPage />,
-      </ProtectRouter>
+      // <ProtectRouter>
+      <ReaderListPage />
     ),
+    // </ProtectRouter>
   },
   {
     path: "/bookList/:bookId",
     element: (
-      <ProtectRouter>
-        <BookDetail />,
-      </ProtectRouter>
+      // <ProtectRouter>
+      <BookDetail />
     ),
+    // </ProtectRouter>
   },
   {
     path: "/readerList/:readId",
     element: (
-      <ProtectRouter>
-        <ReaderDetail />,
-      </ProtectRouter>
+      // <ProtectRouter>
+      <ReaderDetail />
     ),
+    // </ProtectRouter>
+  },
+  {
+    path: "/borrow/:borrowId",
+    element: (
+      // <ProtectRouter>
+      <BorrowDetail />
+    ),
+    // </ProtectRouter>
   },
   {
     path: "/login",
@@ -128,7 +138,6 @@ root.render(
     {/* // <Provider> */}
     <RouterProvider router={router} />
     {/* <App /> */}
-    //{" "}
   </Provider>
 );
 

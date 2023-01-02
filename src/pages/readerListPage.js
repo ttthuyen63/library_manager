@@ -21,6 +21,9 @@ import HomePage from "./homePage";
 
 export default function ReaderListPage(props) {
   const [readerState, setreaderState] = useState(null);
+  const [show, setShow] = useState(false);
+  const [search, setSearch] = useState(readerState);
+  const [filterStatus, setfilterStatus] = useState(readerState);
   console.log("bookState...", readerState);
   const readerList = useSelector((state) => state.readerReducer);
 
@@ -38,6 +41,7 @@ export default function ReaderListPage(props) {
       console.log("Lỗi");
     }
   };
+  console.log("test", readerState);
   const handleDelete = async (id) => {
     console.log("id: ", id);
     // const convertIdNumber = Number(id);
@@ -54,11 +58,32 @@ export default function ReaderListPage(props) {
     navigate("/readerList/" + id);
   };
 
+  const handleChangeSearch = (e) => {
+    const query = e.target.value;
+    var searchList = [...readerState];
+    searchList = searchList.filter((item) => {
+      return item.codeReader.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    });
+    setSearch(searchList);
+    setShow(true);
+  };
+
+  const filterReader = (statusReader) => {
+    setfilterStatus(
+      readerState.filter((item) => item.statusReader === statusReader)
+    );
+  };
+
+  // const statusReaders = Array.from(
+  //   new Set(readerState.map((item) => item.statusReader))
+  // );
+  // console.log("test", readerState);
+
   const navigate = useNavigate();
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -84,7 +109,7 @@ export default function ReaderListPage(props) {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
               <h6 className="content-account">Admin</h6>
@@ -99,13 +124,25 @@ export default function ReaderListPage(props) {
                     type="text"
                     className="input-codeReader form-control w-30 mb-2 mr-3"
                     placeholder="Tìm kiếm"
+                    onChange={handleChangeSearch}
                   />
-                  <select className="browser-default custom-select w-30 mb-2 mr-3">
+                  <select
+                    className="browser-default custom-select w-30 mb-2 mr-3"
+                    // value={filterStatus}
+                    onChange={(e) => filterReader(e.target.value)}
+                  >
                     <option selected disabled>
                       Lọc trạng thái
                     </option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
+                    {/* <option value="active">Active</option>
+                    <option value="inactive">Inactive</option> */}
+                    {/* {readerState.map((item) => {
+                      return (
+                        <option key={item.statusReader}>
+                          {item.statusReader}
+                        </option>
+                      );
+                    })} */}
                   </select>
                   <Link
                     className="btn btn-success mb-2 mr-3 mg-right"
@@ -128,84 +165,170 @@ export default function ReaderListPage(props) {
                       <th scope="col">Hành động</th>
                     </tr>
                   </thead>
-                  <tbody id="myTable">
-                    {readerState?.map((item, index) => (
-                      <tr>
-                        <td>{item.id}</td>
-                        <td>{item.nameReader}</td>
-                        <td>{item.codeReader}</td>
-                        <td>{item.genderReader}</td>
-                        <td>{item.birthReader}</td>
-                        <td>
-                          {item.statusReader === "active" ? (
+                  {show === false ? (
+                    <tbody id="myTable">
+                      {readerState?.map((item, index) => (
+                        <tr>
+                          <td>{item.id}</td>
+                          <td>{item.nameReader}</td>
+                          <td>{item.codeReader}</td>
+                          <td>{item.genderReader}</td>
+                          <td>{item.birthReader}</td>
+                          <td>
+                            {item.statusReader === "active" ? (
+                              <button
+                                type="button"
+                                className="btn btn-success btn-xs"
+                                disabled
+                              >
+                                Active
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-danger btn-xs"
+                                disabled
+                              >
+                                Inactive
+                              </button>
+                            )}
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => goToDetail(item.id)}
+                              variant="primary"
+                              type="button"
+                              className="btn btn-primary btn-xs"
+                              data-toggle="modal"
+                              data-target="#moreModal"
+                            >
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xem thêm",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faStickyNote} />
+                              </span>
+                            </button>
                             <button
                               type="button"
-                              className="btn btn-success btn-xs"
-                              disabled
+                              className="btn btn-secondary btn-xs"
                             >
-                              Active
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Chỉnh sửa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faPencilSquare} />
+                              </span>
                             </button>
-                          ) : (
                             <button
+                              onClick={() => handleDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
-                              disabled
+                              data-toggle="modal"
+                              data-target="#delModal"
                             >
-                              Inactive
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xóa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </span>
                             </button>
-                          )}
-                        </td>
-                        <td>
-                          <button
-                            onClick={() => goToDetail(item.id)}
-                            variant="primary"
-                            type="button"
-                            className="btn btn-primary btn-xs"
-                            data-toggle="modal"
-                            data-target="#moreModal"
-                          >
-                            <span
-                              className={{
-                                dataToggle: Tooltip,
-                                title: "Xem thêm",
-                              }}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  ) : (
+                    ""
+                  )}
+                  {show === true ? (
+                    <tbody id="myTable">
+                      {search?.map((item, index) => (
+                        <tr>
+                          <td>{item.id}</td>
+                          <td>{item.nameReader}</td>
+                          <td>{item.codeReader}</td>
+                          <td>{item.genderReader}</td>
+                          <td>{item.birthReader}</td>
+                          <td>
+                            {item.statusReader === "active" ? (
+                              <button
+                                type="button"
+                                className="btn btn-success btn-xs"
+                                disabled
+                              >
+                                Active
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-danger btn-xs"
+                                disabled
+                              >
+                                Inactive
+                              </button>
+                            )}
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => goToDetail(item.id)}
+                              variant="primary"
+                              type="button"
+                              className="btn btn-primary btn-xs"
+                              data-toggle="modal"
+                              data-target="#moreModal"
                             >
-                              <FontAwesomeIcon icon={faStickyNote} />
-                            </span>
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-secondary btn-xs"
-                          >
-                            <span
-                              className={{
-                                dataToggle: Tooltip,
-                                title: "Chỉnh sửa",
-                              }}
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xem thêm",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faStickyNote} />
+                              </span>
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-xs"
                             >
-                              <FontAwesomeIcon icon={faPencilSquare} />
-                            </span>
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item?.id)}
-                            type="button"
-                            className="btn btn-danger btn-xs"
-                            data-toggle="modal"
-                            data-target="#delModal"
-                          >
-                            <span
-                              className={{
-                                dataToggle: Tooltip,
-                                title: "Xóa",
-                              }}
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Chỉnh sửa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faPencilSquare} />
+                              </span>
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item?.id)}
+                              type="button"
+                              className="btn btn-danger btn-xs"
+                              data-toggle="modal"
+                              data-target="#delModal"
                             >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </span>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+                              <span
+                                className={{
+                                  dataToggle: Tooltip,
+                                  title: "Xóa",
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  ) : (
+                    ""
+                  )}
                 </table>
                 {/* <!-- Modal xóa --> */}
                 <div id="delModal" className="modal fade" role="dialog">

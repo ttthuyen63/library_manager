@@ -24,12 +24,13 @@ export default function AddBorrowPage() {
   const [statusBorrowData, setstatusBorrowData] = useState();
   const codeBookBorrowRef = useRef(null);
   const codeReaderBorrowRef = useRef(null);
+  const nameReaderBorrowRef = useRef(null);
   const quantityBorrowRef = useRef(null);
   const statusBorrowRef = useRef(null);
   const descriptionBorrowRef = useRef(null);
   const dateAddBorrowRef = useRef(null);
   const dateEndBorrowRef = useRef(null);
-  // const statusBookRef = useRef(null);
+  const typeBorrowRef = useRef(null);
   // const codeBookRef = useRef(null);
   // const dateAddBookRef = useRef(null);
   // const imageBookRef = useRef(null);
@@ -54,6 +55,8 @@ export default function AddBorrowPage() {
         descriptionBorrow: descriptionBorrowRef.current.value,
         dateAddBorrow: dateAddBorrowRef.current.value,
         dateEndBorrow: dateEndBorrowRef.current.value,
+        typeBorrow: typeBorrowRef.current.value,
+        nameReaderBorrow: nameReaderBorrowRef.current.value,
         // codeBook: codeBookRef.current.value,
         // dateAddBook: dateAddBookRef.current.value,
         // imageBook: imageBookData,
@@ -73,7 +76,7 @@ export default function AddBorrowPage() {
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -95,7 +98,7 @@ export default function AddBorrowPage() {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
               <h6 className="content-account">Admin</h6>
@@ -145,11 +148,10 @@ export default function AddBorrowPage() {
                           onChange={(e) => setstatusBorrowData(e.target.value)}
                         >
                           <option selected disabled>
-                            Status borrowing
+                            Trạng thái mượn
                           </option>
-                          <option value="borrowing">Borrowing</option>
-                          <option value="paid">Paid</option>
-                          <option value="losed">Losed</option>
+                          <option value="borrowing">Đang mượn</option>
+                          <option value="losed">Quá hạn</option>
                         </select>
                       </div>
                     </div>
@@ -164,7 +166,6 @@ export default function AddBorrowPage() {
                           className="form-control"
                         ></textarea>
                       </div>
-
                       <div className="form-group">
                         <label className="control-label" for="email">
                           Ngày thêm:
@@ -175,7 +176,19 @@ export default function AddBorrowPage() {
                           ref={dateAddBorrowRef}
                         />
                       </div>
-
+                      <div className="form-group">
+                        <label for="">Kiểu cho mượn:</label>
+                        <select
+                          className="browser-default custom-select mb-2 mr-3"
+                          ref={typeBorrowRef}
+                        >
+                          <option selected disabled>
+                            Chọn
+                          </option>
+                          <option value="thongthuong">Thông thường</option>
+                          <option value="handinh">Ấn định hạn trả</option>
+                        </select>
+                      </div>
                       <div className="form-group">
                         <label className="control-label" for="email">
                           Hết hạn:
@@ -204,19 +217,6 @@ export default function AddBorrowPage() {
                           </Button>
                         </div>
                       </div>
-                      {/* <!-- <div className="form-group">
-                                    <label className="control-label" for="email">Ngày hết hạn:</label>
-                                    <input type="date" className="form-control" placeholder="dd-mm-yy">
-                                </div>
-
-                                <div className="form-group">
-                                    <label for="">Trạng thái thẻ:</label>
-                                    <select className="browser-default custom-select mb-2 mr-3">
-                                        <option selected disabled>Status card</option>
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>   
-                                </div> --> */}
                     </div>
                   </div>
                 </Form>

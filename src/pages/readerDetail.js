@@ -33,7 +33,7 @@ export default function ReaderDetail() {
   return (
     <div>
       <div className="row">
-        <div className="col-sm-3" style={{ padding: 0 }}>
+        <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
@@ -59,7 +59,7 @@ export default function ReaderDetail() {
           </div>
         </div>
 
-        <div className="col-sm-9" style={{ padding: 0 }}>
+        <div className="col-sm-10" style={{ padding: 0 }}>
           <div class="control-addReader container">
             <div class="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
               <h4 class="ml-0 mt-0">Chi tiết bạn đọc</h4>
