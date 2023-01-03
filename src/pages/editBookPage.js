@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, use } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import "../index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,70 +10,61 @@ import {
   faHome,
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addBook, addListBook } from "../redux/bookSlice";
+import { useEffect } from "react";
 
-export default function EditBookPage(props) {
+export default function EditBookPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [imageBookData, setImageBookData] = useState();
-  const [genreBookData, setgenreBookData] = useState();
-  const [statusBookData, setstatusBookData] = useState();
-  const nameBookRef = useRef(null);
-  const genreBookRef = useRef(null);
-  const descriptionBookRef = useRef(null);
-  const issueBookRef = useRef(null);
-  const authorBookRef = useRef(null);
-  const quantityBookRef = useRef(null);
-  const statusBookRef = useRef(null);
-  const codeBookRef = useRef(null);
-  const dateAddBookRef = useRef(null);
-  const imageBookRef = useRef(null);
-
-  const getBookApi = async () => {
-    try {
-      const res = await customAxios.post("/bookList");
-      dispatch(addListBook(res.data));
-      // setbookState(res?.data);
-    } catch (error) {
-      console.log("Lỗi", error);
-    }
-  };
   const handleSubmit = (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
-    dispatch(
-      addBook({
-        nameBook: nameBookRef.current.value,
-        genreBook: genreBookRef.current.value,
-        descriptionBook: descriptionBookRef.current.value,
-        issueBook: issueBookRef.current.value,
-        authorBook: authorBookRef.current.value,
-        quantityBook: quantityBookRef.current.value,
-        statusBook: statusBookRef.current.value,
-        codeBook: codeBookRef.current.value,
-        dateAddBook: dateAddBookRef.current.value,
-        imageBook: imageBookData,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        navigate("/bookList");
-        // getBookApi();
-      });
+    // dispatch(
+    //   addBook({
+    //     nameBook: editBook.value,
+    //     genreBook: e.target.value,
+    //     descriptionBook: e.target.value,
+    //     issueBook: e.target.value,
+    //     authorBook: e.target.value,
+    //     quantityBook: editBook?.value,
+    //     statusBook: e.target.value,
+    //     codeBook: e.target.value,
+    //     dateAddBook: e.target.value,
+    //     // imageBook: imageBookData,
+    //   })
+    // )
+    //   .unwrap()
+    //   .then(() => {
+    seteditBook();
+    navigate("/bookList");
+    // getBookApi();
+    // });
   };
 
   const handleCancel = (e) => {
     navigate("/bookList");
   };
 
-  const bookId = props.match.params.id
-  customAxios.get(`/bookList/${bookId}`).then(res=>{
-    
-  })
+  const params = useParams();
+  const bookId = params.bookId;
+  const [editBook, seteditBook] = useState(null);
+  useEffect(() => {
+    editBookItem();
+  }, []);
+  const editBookItem = async () => {
+    try {
+      const dataBook = await customAxios.get(`/bookList/${bookId}`);
+      seteditBook(dataBook.data);
+      console.log("id: ", bookId);
+    } catch (error) {
+      console.log("Lỗi: ", error);
+    }
+  };
+
   return (
     <div>
       <div className="row">
@@ -107,25 +98,28 @@ export default function EditBookPage(props) {
 
             <div className="control-addReader container">
               <div className="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
-                <h4 className="ml-0 mt-0">Thêm sách</h4>
+                <h4 className="ml-0 mt-0">Chỉnh sửa thông tin sách</h4>
                 <Form>
                   <div className="row">
                     <div className="form-horizontal col-sm-5">
                       <div className="form-group">
                         <label className="control-label">Tên sách:</label>
                         <input
-                          ref={nameBookRef}
+                          // ref={nameBookRef}
+                          value={editBook?.nameBook}
                           type="text"
                           className="form-control"
                           placeholder="Enter name"
+                          onChange={(e) => seteditBook(e.target.value)}
                         />
                       </div>
                       <div className="form-group">
                         <label for="">Thể loại: </label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
-                          ref={genreBookRef}
-                          onChange={(e) => setgenreBookData(e.target.value)}
+                          // ref={genreBookRef}
+                          value={editBook?.genreBook}
+                          onChange={(e) => seteditBook(e.target.value)}
                         >
                           <option selected disabled>
                             Thể loại
@@ -144,30 +138,36 @@ export default function EditBookPage(props) {
                       <div className="form-group">
                         <label for="">Số phát hành:</label>
                         <input
-                          ref={issueBookRef}
+                          // ref={issueBookRef}
+                          value={editBook?.issueBook}
                           type="number"
                           className="form-control"
                           placeholder="Enter number"
+                          onChange={(e) => seteditBook(e.target.value)}
                         />
                       </div>
 
                       <div className="form-group">
                         <label>Tác giả:</label>
                         <input
-                          ref={authorBookRef}
+                          // ref={authorBookRef}
+                          value={editBook?.authorBook}
                           type="text"
                           className="form-control"
                           placeholder="Enter Author"
+                          onChange={(e) => seteditBook(e.target.value)}
                         />
                       </div>
 
                       <div className="form-group">
                         <label for="email">Số lượng:</label>
                         <input
-                          ref={quantityBookRef}
+                          // ref={quantityBookRef}
+                          value={editBook?.quantityBook}
                           type="number"
                           className="form-control"
                           placeholder="Enter quantity"
+                          onChange={(e) => seteditBook(e.target.value)}
                         />
                       </div>
                     </div>
@@ -198,10 +198,12 @@ export default function EditBookPage(props) {
                       <div className="form-group">
                         <label className="control-label">Mô tả:</label>
                         <textarea
-                          ref={descriptionBookRef}
+                          // ref={descriptionBookRef}
+                          value={editBook?.descriptionBook}
                           className="form-control"
                           rows="4"
                           cols="50"
+                          onChange={(e) => seteditBook(e.target.value)}
                         ></textarea>
                       </div>
 
@@ -210,10 +212,12 @@ export default function EditBookPage(props) {
                           Mã sách:
                         </label>
                         <input
-                          ref={codeBookRef}
+                          // ref={codeBookRef}
+                          value={editBook?.codeBook}
                           type="text"
                           className="form-control"
                           placeholder="Enter code book"
+                          onChange={(e) => seteditBook(e.target.value)}
                         />
                       </div>
 
@@ -222,10 +226,12 @@ export default function EditBookPage(props) {
                           Ngày thêm:
                         </label>
                         <input
-                          ref={dateAddBookRef}
+                          // ref={dateAddBookRef}
+                          value={editBook?.dateAddBook}
                           type="date"
                           className="form-control"
                           placeholder="dd-mm-yy"
+                          onChange={(e) => seteditBook(e.target.value)}
                         />
                       </div>
                       <div className="form-group">

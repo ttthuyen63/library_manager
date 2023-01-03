@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { button, Container, Tooltip } from "react-bootstrap";
+import { Alert, button, Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -49,6 +49,7 @@ export default function BookPage() {
 
   const handleEdit = (id) => {
     navigate("/editBook/" + id);
+    console.log("idedit", id);
   };
 
   const handleDelete = async (id) => {
@@ -76,11 +77,7 @@ export default function BookPage() {
     setShow(true);
   };
 
-  // const dataProp = Object.fromEntries(bookState);
-  // console.log("obj", Object.fromEntries(bookState));
   console.log("test", bookState);
-  // const lengthDataBook = bookState.length;
-  // console.log("length", lengthDataBook);
 
   const navigate = useNavigate();
   return (
@@ -196,7 +193,10 @@ export default function BookPage() {
                             <button
                               type="button"
                               className="btn btn-secondary btn-xs"
-                              onClick={handleEdit(item?.id)}
+                              data-toggle="modal"
+                              data-target="#editModal"
+                              variant="primary"
+                              onClick={() => handleEdit(item.id)}
                             >
                               <span
                                 className={{
@@ -263,7 +263,10 @@ export default function BookPage() {
                             <button
                               type="button"
                               className="btn btn-secondary btn-xs"
-                              // onClick={handleEdit}
+                              data-toggle="modal"
+                              data-target="#editModal"
+                              variant="primary"
+                              onClick={() => handleEdit(item.id)}
                             >
                               <span
                                 className={{
