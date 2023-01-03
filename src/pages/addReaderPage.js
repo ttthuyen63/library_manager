@@ -79,7 +79,7 @@ export default function AddReaderPage() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link " type="button" to="/">
+                <Link className="nav-link " type="button" to="/home">
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
                 <Link
@@ -131,8 +131,8 @@ export default function AddReaderPage() {
                           <option selected disabled>
                             Choose gender
                           </option>
-                          <option value="male">Nam</option>
-                          <option value="fermale">Nữ</option>
+                          <option value="Nam">Nam</option>
+                          <option value="Nữ">Nữ</option>
                         </select>
                       </div>
 

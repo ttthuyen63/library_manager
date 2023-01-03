@@ -71,6 +71,18 @@ export default function AddBorrowPage() {
     navigate("/borrow");
   };
 
+  // const handleDate = () => {
+  //   dateAddBorrowRef.setDate(dateAddBorrowRef.getDate() + 7); // add 7 days
+  //   var dateThongThuong =
+  //     dateAddBorrowRef.getFullYear() +
+  //     "-" +
+  //     (dateAddBorrowRef.getMonth() + 1 < 10 ? "0" : "") +
+  //     (dateAddBorrowRef.getMonth() + 1) +
+  //     "-" +
+  //     dateAddBorrowRef.getDate();
+  //   return dateThongThuong;
+  //   console.log("datetest", dateThongThuong);
+  // };
   return (
     <div>
       <div className="row">
@@ -79,7 +91,7 @@ export default function AddBorrowPage() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link " type="button" to="/">
+                <Link className="nav-link " type="button" to="/home">
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
                 <Link className="nav-link" type="button" to="/readerList">
@@ -183,8 +195,10 @@ export default function AddBorrowPage() {
                           <option selected disabled>
                             Chọn
                           </option>
-                          <option value="thongthuong">Thông thường</option>
-                          <option value="handinh">Ấn định hạn trả</option>
+                          <option value="Thông thường">Thông thường</option>
+                          <option value="Ấn định hạn trả">
+                            Ấn định hạn trả
+                          </option>
                         </select>
                       </div>
                       <div className="form-group">

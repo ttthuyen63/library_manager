@@ -70,7 +70,7 @@ export default function HomePage() {
               <Link
                 className="nav-link active"
                 type="button"
-                to="/"
+                to="/home"
                 style={{ color: "white" }}
               >
                 <FontAwesomeIcon icon={faHome} /> Home

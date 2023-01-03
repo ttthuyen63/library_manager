@@ -59,12 +59,11 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {/* <!-- <div className="valid-feedback">Valid.</div> --> */}
             <div className="invalid-feedback">Please fill out this field.</div>
           </div>
 
           <Button
-            type="submit"
+            // type="submit"
             className="btn btn-primary"
             onClick={() => submit()}
           >

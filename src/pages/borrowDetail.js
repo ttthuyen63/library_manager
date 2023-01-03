@@ -61,9 +61,11 @@ export default function BorrowDetail() {
     }
   };
   const current = new Date();
-  const date = `${current.getFullYear()}-${
-    current.getMonth() + 1
-  }-${current.getDate()}`;
+  const monthNow = current.getMonth() + 1;
+  const month = monthNow < 10 ? "0" + monthNow : monthNow;
+  const day =
+    current.getDate() < 10 ? "0" + current.getDate() : current.getDate();
+  const date = `${current.getFullYear()}-${month}-${day}`;
   const nowDate = Number(date.slice(0, 10).split("-").join(""));
   console.log("date", nowDate);
 
@@ -76,7 +78,7 @@ export default function BorrowDetail() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link" type="button" to="/">
+                <Link className="nav-link" type="button" to="/home">
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
                 <Link className="nav-link" type="button" to="/readerList">
@@ -143,6 +145,7 @@ export default function BorrowDetail() {
                             <th scope="col">Mã sách</th>
                             <th scope="col">Tên sách</th>
                             <th scope="col">Số lượng</th>
+                            <th scope="col">Kiểu mượn</th>
                             <th scope="col">Ngày mượn</th>
                             <th scope="col">Hết hạn</th>
                             <th scope="col">Trạng thái</th>
@@ -158,13 +161,14 @@ export default function BorrowDetail() {
                               <td>{item.nameBookBorrow}</td>
                               {/* <td>{item.nameReaderBorrow}</td> */}
                               <td>{item.quantityBorrow}</td>
+                              <td>{item.typeBorrow}</td>
                               <td>{item.dateAddBorrow}</td>
                               <td>{item.dateEndBorrow}</td>
                               <td>
                                 {Number(
                                   item.dateEndBorrow
                                     .slice(0, 10)
-                                    .split("-0")
+                                    .split("-")
                                     .join("")
                                 ) > nowDate ? (
                                   <button

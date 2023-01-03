@@ -78,7 +78,7 @@ export default function AddBookPage() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link " type="button" to="/">
+                <Link className="nav-link " type="button" to="/home">
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
                 <Link className="nav-link" type="button" to="/readerList">
@@ -126,7 +126,7 @@ export default function AddBookPage() {
                           <option selected disabled>
                             Thể loại
                           </option>
-                          <option value="Giáo dục">Giáo dục</option>
+                          <option value="Giáo trình">Giáo trình</option>
                           <option value="Kinh dị">Kinh dị</option>
                           <option value="Tình cảm">Tình cảm</option>
                           <option value="Giả tưởng">Giả tưởng</option>
@@ -242,20 +242,6 @@ export default function AddBookPage() {
                           </Button>
                         </div>
                       </div>
-
-                      {/* <!-- <div className="form-group">
-                                    <label className="control-label" for="email">Ngày hết hạn:</label>
-                                    <input type="date" className="form-control" placeholder="dd-mm-yy">
-                                </div>
-
-                                <div className="form-group">
-                                    <label for="">Trạng thái thẻ:</label>
-                                    <select className="browser-default custom-select mb-2 mr-3">
-                                        <option selected disabled>Status card</option>
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>   
-                                </div> --> */}
                     </div>
                   </div>
                 </Form>

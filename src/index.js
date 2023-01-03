@@ -25,109 +25,111 @@ import BorrowDetail from "./pages/borrowDetail";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    path: "/home",
+    element: (
+      <ProtectRouter>
+        <HomePage />,
+      </ProtectRouter>
+    ),
   },
   {
     path: "/addBook",
-
     element: (
-      // <ProtectRouter>
-      <AddBookPage />
+      <ProtectRouter>
+        <AddBookPage />,
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
-    // ),
   },
   {
     path: "/addBorrow",
     element: (
-      // <ProtectRouter>
-      <AddBorrowPage />
+      <ProtectRouter>
+        <AddBorrowPage />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/addReader",
     element: (
-      // <ProtectRouter>
-      <AddReaderPage />
+      <ProtectRouter>
+        <AddReaderPage />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/bookList",
     element: (
-      // <ProtectRouter>
-      <BookPage />
-      // </ProtectRouter>
+      <ProtectRouter>
+        <BookPage />
+      </ProtectRouter>
     ),
   },
   {
     path: "/borrow",
     element: (
-      // <ProtectRouter>
-      <BorrowPage />
-      // </ProtectRouter>
+      <ProtectRouter>
+        <BorrowPage />
+      </ProtectRouter>
     ),
   },
   {
-    path: "/editBook",
+    path: "/editBook/:bookId",
     element: (
-      // <ProtectRouter>
-      <EditBookPage />
-      // </ProtectRouter>
+      <ProtectRouter>
+        <EditBookPage />
+      </ProtectRouter>
     ),
   },
   {
     path: "/editBorrow",
     element: (
-      // <ProtectRouter>
-      <EditBorrowPage />
+      <ProtectRouter>
+        <EditBorrowPage />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/editReader",
     element: (
-      // <ProtectRouter>
-      <EditReaderPage />
+      <ProtectRouter>
+        <EditReaderPage />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/readerList",
     element: (
-      // <ProtectRouter>
-      <ReaderListPage />
+      <ProtectRouter>
+        <ReaderListPage />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/bookList/:bookId",
     element: (
-      // <ProtectRouter>
-      <BookDetail />
+      <ProtectRouter>
+        <BookDetail />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/readerList/:readId",
     element: (
-      // <ProtectRouter>
-      <ReaderDetail />
+      <ProtectRouter>
+        <ReaderDetail />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
     path: "/borrow/:borrowId",
     element: (
-      // <ProtectRouter>
-      <BorrowDetail />
+      <ProtectRouter>
+        <BorrowDetail />
+      </ProtectRouter>
     ),
-    // </ProtectRouter>
   },
   {
-    path: "/login",
+    path: "/",
     element: <LoginPage />,
   },
 ]);
