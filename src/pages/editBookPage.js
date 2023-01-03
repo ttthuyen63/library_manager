@@ -41,7 +41,6 @@ export default function EditBookPage() {
     //   .then(() => {
     seteditBook();
     navigate("/bookList");
-    // getBookApi();
     // });
   };
 
