@@ -21,27 +21,13 @@ import { useEffect } from "react";
 export default function EditBookPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const [editBook, seteditBook] = useState("");
+  const handleSubmit = async (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
-    // dispatch(
-    //   addBook({
-    //     nameBook: editBook.value,
-    //     genreBook: e.target.value,
-    //     descriptionBook: e.target.value,
-    //     issueBook: e.target.value,
-    //     authorBook: e.target.value,
-    //     quantityBook: editBook?.value,
-    //     statusBook: e.target.value,
-    //     codeBook: e.target.value,
-    //     dateAddBook: e.target.value,
-    //     // imageBook: imageBookData,
-    //   })
-    // )
-    //   .unwrap()
-    //   .then(() => {
-    seteditBook();
+    const response = await customAxios.put(`/bookList/${bookId}`, editBook);
+    // seteditBook(response.data);
     navigate("/bookList");
-    // });
+    console.log("testdata", response.data);
   };
 
   const handleCancel = (e) => {
@@ -50,7 +36,6 @@ export default function EditBookPage() {
 
   const params = useParams();
   const bookId = params.bookId;
-  const [editBook, seteditBook] = useState(null);
   useEffect(() => {
     editBookItem();
   }, []);

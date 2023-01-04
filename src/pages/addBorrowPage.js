@@ -150,7 +150,7 @@ export default function AddBorrowPage() {
                         />
                       </div>
 
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label for="">Trạng thái:</label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
@@ -160,10 +160,10 @@ export default function AddBorrowPage() {
                           <option selected disabled>
                             Trạng thái mượn
                           </option>
-                          <option value="borrowing">Đang mượn</option>
-                          <option value="losed">Quá hạn</option>
+                          <option value="Đang mượn">Đang mượn</option>
+                          <option value="Quá hạn">Quá hạn</option>
                         </select>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="form-horizontal col-sm-5">

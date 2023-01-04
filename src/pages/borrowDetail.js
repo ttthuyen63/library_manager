@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Container, Table, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,6 +23,7 @@ export default function BorrowDetail() {
   const borrowId = params.borrowId;
   // console.log("id: ", bookId);
   const [borrowState, setborrowState] = useState(null);
+  const [filterBorrow, setfilterBorrow] = useState();
   const queryParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -51,6 +52,19 @@ export default function BorrowDetail() {
       console.log("Lỗi: ", error);
     }
   };
+
+  function getFilterList() {
+    if (!filterBorrow) {
+      return borrowState;
+    }
+    return borrowState.filter((item) => item.statusBorrow === filterBorrow);
+  }
+
+  var filterList = useMemo(getFilterList, [filterBorrow, borrowState]);
+  function handleChange(event) {
+    setfilterBorrow(event.target.value);
+  }
+
   const handleDelete = async (id) => {
     console.log("id: ", id);
     try {
@@ -123,12 +137,16 @@ export default function BorrowDetail() {
                       <h4>{detailBorrow?.nameReaderBorrow}</h4> */}
                       <h4>Chi tiết mượn / trả</h4>
                       <form className="form-inline w-100">
-                        <select className="browser-default custom-select w-30 mb-2 mr-3">
+                        <select
+                          className="browser-default custom-select w-30 mb-2 mr-3"
+                          onChange={handleChange}
+                        >
                           <option selected disabled>
                             Trạng thái
                           </option>
-                          <option value="borrowed">Đang mượn</option>
-                          <option value="lose">Quá hạn</option>
+                          <option value="">Tất cả</option>
+                          <option value="Đang mượn">Đang mượn</option>
+                          <option value="Quá hạn">Quá hạn</option>
                         </select>
                         <Link
                           className="btn btn-success mb-2 mr-3 mg-right"
@@ -153,7 +171,7 @@ export default function BorrowDetail() {
                           </tr>
                         </thead>
                         <tbody id="myTable">
-                          {borrowState?.map((item, index) => (
+                          {filterList?.map((item, index) => (
                             <tr>
                               {/* <th scope="row"></th> */}
                               <td>{item.id}</td>
@@ -188,25 +206,6 @@ export default function BorrowDetail() {
                                   </button>
                                 )}
                               </td>
-                              {/* <td>
-                                {item.statusBorrow === "borrowing" ? (
-                                  <button
-                                    type="button"
-                                    className="btn btn-warning btn-xs"
-                                    disabled
-                                  >
-                                    Borrowing
-                                  </button>
-                                ) : (
-                                  <button
-                                    type="button"
-                                    className="btn btn-success btn-xs"
-                                    disabled
-                                  >
-                                    Paid
-                                  </button>
-                                )}
-                              </td> */}
                               <td>
                                 <button
                                   onClick={() => handleDelete(item?.id)}
