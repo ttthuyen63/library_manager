@@ -93,28 +93,16 @@ export default function HomePage() {
       <div className="col-sm-10" style={{ padding: 0 }}>
         <div className="content">
           <div className="content-header">
-            {/* <h5 className="content-account"> */}
-            <button
-              class="btn btn-primary dropdown-toggle"
-              type="button"
-              data-toggle="dropdown"
-              width={50}
-            >
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <Button
-                  onClick={() => {
-                    dispatch(logout());
-                    navigate("/");
-                  }}
-                >
-                  Logout
-                </Button>
-              </li>
-            </ul>
-            {/* </h5> */}
+            <h5 className="content-account">
+              <Button
+                onClick={() => {
+                  dispatch(logout());
+                  navigate("/");
+                }}
+              >
+                Logout
+              </Button>
+            </h5>
           </div>
 
           <h2 className="mt-4" style={{ textAlign: "center" }}>
