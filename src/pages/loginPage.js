@@ -6,6 +6,7 @@ import { API_KEY } from "../ultils/constant";
 import axios from "axios";
 import { login, logout } from "../redux/userSlice";
 import HomePage from "./homePage";
+import styles from "../css/Login.module.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 export default function LoginPage() {
@@ -36,8 +37,8 @@ export default function LoginPage() {
         navigate("/home")
       ) : (
         <div>
-          <h1 className="login-title">Library Manager</h1>
-          <div className="login-form">
+          <h1 className={styles.loginTitle}>Library Manager</h1>
+          <div className={styles.loginForm}>
             <form className="was-validated">
               <div className="form-group">
                 <label for="uname">Email </label>
@@ -56,7 +57,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="form-group">
+              <div className={styles.formGroup}>
                 <label for="pwd">Password</label>
                 <input
                   type="password"
