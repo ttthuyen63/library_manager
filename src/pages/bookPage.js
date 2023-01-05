@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Alert, button, Container, Tooltip } from "react-bootstrap";
+import { Alert, Button, button, Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { addListBook } from "../redux/bookSlice";
 import HomePage from "./homePage";
+import { logout } from "../redux/userSlice";
 // const URL = "https://635a75b46f97ae73a62d386d.mockapi.io";
 
 export default function BookPage() {
@@ -108,7 +109,16 @@ export default function BookPage() {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-              <h6 className="content-account">Admin</h6>
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
 
             <div className="control-reader">

@@ -6,14 +6,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Button, Table } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
+import { logout } from "../redux/userSlice";
 
 export default function BookDetail() {
   const params = useParams();
   const bookId = params.bookId;
   // console.log("id: ", bookId);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [detailBook, setdetailBook] = useState(null);
   useEffect(() => {
@@ -55,91 +59,105 @@ export default function BookDetail() {
         </div>
 
         <div className="col-sm-10" style={{ padding: 0 }}>
-          <div class="control-addReader container">
-            <div class="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
-              <h4 class="ml-0 mt-0">Chi tiết sách</h4>
-              <div class="row">
-                {/* <div class="form-horizontal col-sm-5">
-              <button type="button" className="close" data-dismiss="modal">
-                &times;
-              </button>
-            </div> */}
-                <div className="form-group">
-                  {/* <div className="col-sm-6 text-center">
-                <img
-                  className="avatar-wrapper mt-1 mb-1"
-                  src="./OK.jpg"
-                  alt=""
-                />
-              </div> */}
-                  <div className="form-group">
-                    <Table
-                      striped
-                      bordered
-                      hover
-                      size="sm"
-                      className="table table-bordered"
-                      style={{
-                        border: "1px solid black",
-                        width: "75%",
-                      }}
-                    >
-                      {/* <table className="table table-bordered"> */}
-                      <tr
+          <div className="content">
+            <div className="content-header">
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
+            </div>
+
+            {/* <div className="col-sm-10" style={{ padding: 0 }}> */}
+            <div class="control-addReader container">
+              <div class="mt-3 control-reader-table shadow-sm p-0 mb-5 bg-white rounded">
+                <h4 class="ml-0 mt-0" style={{ textAlign: "center" }}>
+                  Chi tiết sách
+                </h4>
+                <div class="row">
+                  <div class="col-sm-4 position-left">
+                    <img
+                      variant="bottom"
+                      width={400}
+                      height={400}
+                      src={detailBook?.imageBook}
+                    />
+                  </div>
+                  <div class="col-sm-8 position-right">
+                    <div className="form-group">
+                      <Table
+                        striped
+                        bordered
+                        hover
+                        size="sm"
+                        className="table table-bordered"
                         style={{
                           border: "1px solid black",
+                          width: "100%",
                         }}
                       >
-                        <th style={{ padding: "10px", width: "100px" }}>
-                          Tên sách:
-                        </th>
-                        <td>{detailBook?.nameBook}</td>
-                      </tr>
-                      <tr
-                        style={{
-                          border: "1px solid black",
-                        }}
-                      >
-                        <th style={{ padding: "10px", width: "100px" }}>
-                          Mã sách:{" "}
-                        </th>
-                        <td>{detailBook?.codeBook}</td>
-                      </tr>
-                      <tr
-                        style={{
-                          border: "1px solid black",
-                        }}
-                      >
-                        <th style={{ padding: "10px", width: "100px" }}>
-                          Tác giả:{" "}
-                        </th>
-                        <td>{detailBook?.authorBook}</td>
-                      </tr>
-                      <tr
-                        style={{
-                          border: "1px solid black",
-                        }}
-                      >
-                        <th style={{ padding: "10px", width: "100px" }}>
-                          Thể loại:{" "}
-                        </th>
-                        <td>{detailBook?.genreBook}</td>
-                      </tr>
-                      <tr
-                        style={{
-                          border: "1px solid black",
-                        }}
-                      >
-                        <th style={{ padding: "10px", width: "100px" }}>
-                          Mô tả:{" "}
-                        </th>
-                        <td>{detailBook?.descriptionBook}</td>
-                      </tr>
-                      {/* <tr>
+                        {/* <table className="table table-bordered"> */}
+                        <tr
+                          style={{
+                            border: "1px solid black",
+                          }}
+                        >
+                          <th style={{ padding: "10px", width: "100px" }}>
+                            Tên sách:
+                          </th>
+                          <td>{detailBook?.nameBook}</td>
+                        </tr>
+                        <tr
+                          style={{
+                            border: "1px solid black",
+                          }}
+                        >
+                          <th style={{ padding: "10px", width: "100px" }}>
+                            Mã sách:{" "}
+                          </th>
+                          <td>{detailBook?.codeBook}</td>
+                        </tr>
+                        <tr
+                          style={{
+                            border: "1px solid black",
+                          }}
+                        >
+                          <th style={{ padding: "10px", width: "100px" }}>
+                            Tác giả:{" "}
+                          </th>
+                          <td>{detailBook?.authorBook}</td>
+                        </tr>
+                        <tr
+                          style={{
+                            border: "1px solid black",
+                          }}
+                        >
+                          <th style={{ padding: "10px", width: "100px" }}>
+                            Thể loại:{" "}
+                          </th>
+                          <td>{detailBook?.genreBook}</td>
+                        </tr>
+                        <tr
+                          style={{
+                            border: "1px solid black",
+                          }}
+                        >
+                          <th style={{ padding: "10px", width: "100px" }}>
+                            Mô tả:{" "}
+                          </th>
+                          <td>{detailBook?.descriptionBook}</td>
+                        </tr>
+                        {/* <tr>
                         <th>Số phát hành: </th>
                         <td>{detailBook?.issueBook}</td>
                       </tr> */}
-                    </Table>
+                      </Table>
+                    </div>
                   </div>
                 </div>
               </div>

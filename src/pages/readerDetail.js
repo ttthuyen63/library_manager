@@ -7,8 +7,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
+import { logout } from "../redux/userSlice";
 
 export default function ReaderDetail() {
   const params = useParams();
@@ -30,6 +32,7 @@ export default function ReaderDetail() {
     getDetail();
   }, []);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const goToDetail = (id) => {
     navigate("/borrow/" + id);
   };
@@ -59,6 +62,22 @@ export default function ReaderDetail() {
                   <FontAwesomeIcon icon={faBookBookmark} /> Quản lý mượn/trả
                 </Link>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-10" style={{ padding: 0 }}>
+          <div className="content">
+            <div className="content-header">
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
           </div>
         </div>

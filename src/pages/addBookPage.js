@@ -16,6 +16,7 @@ import { customAxios } from "../config/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addBook, addListBook } from "../redux/bookSlice";
+import { logout } from "../redux/userSlice";
 
 export default function AddBookPage() {
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ export default function AddBookPage() {
   const issueBookRef = useRef(null);
   const authorBookRef = useRef(null);
   const quantityBookRef = useRef(null);
-  const statusBookRef = useRef(null);
   const codeBookRef = useRef(null);
   const dateAddBookRef = useRef(null);
   const imageBookRef = useRef(null);
@@ -53,7 +53,6 @@ export default function AddBookPage() {
         issueBook: issueBookRef.current.value,
         authorBook: authorBookRef.current.value,
         quantityBook: quantityBookRef.current.value,
-        statusBook: statusBookRef.current.value,
         codeBook: codeBookRef.current.value,
         dateAddBook: dateAddBookRef.current.value,
         imageBook: imageBookData,
@@ -98,7 +97,16 @@ export default function AddBookPage() {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-              <h6 className="content-account">Admin</h6>
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
 
             <div className="control-addReader container">
@@ -168,27 +176,21 @@ export default function AddBookPage() {
                       </div>
                     </div>
 
-                    {/* <div class="form-horizontal col-sm-5">
-                      <div className="avatar-wrapper">
-                        <img className="profile-pic" src="" />
-                        <div className="upload-button">
-                          <i
-                            className="fa fa-arrow-circle-up"
-                            aria-hidden="true"
-                          >
-                            <FontAwesomeIcon icon={faArrowAltCircleUp} />
-                          </i>
-                        </div>
-                        <input
-                          value={imageBookData}
-                          ref={imageBookRef}
-                          onClick={(e) => setImageBookData(e.target.value)}
-                          className="file-upload"
-                          type="file"
-                          accept="image/*"
-                        />
-                      </div>
-                    </div> */}
+                    <div class="form-horizontal col-sm-5">
+                      <input
+                        value={imageBookData}
+                        ref={imageBookRef}
+                        onChange={(e) => setImageBookData(e.target.value)}
+                        name="image"
+                        type="text"
+                      />
+                      <img
+                        variant="bottom"
+                        width={400}
+                        height={400}
+                        src={imageBookData}
+                      />
+                    </div>
 
                     <div className="form-horizontal col-sm-5">
                       <div className="form-group">

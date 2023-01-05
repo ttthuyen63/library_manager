@@ -15,6 +15,7 @@ import { customAxios } from "../config/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addBorrow, addListBorrow } from "../redux/borrowSlice";
+import { logout } from "../redux/userSlice";
 
 export default function AddBorrowPage() {
   const navigate = useNavigate();
@@ -111,7 +112,16 @@ export default function AddBorrowPage() {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-              <h6 className="content-account">Admin</h6>
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
 
             <div className="control-addReader container">

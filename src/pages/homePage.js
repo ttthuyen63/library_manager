@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +19,7 @@ import { addListBook } from "../redux/bookSlice";
 import { useState } from "react";
 import { addListReader } from "../redux/readerSlice";
 import { addListBorrow } from "../redux/borrowSlice";
+import { logout } from "../redux/userSlice";
 
 export default function HomePage() {
   // const [first, setfirst] = useState(second);
@@ -92,7 +93,28 @@ export default function HomePage() {
       <div className="col-sm-10" style={{ padding: 0 }}>
         <div className="content">
           <div className="content-header">
-            <h5 className="content-account">Admin</h5>
+            {/* <h5 className="content-account"> */}
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              data-toggle="dropdown"
+              width={50}
+            >
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </li>
+            </ul>
+            {/* </h5> */}
           </div>
 
           <h2 className="mt-4" style={{ textAlign: "center" }}>

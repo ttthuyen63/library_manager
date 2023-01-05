@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { API_KEY } from "../ultils/constant";
 import axios from "axios";
-import { login } from "../redux/userSlice";
+import { login, logout } from "../redux/userSlice";
+import HomePage from "./homePage";
+import "bootstrap/dist/css/bootstrap.css";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -29,48 +31,58 @@ export default function LoginPage() {
     }
   };
   return (
-    <div>
-      <h1 className="login-title">Library Manager</h1>
-      <div className="login-form">
-        <form className="was-validated">
-          <div className="form-group">
-            <label for="uname">Email </label>
-            <input
-              type="email"
-              className="form-control"
-              id="uname"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            {/* <!-- <div className="valid-feedback">Valid.</div> --> */}
-            <div className="invalid-feedback">Please fill out this field.</div>
-          </div>
+    <Container>
+      {token !== null ? (
+        navigate("/home")
+      ) : (
+        <div>
+          <h1 className="login-title">Library Manager</h1>
+          <div className="login-form">
+            <form className="was-validated">
+              <div className="form-group">
+                <label for="uname">Email </label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="uname"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                {/* <!-- <div className="valid-feedback">Valid.</div> --> */}
+                <div className="invalid-feedback">
+                  Please fill out this field.
+                </div>
+              </div>
 
-          <div className="form-group">
-            <label for="pwd">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="pwd"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <div className="invalid-feedback">Please fill out this field.</div>
-          </div>
+              <div className="form-group">
+                <label for="pwd">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="pwd"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div className="invalid-feedback">
+                  Please fill out this field.
+                </div>
+              </div>
 
-          <Button
-            // type="submit"
-            className="btn btn-primary"
-            onClick={() => submit()}
-          >
-            Đăng nhập
-          </Button>
-        </form>
-      </div>
-    </div>
+              <Button
+                // type="submit"
+                className="btn btn-primary"
+                onClick={() => submit()}
+              >
+                Đăng nhập
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
+    </Container>
   );
 }

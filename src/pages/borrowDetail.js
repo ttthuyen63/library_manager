@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Container, Table, Tooltip } from "react-bootstrap";
+import { Button, Container, Table, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -17,6 +17,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { addListBorrow } from "../redux/borrowSlice";
+import { logout } from "../redux/userSlice";
 
 export default function BorrowDetail() {
   const params = useParams();
@@ -47,23 +48,23 @@ export default function BorrowDetail() {
     try {
       const dataDetail = await customAxios.get(`/borrowList/${borrowId}`);
       setdetailBorrow(dataDetail.data);
-      console.log("id: ", borrowId);
+      console.log("data: ", detailBorrow);
     } catch (error) {
       console.log("Lỗi: ", error);
     }
   };
 
-  function getFilterList() {
-    if (!filterBorrow) {
-      return borrowState;
-    }
-    return borrowState.filter((item) => item.statusBorrow === filterBorrow);
-  }
+  // function getFilterList() {
+  //   if (!filterBorrow) {
+  //     return borrowState;
+  //   }
+  //   return borrowState.filter((item) => item.statusBorrow === filterBorrow);
+  // }
 
-  var filterList = useMemo(getFilterList, [filterBorrow, borrowState]);
-  function handleChange(event) {
-    setfilterBorrow(event.target.value);
-  }
+  // var filterList = useMemo(getFilterList, [filterBorrow, borrowState]);
+  // function handleChange(event) {
+  //   setfilterBorrow(event.target.value);
+  // }
 
   const handleDelete = async (id) => {
     console.log("id: ", id);
@@ -112,7 +113,16 @@ export default function BorrowDetail() {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-              <h6 className="content-account">Admin</h6>
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
 
             <div className="control-reader">
@@ -139,7 +149,7 @@ export default function BorrowDetail() {
                       <form className="form-inline w-100">
                         <select
                           className="browser-default custom-select w-30 mb-2 mr-3"
-                          onChange={handleChange}
+                          // onChange={handleChange}
                         >
                           <option selected disabled>
                             Trạng thái
@@ -171,7 +181,7 @@ export default function BorrowDetail() {
                           </tr>
                         </thead>
                         <tbody id="myTable">
-                          {filterList?.map((item, index) => (
+                          {borrowState?.map((item, index) => (
                             <tr>
                               {/* <th scope="row"></th> */}
                               <td>{item.id}</td>

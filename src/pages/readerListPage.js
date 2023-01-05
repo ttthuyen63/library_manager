@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Tooltip } from "react-bootstrap";
+import { Button, Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { addListReader } from "../redux/readerSlice";
 import HomePage from "./homePage";
+import { logout } from "../redux/userSlice";
 
 export default function ReaderListPage(props) {
   const [readerState, setreaderState] = useState(null);
@@ -112,7 +113,16 @@ export default function ReaderListPage(props) {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-              <h6 className="content-account">Admin</h6>
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
 
             <div className="control-reader">
