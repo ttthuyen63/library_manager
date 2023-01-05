@@ -168,7 +168,7 @@ export default function ReaderListPage(props) {
                     <tr>
                       <th scope="col">ID</th>
                       <th scope="col">Tên bạn đọc</th>
-                      <th scope="col">Mã thẻ</th>
+                      <th scope="col">Mã bạn đọc</th>
                       <th scope="col">Giới tính</th>
                       <th scope="col">Ngày sinh</th>
                       <th scope="col">Trạng thái</th>

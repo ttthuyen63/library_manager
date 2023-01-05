@@ -38,7 +38,7 @@ export default function BorrowPage() {
   }, []);
   const getBorrowApi = async () => {
     try {
-      const res = await customAxios.get("/borrowList");
+      const res = await customAxios.get("/borrowDetail");
       dispatch(addListBorrow(res.data));
       setborrowState(res?.data);
     } catch (error) {

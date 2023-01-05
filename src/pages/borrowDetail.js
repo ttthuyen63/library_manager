@@ -54,17 +54,17 @@ export default function BorrowDetail() {
     }
   };
 
-  // function getFilterList() {
-  //   if (!filterBorrow) {
-  //     return borrowState;
-  //   }
-  //   return borrowState.filter((item) => item.statusBorrow === filterBorrow);
-  // }
+  function getFilterList() {
+    if (!filterBorrow) {
+      return borrowState;
+    }
+    return borrowState.filter((item) => item.statusBorrow === filterBorrow);
+  }
 
-  // var filterList = useMemo(getFilterList, [filterBorrow, borrowState]);
-  // function handleChange(event) {
-  //   setfilterBorrow(event.target.value);
-  // }
+  var filterList = useMemo(getFilterList, [filterBorrow, borrowState]);
+  function handleChange(event) {
+    setfilterBorrow(event.target.value);
+  }
 
   const handleDelete = async (id) => {
     console.log("id: ", id);
@@ -161,7 +161,7 @@ export default function BorrowDetail() {
                         <Link
                           className="btn btn-success mb-2 mr-3 mg-right"
                           type="button"
-                          to="/addBorrow"
+                          to={`/addBorrow/${borrowId}`}
                         >
                           <FontAwesomeIcon icon={faPlusCircle} /> Thêm
                         </Link>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Alert, Button, button, Container, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,6 +25,8 @@ export default function BookPage() {
   const [bookState, setbookState] = useState(null);
   const [search, setSearch] = useState(bookState);
   const [show, setShow] = useState(false);
+  const [filterBorrow, setfilterBorrow] = useState();
+
   console.log("bookState...", bookState);
   const bookList = useSelector((state) => state.bookReducer);
 
@@ -77,6 +79,18 @@ export default function BookPage() {
     setSearch(searchList);
     setShow(true);
   };
+
+  function getFilterList() {
+    if (!filterBorrow) {
+      return bookState;
+    }
+    return bookState.filter((item) => item.genreBook === filterBorrow);
+  }
+
+  var filterList = useMemo(getFilterList, [filterBorrow, bookState]);
+  function handleChange(event) {
+    setfilterBorrow(event.target.value);
+  }
 
   console.log("test", bookState);
 
@@ -136,10 +150,14 @@ export default function BookPage() {
                     onChange={handleChangeSearch}
                   />
 
-                  <select className="browser-default custom-select w-30 mb-2 mr-3">
+                  <select
+                    className="browser-default custom-select w-30 mb-2 mr-3"
+                    onChange={handleChange}
+                  >
                     <option selected disabled>
                       Thể loại
                     </option>
+                    <option value="">Tất cả</option>
                     <option value="Kinh dị">Kinh dị</option>
                     <option value="Tình cảm">Tình cảm</option>
                     <option value="Giả tưởng">Giả tưởng</option>
@@ -147,7 +165,7 @@ export default function BookPage() {
                     <option value="Tiểu sử">Tiểu sử</option>
                     <option value="Lịch sử">Lịch sử</option>
                     <option value="Hài hước">Hài hước</option>
-                    <option value="Giáo dục">Giáo dục</option>
+                    <option value="Giáo trình">Giáo trình</option>
                   </select>
                   <Link
                     className="btn btn-success mb-2 mr-3 mg-right"
@@ -242,7 +260,7 @@ export default function BookPage() {
                   )}
                   {show === false ? (
                     <tbody id="myTable">
-                      {bookState?.map((item, index) => (
+                      {filterList?.map((item, index) => (
                         <tr>
                           {/* <th scope="row"></th> */}
                           <td>{item.id}</td>

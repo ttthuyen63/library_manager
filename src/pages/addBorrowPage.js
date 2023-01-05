@@ -10,7 +10,7 @@ import {
   faHome,
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -20,6 +20,8 @@ import { logout } from "../redux/userSlice";
 export default function AddBorrowPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const params = useParams();
+  const borrowId = params.borrowId;
   const [imageBookData, setImageBookData] = useState();
   const [genreBookData, setgenreBookData] = useState();
   const [statusBorrowData, setstatusBorrowData] = useState();
@@ -37,7 +39,7 @@ export default function AddBorrowPage() {
 
   const getBorrowApi = async () => {
     try {
-      const res = await customAxios.post("/borrowList");
+      const res = await customAxios.post(`/borrowList/${borrowId}`);
       dispatch(addListBorrow(res.data));
       // setbookState(res?.data);
     } catch (error) {
@@ -51,7 +53,6 @@ export default function AddBorrowPage() {
         codeBookBorrow: codeBookBorrowRef.current.value,
         codeReaderBorrow: codeReaderBorrowRef.current.value,
         quantityBorrow: quantityBorrowRef.current.value,
-        statusBorrow: statusBorrowRef.current.value,
         descriptionBorrow: descriptionBorrowRef.current.value,
         dateAddBorrow: dateAddBorrowRef.current.value,
         dateEndBorrow: dateEndBorrowRef.current.value,
@@ -63,7 +64,7 @@ export default function AddBorrowPage() {
     )
       .unwrap()
       .then(() => {
-        navigate("/borrow");
+        navigate(`/borrow/${borrowId}`);
         // getBorrowApi();
       });
   };
@@ -141,7 +142,7 @@ export default function AddBorrowPage() {
                       </div>
 
                       <div className="form-group">
-                        <label for="">Mã bạn đọc:</label>
+                        <label for="">Mã :</label>
                         <input
                           ref={codeReaderBorrowRef}
                           type="text"

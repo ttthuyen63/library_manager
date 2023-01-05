@@ -21,7 +21,21 @@ import { useEffect } from "react";
 export default function EditBookPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [editBook, seteditBook] = useState("");
+  const [bookState, setbookState] = useState(null);
+  const queryParams = new URLSearchParams(window.location.search);
+  useEffect(() => {
+    getBookApi();
+  }, []);
+  const getBookApi = async () => {
+    try {
+      const res = await customAxios.get("/bookList");
+      dispatch(addListBook(res.data));
+      setbookState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  const [editBook, seteditBook] = useState(bookState);
   const handleSubmit = async (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
     const response = await customAxios.put(`/bookList/${bookId}`, editBook);
