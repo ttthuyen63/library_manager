@@ -23,7 +23,7 @@ export default function AddBorrowPage() {
   const params = useParams();
   const borrowId = params.borrowId;
   const [imageBookData, setImageBookData] = useState();
-  const [genreBookData, setgenreBookData] = useState();
+  const [typeBorrowData, settypeBorrowData] = useState();
   const [statusBorrowData, setstatusBorrowData] = useState();
   const codeBookBorrowRef = useRef(null);
   const codeReaderBorrowRef = useRef(null);
@@ -64,7 +64,7 @@ export default function AddBorrowPage() {
     )
       .unwrap()
       .then(() => {
-        navigate(`/borrow/${borrowId}`);
+        navigate(`/borrow`);
         // getBorrowApi();
       });
   };
@@ -142,7 +142,7 @@ export default function AddBorrowPage() {
                       </div>
 
                       <div className="form-group">
-                        <label for="">Mã :</label>
+                        <label for="">Mã bạn đọc:</label>
                         <input
                           ref={codeReaderBorrowRef}
                           type="text"
@@ -202,6 +202,7 @@ export default function AddBorrowPage() {
                         <select
                           className="browser-default custom-select mb-2 mr-3"
                           ref={typeBorrowRef}
+                          onChange={(e) => settypeBorrowData(e.target.value)}
                         >
                           <option selected disabled>
                             Chọn

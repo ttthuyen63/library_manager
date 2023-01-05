@@ -10,7 +10,7 @@ import {
   faHome,
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,9 @@ import { useEffect } from "react";
 export default function EditBookPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { ...stateLocation } = useLocation();
+  const itemDetail = stateLocation?.state;
+  console.log("itemDetail", itemDetail);
   const [bookState, setbookState] = useState(null);
   const queryParams = new URLSearchParams(window.location.search);
   useEffect(() => {
@@ -36,9 +39,15 @@ export default function EditBookPage() {
     }
   };
   const [editBook, seteditBook] = useState(bookState);
+  console.log("test", editBook);
+  console.log("testdata", bookState);
   const handleSubmit = async (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
-    const response = await customAxios.put(`/bookList/${bookId}`, editBook);
+    const newData = {
+      ...itemDetail,
+      quantityBook: Number(editBook)
+    }
+    const response = await customAxios.put(`/bookList/${bookId}`, newData);
     // seteditBook(response.data);
     navigate("/bookList");
     console.log("testdata", response.data);

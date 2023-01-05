@@ -65,7 +65,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/borrow",
+    path: "/borrow/:codeReaderBorrow",
     element: (
       <ProtectRouter>
         <BorrowPage />
@@ -121,7 +121,8 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/borrow/:borrowId",
+    // path: "/borrow/:borrowId",
+    path: "/borrow",
     element: (
       <ProtectRouter>
         <BorrowDetail />

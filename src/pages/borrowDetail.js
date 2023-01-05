@@ -22,6 +22,7 @@ import { logout } from "../redux/userSlice";
 export default function BorrowDetail() {
   const params = useParams();
   const borrowId = params.borrowId;
+  const codeReaderBorrow = params.codeReaderBorrow;
   // console.log("id: ", bookId);
   const [borrowState, setborrowState] = useState(null);
   const [filterBorrow, setfilterBorrow] = useState();
@@ -46,7 +47,9 @@ export default function BorrowDetail() {
   }, []);
   const getDetail = async () => {
     try {
-      const dataDetail = await customAxios.get(`/borrowList/${borrowId}`);
+      const dataDetail = await customAxios.get(
+        `/borrowList/${codeReaderBorrow}`
+      );
       setdetailBorrow(dataDetail.data);
       console.log("data: ", detailBorrow);
     } catch (error) {
@@ -58,7 +61,7 @@ export default function BorrowDetail() {
     if (!filterBorrow) {
       return borrowState;
     }
-    return borrowState.filter((item) => item.statusBorrow === filterBorrow);
+    return borrowState.filter((item) => item.codeReaderBorrow === filterBorrow);
   }
 
   var filterList = useMemo(getFilterList, [filterBorrow, borrowState]);
@@ -82,7 +85,7 @@ export default function BorrowDetail() {
     current.getDate() < 10 ? "0" + current.getDate() : current.getDate();
   const date = `${current.getFullYear()}-${month}-${day}`;
   const nowDate = Number(date.slice(0, 10).split("-").join(""));
-  console.log("date", nowDate);
+  // console.log("date", nowDate);
 
   const navigate = useNavigate();
   return (
@@ -149,14 +152,17 @@ export default function BorrowDetail() {
                       <form className="form-inline w-100">
                         <select
                           className="browser-default custom-select w-30 mb-2 mr-3"
-                          // onChange={handleChange}
+                          onChange={handleChange}
                         >
                           <option selected disabled>
                             Trạng thái
                           </option>
-                          <option value="">Tất cả</option>
+                          {/* <option value="">Tất cả</option>
                           <option value="Đang mượn">Đang mượn</option>
-                          <option value="Quá hạn">Quá hạn</option>
+                          <option value="Quá hạn">Quá hạn</option> */}
+                          <option value="">Tất cả</option>
+                          <option value="BD01">BD01</option>
+                          <option value="BD02">BD02</option>
                         </select>
                         <Link
                           className="btn btn-success mb-2 mr-3 mg-right"
@@ -181,7 +187,7 @@ export default function BorrowDetail() {
                           </tr>
                         </thead>
                         <tbody id="myTable">
-                          {borrowState?.map((item, index) => (
+                          {filterList?.map((item, index) => (
                             <tr>
                               {/* <th scope="row"></th> */}
                               <td>{item.id}</td>

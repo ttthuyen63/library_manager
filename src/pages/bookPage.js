@@ -50,9 +50,11 @@ export default function BookPage() {
     }
   };
 
-  const handleEdit = (id) => {
-    navigate("/editBook/" + id);
-    console.log("idedit", id);
+  const handleEdit = (item) => {
+    console.log("item...", item);
+    navigate("/editBook/" + item?.id, {
+      state: item,
+    });
   };
 
   const handleDelete = async (id) => {
@@ -224,7 +226,7 @@ export default function BookPage() {
                               data-toggle="modal"
                               data-target="#editModal"
                               variant="primary"
-                              onClick={() => handleEdit(item.id)}
+                              onClick={() => handleEdit(item.id, item)}
                             >
                               <span
                                 className={{
@@ -294,7 +296,7 @@ export default function BookPage() {
                               data-toggle="modal"
                               data-target="#editModal"
                               variant="primary"
-                              onClick={() => handleEdit(item.id)}
+                              onClick={() => handleEdit(item)}
                             >
                               <span
                                 className={{

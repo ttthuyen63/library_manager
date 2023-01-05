@@ -20,6 +20,7 @@ export const addBorrow = createAsyncThunk(
       descriptionBorrow: arg.descriptionBorrow,
       dateAddBorrow: arg.dateAddBorrow,
       dateEndBorrow: arg.dateEndBorrow,
+      typeBorrow: arg.typeBorrow,
     });
     return res.data;
   }
