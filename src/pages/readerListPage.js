@@ -84,6 +84,7 @@ export default function ReaderListPage(props) {
     }
     return readerState.filter(
       (item) => item.statusReader.props.value === filterReader
+      // (item) => item.statusReader === filterReader
       // console.log("fil", item.statusReader.props.value)
     );
   }

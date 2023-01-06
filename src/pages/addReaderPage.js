@@ -54,7 +54,7 @@ export default function AddReaderPage() {
         birthReader: birthReaderRef.current.value,
         addressReader: addressReaderRef.current.value,
         phoneReader: phoneReaderRef.current.value,
-        statusReader: statusReaderRef.current.value,
+        // statusReader: statusReaderRef.current.value,
         // codeReader: codeReaderRef.current.value,
         dateAddReader: dateAddReaderRef.current.value,
         // imageBook: imageBookData,
@@ -175,7 +175,7 @@ export default function AddReaderPage() {
                         />
                       </div>
 
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label for="">Trạng thái bạn đọc:</label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
@@ -188,7 +188,7 @@ export default function AddReaderPage() {
                           <option value="active">Active</option>
                           <option value="inactive">Inactive</option>
                         </select>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="form-horizontal col-sm-5">
