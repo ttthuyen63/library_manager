@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Alert, Button, button, Container, Tooltip } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  button,
+  Container,
+  Modal,
+  Tooltip,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -19,19 +26,18 @@ import { customAxios } from "../config/api";
 import { addListBook } from "../redux/bookSlice";
 import HomePage from "./homePage";
 import { logout } from "../redux/userSlice";
-// const URL = "https://635a75b46f97ae73a62d386d.mockapi.io";
 
 export default function BookPage() {
   const [bookState, setbookState] = useState(null);
   const [search, setSearch] = useState(bookState);
   const [show, setShow] = useState(false);
   const [filterBorrow, setfilterBorrow] = useState();
+  const [deleteId, setdeleteId] = useState("");
+  const [showDel, setshowDel] = useState(false);
 
   console.log("bookState...", bookState);
   const bookList = useSelector((state) => state.bookReducer);
 
-  console.log("bookList...", bookList);
-  // console.log("id", bookState.id);
   const goToDetail = (id) => {
     navigate("/bookList/" + id);
   };
@@ -57,18 +63,35 @@ export default function BookPage() {
     });
   };
 
+  const handleClose = () => {
+    setshowDel(false);
+  };
+
+  // const handleClickDelete = (id) => {};
+
+  const handleClickDelete = (id) => {
+    setshowDel(true);
+  };
   const handleDelete = async (id) => {
     console.log("id: ", id);
-    // const convertIdNumber = Number(id);
-    // console.log("convert: ", convertIdNumber);
     try {
       await customAxios.delete(`bookList/${id}`);
       getBookApi();
-      // console.log(dataID.id);
     } catch (error) {
       console.log("Lỗi", error);
     }
+    setshowDel(false);
   };
+  // const handleDelete = async (id) => {
+  //   console.log("id: ", id);
+  //   try {
+  //     await customAxios.delete(`bookList/${id}`);
+  //     getBookApi();
+  //     // console.log(dataID.id);
+  //   } catch (error) {
+  //     console.log("Lỗi", error);
+  //   }
+  // };
 
   const handleChangeSearch = (e) => {
     const query = e.target.value;
@@ -99,6 +122,51 @@ export default function BookPage() {
   const navigate = useNavigate();
   return (
     <div>
+      {show === true ? (
+        <div>
+          {search?.map((item, index) => (
+            <Modal show={showDel} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Bạn có chắc là sẽ xóa?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn hãy chắc chắn là sẽ
+                muốn xóa.
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => handleDelete(item?.id)}>
+                  Xóa
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Hủy
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          ))}
+        </div>
+      ) : (
+        <div>
+          {filterList?.map((item, index) => (
+            <Modal show={showDel} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Bạn có chắc là sẽ xóa?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn hãy chắc chắn là sẽ
+                muốn xóa.
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => handleDelete(item?.id)}>
+                  Xóa
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Hủy
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          ))}
+        </div>
+      )}
       <div className="row">
         <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
@@ -238,7 +306,7 @@ export default function BookPage() {
                               </span>
                             </button>
                             <button
-                              onClick={() => handleDelete(item?.id)}
+                              onClick={() => handleClickDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
                               data-toggle="modal"
@@ -308,7 +376,7 @@ export default function BookPage() {
                               </span>
                             </button>
                             <button
-                              onClick={() => handleDelete(item?.id)}
+                              onClick={() => handleClickDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
                               data-toggle="modal"
@@ -336,7 +404,6 @@ export default function BookPage() {
                 {/* <!-- Modal xóa --> */}
                 <div id="delModal" className="modal fade" role="dialog">
                   <div className="modal-dialog">
-                    {/* <!-- Modal content--> */}
                     <div className="modal-content">
                       <div className="modal-header">
                         <h4 className="modal-title">Bạn có chắc là sẽ xóa?</h4>
