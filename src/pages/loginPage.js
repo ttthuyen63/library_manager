@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Alert, Button, Container, FormLabel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { API_KEY } from "../ultils/constant";
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState();
   const token = useSelector((state) => state.userReducer.token);
   const submit = async () => {
     try {
@@ -28,7 +29,7 @@ export default function LoginPage() {
       dispatch(login(res.data.idToken));
       navigate("/");
     } catch (error) {
-      console.log(error);
+      setError("Email hoặc mật khẩu không đúng!");
     }
   };
   return (
@@ -61,7 +62,7 @@ export default function LoginPage() {
                 <input
                   type="password"
                   className="form-control"
-                  id="pwd"
+                  // id="pwd"
                   placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -75,7 +76,9 @@ export default function LoginPage() {
               <Button className="btn btn-primary" onClick={() => submit()}>
                 Đăng nhập
               </Button>
+              {/* {error ? <Alert variant="danger">{error}</Alert> : null} */}
             </form>
+            {error ? <Alert variant="danger">{error}</Alert> : null}
           </div>
         </div>
       )}

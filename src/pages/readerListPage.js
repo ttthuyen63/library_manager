@@ -318,23 +318,32 @@ export default function ReaderListPage(props) {
                           <td>{item.genderReader}</td>
                           <td>{item.birthReader}</td>
                           <td>
-                            {item.statusReader === "active" ? (
-                              <button
-                                type="button"
-                                className="btn btn-success btn-xs"
-                                disabled
-                              >
-                                Active
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                className="btn btn-danger btn-xs"
-                                disabled
-                              >
-                                Inactive
-                              </button>
-                            )}
+                            {Number(
+                              item.dateEndReader
+                                .slice(0, 10)
+                                .split("-")
+                                .join("")
+                            ) > nowDate
+                              ? (item.statusReader = (
+                                  <button
+                                    value="Active"
+                                    type="button"
+                                    className="btn btn-success btn-xs"
+                                    disabled
+                                  >
+                                    Active
+                                  </button>
+                                ))
+                              : (item.statusReader = (
+                                  <button
+                                    value="Inactive"
+                                    type="button"
+                                    className="btn btn-danger btn-xs"
+                                    disabled
+                                  >
+                                    Inactive
+                                  </button>
+                                ))}
                           </td>
                           <td>
                             <button
