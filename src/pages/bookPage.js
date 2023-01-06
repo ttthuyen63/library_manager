@@ -105,7 +105,7 @@ export default function BookPage() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link " type="button" to="/">
+                <Link className="nav-link " type="button" to="/home">
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
                 <Link className="nav-link" type="button" to="/readerList">
@@ -165,8 +165,8 @@ export default function BookPage() {
                     <option value="Giả tưởng">Giả tưởng</option>
                     <option value="Self-help">Self-help</option>
                     <option value="Tiểu sử">Tiểu sử</option>
-                    <option value="Tâm lý">Tâm lý</option>
-                    <option value="Văn học">Văn học</option>
+                    <option value="Lịch sử">Lịch sử</option>
+                    <option value="Hài hước">Hài hước</option>
                     <option value="Giáo trình">Giáo trình</option>
                   </select>
                   <Link
@@ -238,7 +238,7 @@ export default function BookPage() {
                               </span>
                             </button>
                             <button
-                              // onClick={() => handleDelete(item?.id)}
+                              onClick={() => handleDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
                               data-toggle="modal"
@@ -308,8 +308,7 @@ export default function BookPage() {
                               </span>
                             </button>
                             <button
-                              // onClick={() => handleDelete(item?.id)}
-                              // onClick={toggle}
+                              onClick={() => handleDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
                               data-toggle="modal"
@@ -335,52 +334,82 @@ export default function BookPage() {
                   {/* <BookItem bookList={bookState} /> */}
                 </table>
                 {/* <!-- Modal xóa --> */}
-                {/* {(isShowing, hide) =>
-                  isShowing
-                    ? ReactDOM.createPortal(
-                        <div id="delModal" className="modal fade" role="dialog">
-                          <div className="modal-dialog">
-                            <div className="modal-content">
-                              <div className="modal-header">
-                                <h4 className="modal-title">
-                                  Bạn có chắc là sẽ xóa?
-                                </h4>
-                                <button
-                                  type="button"
-                                  className="close"
-                                  data-dismiss="modal"
-                                >
-                                  &times;
-                                </button>
-                              </div>
-                              <div className="modal-body">
-                                <p>
-                                  Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn
-                                  hãy chắc chắn là sẽ muốn xóa.
-                                </p>
-                              </div>
-                              <div className="modal-footer">
-                                <button
-                                  type="button"
-                                  className="btn btn-primary btn-xs"
-                                  data-dismiss="modal"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn btn-danger btn-xs"
-                                  data-dismiss="modal"
-                                >
-                                  <i>Delete</i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
+                <div id="delModal" className="modal fade" role="dialog">
+                  <div className="modal-dialog">
+                    {/* <!-- Modal content--> */}
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h4 className="modal-title">Bạn có chắc là sẽ xóa?</h4>
+                        <button
+                          type="button"
+                          className="close"
+                          data-dismiss="modal"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                      <div className="modal-body">
+                        <p>
+                          Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn hãy chắc
+                          chắn là sẽ muốn xóa.
+                        </p>
+                      </div>
+                      <div className="modal-footer">
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-xs"
+                          data-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-xs"
+                          data-dismiss="modal"
+                        >
+                          <i>Delete</i>
+                        </button>
+                        {/* <!-- <button type="button" className="btn btn-default" data-dismiss="modal">Close</button> --> */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* <!-- Modal xem thêm --> */}
+                <div id="moreModal" className="modal fade" role="dialog">
+                  <div className="modal-dialog">
+                    {/* <!-- Modal content--> */}
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h4 className="modal-title">Thông tin chi tiết</h4>
+                        <button
+                          type="button"
+                          className="close"
+                          data-dismiss="modal"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                      <div className="modal-body row">
+                        <div className="col-sm-6 text-center">
+                          <img
+                            className="avatar-wrapper mt-1 mb-1"
+                            src="./OK.jpg"
+                            alt=""
+                          />
                         </div>
-                      )
-                    : null
-                } */}
+                        <div className="col-sm-6 mt-2">
+                          <h5>Tên sách</h5>
+                          <h5>Mã sách</h5>
+                          <h5>Thể loại</h5>
+                          <h5>Số phát hành</h5>
+                          <h5>Tác giả</h5>
+                          <h5>Giá</h5>
+                          <h5>Trạng thái</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

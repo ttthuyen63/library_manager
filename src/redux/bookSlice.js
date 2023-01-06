@@ -16,7 +16,7 @@ export const addBook = createAsyncThunk("/addBook", async (arg, thunkApi) => {
     descriptionBook: arg.descriptionBook,
     issueBook: arg.issueBook,
     authorBook: arg.authorBook,
-    priceBook: arg.priceBook,
+    quantityBook: arg.quantityBook,
     statusBook: arg.statusBook,
     codeBook: arg.codeBook,
     dateAddBook: arg.dateAddBook,

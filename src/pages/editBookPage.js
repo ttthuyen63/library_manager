@@ -30,8 +30,10 @@ export default function EditBookPage() {
   const [issueBook, setIssueBook] = useState(itemDetail?.issueBook);
   const [authorBook, setAuthorBook] = useState(itemDetail?.authorBook);
   const [quantityBook, setQuantityBook] = useState(itemDetail?.quantityBook);
-  const [descriptionBook, setDescriptionBook] = useState(itemDetail?.nameBook);
-  const [codeBook, setCodeBook] = useState(itemDetail?.nameBook);
+  const [descriptionBook, setDescriptionBook] = useState(
+    itemDetail?.descriptionBook
+  );
+  const [codeBook, setCodeBook] = useState(itemDetail?.codeBook);
   const [dateAddBook, setDateAddBook] = useState(itemDetail?.dateAddBook);
 
   const queryParams = new URLSearchParams(window.location.search);
