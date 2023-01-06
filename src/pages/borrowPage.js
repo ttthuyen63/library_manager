@@ -88,7 +88,6 @@ export default function BorrowPage() {
   function handleChange(event) {
     setfilterBorrow(event.target.value);
     navigate(`/borrow/${codeReaderBorrow}`);
-    console.log("te", codeReaderBorrow);
   }
 
   const goToDetail = (id) => {
@@ -171,7 +170,7 @@ export default function BorrowPage() {
                           onChange={handleChange}
                         >
                           <option selected disabled>
-                            Lọc theo mã bạn đọc
+                            {/* Lọc theo mã bạn đọc */}
                           </option>
                           {/* <option value="">Tất cả</option>
                           <option value="Đang mượn">Đang mượn</option>
@@ -222,6 +221,7 @@ export default function BorrowPage() {
                                     .join("")
                                 ) > nowDate ? (
                                   <button
+                                    value="Đang mượn"
                                     type="button"
                                     className="btn btn-success btn-xs"
                                     disabled
@@ -230,6 +230,7 @@ export default function BorrowPage() {
                                   </button>
                                 ) : (
                                   <button
+                                    value="Quá hạn"
                                     type="button"
                                     className="btn btn-danger btn-xs"
                                     disabled

@@ -19,12 +19,14 @@ import { customAxios } from "../config/api";
 import { addListReader } from "../redux/readerSlice";
 import HomePage from "./homePage";
 import { logout } from "../redux/userSlice";
+import { useMemo } from "react";
 
 export default function ReaderListPage(props) {
   const [readerState, setreaderState] = useState(null);
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState(readerState);
-  const [filterStatus, setfilterStatus] = useState(readerState);
+  const [filterReader, setfilterReader] = useState();
+
   console.log("bookState...", readerState);
   const readerList = useSelector((state) => state.readerReducer);
 
@@ -76,17 +78,33 @@ export default function ReaderListPage(props) {
     setSearch(searchList);
     setShow(true);
   };
-
-  const filterReader = (statusReader) => {
-    setfilterStatus(
-      readerState.filter((item) => item.statusReader === statusReader)
+  function getFilterList() {
+    if (!filterReader) {
+      return readerState;
+    }
+    return readerState.filter(
+      (item) => item.statusReader.props.value === filterReader
+      // console.log("fil", item.statusReader.props.value)
     );
-  };
+  }
+
+  var filterList = useMemo(getFilterList, [filterReader, readerState]);
+  function handleChange(event) {
+    setfilterReader(event.target.value);
+  }
 
   // const statusReaders = Array.from(
   //   new Set(readerState.map((item) => item.statusReader))
   // );
   // console.log("test", readerState);
+
+  const current = new Date();
+  const monthNow = current.getMonth() + 1;
+  const month = monthNow < 10 ? "0" + monthNow : monthNow;
+  const day =
+    current.getDate() < 10 ? "0" + current.getDate() : current.getDate();
+  const date = `${current.getFullYear()}-${month}-${day}`;
+  const nowDate = Number(date.slice(0, 10).split("-").join(""));
 
   const navigate = useNavigate();
   return (
@@ -141,26 +159,20 @@ export default function ReaderListPage(props) {
                   <input
                     type="text"
                     className="input-codeReader form-control w-30 mb-2 mr-3"
-                    placeholder="Tìm kiếm"
+                    placeholder="Tìm kiếm theo mã bạn đọc"
                     onChange={handleChangeSearch}
                   />
                   <select
                     className="browser-default custom-select w-30 mb-2 mr-3"
                     // value={filterStatus}
-                    onChange={(e) => filterReader(e.target.value)}
+                    onChange={handleChange}
                   >
                     <option selected disabled>
                       Lọc trạng thái
                     </option>
-                    {/* <option value="active">Active</option>
-                    <option value="inactive">Inactive</option> */}
-                    {/* {readerState.map((item) => {
-                      return (
-                        <option key={item.statusReader}>
-                          {item.statusReader}
-                        </option>
-                      );
-                    })} */}
+                    <option value="">Tất cả</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
                   </select>
                   <Link
                     className="btn btn-success mb-2 mr-3 mg-right"
@@ -185,7 +197,7 @@ export default function ReaderListPage(props) {
                   </thead>
                   {show === false ? (
                     <tbody id="myTable">
-                      {readerState?.map((item, index) => (
+                      {filterList?.map((item, index) => (
                         <tr>
                           <td>{item.id}</td>
                           <td>{item.nameReader}</td>
@@ -193,7 +205,33 @@ export default function ReaderListPage(props) {
                           <td>{item.genderReader}</td>
                           <td>{item.birthReader}</td>
                           <td>
-                            {item.statusReader === "active" ? (
+                            {Number(
+                              item.dateEndReader
+                                .slice(0, 10)
+                                .split("-")
+                                .join("")
+                            ) > nowDate
+                              ? (item.statusReader = (
+                                  <button
+                                    value="Active"
+                                    type="button"
+                                    className="btn btn-success btn-xs"
+                                    disabled
+                                  >
+                                    Active
+                                  </button>
+                                ))
+                              : (item.statusReader = (
+                                  <button
+                                    value="Inactive"
+                                    type="button"
+                                    className="btn btn-danger btn-xs"
+                                    disabled
+                                  >
+                                    Inactive
+                                  </button>
+                                ))}
+                            {/* {item.statusReader === "active" ? (
                               <button
                                 type="button"
                                 className="btn btn-success btn-xs"
@@ -209,7 +247,7 @@ export default function ReaderListPage(props) {
                               >
                                 Inactive
                               </button>
-                            )}
+                            )} */}
                           </td>
                           <td>
                             <button

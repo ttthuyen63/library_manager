@@ -155,7 +155,7 @@ export default function BorrowDetail() {
                           onChange={handleChange}
                         >
                           <option selected disabled>
-                            Trạng thái
+                            Lọc theo mã bạn đọc
                           </option>
                           {/* <option value="">Tất cả</option>
                           <option value="Đang mượn">Đang mượn</option>

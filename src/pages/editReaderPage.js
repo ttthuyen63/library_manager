@@ -35,7 +35,7 @@ export default function EditReaderPage() {
   const [addressReader, setaddressReader] = useState(itemDetail?.addressReader);
   const [dateAddReader, setdateAddReader] = useState(itemDetail?.dateAddReader);
   const [dateEndReader, setdateEndReader] = useState(itemDetail?.dateEndReader);
-  const [statusReader, setstatusReader] = useState(itemDetail?.statusReader);
+  // const [statusReader, setstatusReader] = useState(itemDetail?.statusReader);
 
   const queryParams = new URLSearchParams(window.location.search);
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function EditReaderPage() {
       addressReader: addressReader,
       dateAddReader: dateAddReader,
       dateEndReader: dateEndReader,
-      statusReader: statusReader,
+      // statusReader: statusReader,
     };
     const response = await customAxios.put(`/readerList/${readId}`, newData);
     // seteditBook(response.data);
@@ -175,7 +175,7 @@ export default function EditReaderPage() {
                         />
                       </div>
 
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label for="">Trạng thái bạn đọc:</label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
@@ -188,7 +188,7 @@ export default function EditReaderPage() {
                           <option value="active">Active</option>
                           <option value="inactive">Inactive</option>
                         </select>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="form-horizontal col-sm-5">
