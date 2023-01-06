@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Tooltip } from "react-bootstrap";
+import { Button, Container, Modal, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -26,6 +26,7 @@ export default function ReaderListPage(props) {
   const [show, setShow] = useState(false);
   const [search, setSearch] = useState(readerState);
   const [filterReader, setfilterReader] = useState();
+  const [showDel, setshowDel] = useState(false);
 
   console.log("bookState...", readerState);
   const readerList = useSelector((state) => state.readerReducer);
@@ -53,17 +54,23 @@ export default function ReaderListPage(props) {
     });
   };
 
+  const handleClose = () => {
+    setshowDel(false);
+  };
+
+  const handleClickDelete = (id) => {
+    setshowDel(true);
+  };
+
   const handleDelete = async (id) => {
     console.log("id: ", id);
-    // const convertIdNumber = Number(id);
-    // console.log("convert: ", convertIdNumber);
     try {
       await customAxios.delete(`readerList/${id}`);
       getReaderApi();
-      // console.log(dataID.id);
     } catch (error) {
       console.log("Lỗi", error);
     }
+    setshowDel(false);
   };
   const goToDetail = (id) => {
     navigate("/readerList/" + id);
@@ -110,6 +117,51 @@ export default function ReaderListPage(props) {
   const navigate = useNavigate();
   return (
     <div>
+      {show === false ? (
+        <div>
+          {filterList?.map((item, index) => (
+            <Modal show={showDel} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Bạn có chắc là sẽ xóa?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn hãy chắc chắn là sẽ
+                muốn xóa.
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => handleDelete(item?.id)}>
+                  Xóa
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Hủy
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          ))}
+        </div>
+      ) : (
+        <div>
+          {search?.map((item, index) => (
+            <Modal show={showDel} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Bạn có chắc là sẽ xóa?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn hãy chắc chắn là sẽ
+                muốn xóa.
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => handleDelete(item?.id)}>
+                  Xóa
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Hủy
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          ))}
+        </div>
+      )}
       <div className="row">
         <div className="col-sm-2" style={{ padding: 0 }}>
           <div className="menu">
@@ -286,7 +338,7 @@ export default function ReaderListPage(props) {
                               </span>
                             </button>
                             <button
-                              onClick={() => handleDelete(item?.id)}
+                              onClick={() => handleClickDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
                               data-toggle="modal"
@@ -381,7 +433,7 @@ export default function ReaderListPage(props) {
                               </span>
                             </button>
                             <button
-                              onClick={() => handleDelete(item?.id)}
+                              onClick={() => handleClickDelete(item?.id)}
                               type="button"
                               className="btn btn-danger btn-xs"
                               data-toggle="modal"

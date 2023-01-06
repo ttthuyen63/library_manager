@@ -32,7 +32,6 @@ export default function BookPage() {
   const [search, setSearch] = useState(bookState);
   const [show, setShow] = useState(false);
   const [filterBorrow, setfilterBorrow] = useState();
-  const [deleteId, setdeleteId] = useState("");
   const [showDel, setshowDel] = useState(false);
 
   console.log("bookState...", bookState);
@@ -66,8 +65,6 @@ export default function BookPage() {
   const handleClose = () => {
     setshowDel(false);
   };
-
-  // const handleClickDelete = (id) => {};
 
   const handleClickDelete = (id) => {
     setshowDel(true);
@@ -398,85 +395,7 @@ export default function BookPage() {
                   ) : (
                     ""
                   )}
-
-                  {/* <BookItem bookList={bookState} /> */}
                 </table>
-                {/* <!-- Modal xóa --> */}
-                <div id="delModal" className="modal fade" role="dialog">
-                  <div className="modal-dialog">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h4 className="modal-title">Bạn có chắc là sẽ xóa?</h4>
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                        >
-                          &times;
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <p>
-                          Hành động này sẽ xóa dữ liệu vĩnh viễn, bạn hãy chắc
-                          chắn là sẽ muốn xóa.
-                        </p>
-                      </div>
-                      <div className="modal-footer">
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-xs"
-                          data-dismiss="modal"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger btn-xs"
-                          data-dismiss="modal"
-                        >
-                          <i>Delete</i>
-                        </button>
-                        {/* <!-- <button type="button" className="btn btn-default" data-dismiss="modal">Close</button> --> */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* <!-- Modal xem thêm --> */}
-                <div id="moreModal" className="modal fade" role="dialog">
-                  <div className="modal-dialog">
-                    {/* <!-- Modal content--> */}
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h4 className="modal-title">Thông tin chi tiết</h4>
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                        >
-                          &times;
-                        </button>
-                      </div>
-                      <div className="modal-body row">
-                        <div className="col-sm-6 text-center">
-                          <img
-                            className="avatar-wrapper mt-1 mb-1"
-                            src="./OK.jpg"
-                            alt=""
-                          />
-                        </div>
-                        <div className="col-sm-6 mt-2">
-                          <h5>Tên sách</h5>
-                          <h5>Mã sách</h5>
-                          <h5>Thể loại</h5>
-                          <h5>Số phát hành</h5>
-                          <h5>Tác giả</h5>
-                          <h5>Giá</h5>
-                          <h5>Trạng thái</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
