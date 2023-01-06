@@ -41,7 +41,7 @@ export default function BookDetail() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link " type="button" to="/home">
+                <Link className="nav-link " type="button" to="/">
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
                 <Link className="nav-link" type="button" to="/readerList">

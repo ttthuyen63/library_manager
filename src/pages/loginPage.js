@@ -26,7 +26,7 @@ export default function LoginPage() {
         }
       );
       dispatch(login(res.data.idToken));
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -34,7 +34,7 @@ export default function LoginPage() {
   return (
     <Container>
       {token !== null ? (
-        navigate("/home")
+        navigate("/")
       ) : (
         <div>
           <h1 className={styles.loginTitle}>Library Manager</h1>
@@ -51,7 +51,6 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                {/* <!-- <div className="valid-feedback">Valid.</div> --> */}
                 <div className="invalid-feedback">
                   Please fill out this field.
                 </div>
@@ -73,11 +72,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <Button
-                // type="submit"
-                className="btn btn-primary"
-                onClick={() => submit()}
-              >
+              <Button className="btn btn-primary" onClick={() => submit()}>
                 Đăng nhập
               </Button>
             </form>

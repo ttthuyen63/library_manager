@@ -25,7 +25,7 @@ import BorrowDetail from "./pages/borrowDetail";
 
 const router = createBrowserRouter([
   {
-    path: "/home",
+    path: "/",
     element: (
       <ProtectRouter>
         <HomePage />,
@@ -130,7 +130,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/",
+    path: "/login",
     element: <LoginPage />,
   },
 ]);

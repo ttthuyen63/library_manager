@@ -214,3 +214,33 @@ table.dataTable thead .sorting_desc_disabled:before {
 .avatar-wrapper .upload-button:hover .fa-arrow-circle-up {
   opacity: 0.9;
 }
+
+.form-register {
+  background-color: rgb(202, 234, 255);
+  border-radius: 5px;
+  width: 550px;
+  margin: 20px auto;
+  padding: 20px;
+  /* height: 600px; */
+}
+
+.form-body-register {
+  text-align: left;
+  padding: 20px 10px;
+}
+
+.form-body-register > * {
+  padding: 5px;
+}
+
+.form__label-register {
+  width: 40%;
+}
+
+.form_input-register {
+  width: 60%;
+}
+
+.footer-register {
+  text-align: center;
+}
