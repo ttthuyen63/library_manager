@@ -43,6 +43,14 @@ export default function ReaderListPage(props) {
     }
   };
   console.log("test", readerState);
+
+  const handleEdit = (item) => {
+    console.log("item...", item);
+    navigate("/editReader/" + item?.id, {
+      state: item,
+    });
+  };
+
   const handleDelete = async (id) => {
     console.log("id: ", id);
     // const convertIdNumber = Number(id);
@@ -224,6 +232,10 @@ export default function ReaderListPage(props) {
                             <button
                               type="button"
                               className="btn btn-secondary btn-xs"
+                              data-toggle="modal"
+                              data-target="#editModal"
+                              variant="primary"
+                              onClick={() => handleEdit(item)}
                             >
                               <span
                                 className={{
@@ -306,6 +318,10 @@ export default function ReaderListPage(props) {
                             <button
                               type="button"
                               className="btn btn-secondary btn-xs"
+                              data-toggle="modal"
+                              data-target="#editModal"
+                              variant="primary"
+                              onClick={() => handleEdit(item)}
                             >
                               <span
                                 className={{

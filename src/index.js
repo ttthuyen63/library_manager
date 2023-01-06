@@ -89,7 +89,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/editReader",
+    path: "/editReader/:readId",
     element: (
       <ProtectRouter>
         <EditReaderPage />

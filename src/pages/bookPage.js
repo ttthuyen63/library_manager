@@ -165,8 +165,8 @@ export default function BookPage() {
                     <option value="Giả tưởng">Giả tưởng</option>
                     <option value="Self-help">Self-help</option>
                     <option value="Tiểu sử">Tiểu sử</option>
-                    <option value="Lịch sử">Lịch sử</option>
-                    <option value="Hài hước">Hài hước</option>
+                    <option value="Tâm lý">Tâm lý</option>
+                    <option value="Văn học">Văn học</option>
                     <option value="Giáo trình">Giáo trình</option>
                   </select>
                   <Link

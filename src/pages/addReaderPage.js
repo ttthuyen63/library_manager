@@ -55,7 +55,7 @@ export default function AddReaderPage() {
         addressReader: addressReaderRef.current.value,
         phoneReader: phoneReaderRef.current.value,
         statusReader: statusReaderRef.current.value,
-        codeReader: codeReaderRef.current.value,
+        // codeReader: codeReaderRef.current.value,
         dateAddReader: dateAddReaderRef.current.value,
         // imageBook: imageBookData,
         dateEndReader: dateEndReaderRef.current.value,
@@ -104,7 +104,7 @@ export default function AddReaderPage() {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-            <h5 className="content-account">
+              <h5 className="content-account">
                 <Button
                   onClick={() => {
                     dispatch(logout());

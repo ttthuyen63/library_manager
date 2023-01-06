@@ -13,9 +13,71 @@ import {
   faStickyNote,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
+import { customAxios } from "../config/api";
+import { addListBorrow } from "../redux/borrowSlice";
 
 export default function EditBorrowPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { ...stateLocation } = useLocation();
+  const itemDetail = stateLocation?.state;
+  console.log("itemDetail...", itemDetail);
+  const [borrowState, setborrowState] = useState(null);
+  const [nameBook, setNameBook] = useState(itemDetail?.nameBook);
+  const [genreBook, setgenreBook] = useState(itemDetail?.genreBook);
+  const [issueBook, setIssueBook] = useState(itemDetail?.issueBook);
+  const [authorBook, setAuthorBook] = useState(itemDetail?.authorBook);
+  const [quantityBook, setQuantityBook] = useState(itemDetail?.quantityBook);
+  const [descriptionBook, setDescriptionBook] = useState(
+    itemDetail?.descriptionBook
+  );
+  const [codeBook, setCodeBook] = useState(itemDetail?.codeBook);
+  const [dateAddBook, setDateAddBook] = useState(itemDetail?.dateAddBook);
+
+  const queryParams = new URLSearchParams(window.location.search);
+  useEffect(() => {
+    getBorrowApi();
+  }, []);
+  const getBorrowApi = async () => {
+    try {
+      const res = await customAxios.get("/borrowList");
+      dispatch(addListBorrow(res.data));
+      setborrowState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
+    const newData = {
+      ...itemDetail,
+      nameBook: nameBook,
+      genreBook: genreBook,
+      issueBook: issueBook,
+      authorBook: authorBook,
+      quantityBook: Number(quantityBook),
+      descriptionBook: descriptionBook,
+      codeBook: codeBook,
+      dateAddBook: dateAddBook,
+    };
+    const response = await customAxios.put(`/bookList/${bookId}`, newData);
+    // seteditBook(response.data);
+    navigate("/bookList");
+    console.log("testdata", response.data);
+  };
+
+  const handleCancel = (e) => {
+    navigate("/bookList");
+  };
+
+  const params = useParams();
+  const bookId = params.bookId;
+
   return (
     <div>
       <div className="row">

@@ -49,7 +49,7 @@ export default function EditBookPage() {
       console.log("Lỗi");
     }
   };
-  const [editBook, seteditBook] = useState(bookState);
+  // const [editBook, seteditBook] = useState(bookState);
   const handleSubmit = async (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
     const newData = {
@@ -75,18 +75,18 @@ export default function EditBookPage() {
 
   const params = useParams();
   const bookId = params.bookId;
-  useEffect(() => {
-    editBookItem();
-  }, []);
-  const editBookItem = async () => {
-    try {
-      const dataBook = await customAxios.get(`/bookList/${bookId}`);
-      seteditBook(dataBook.data);
-      console.log("id: ", bookId);
-    } catch (error) {
-      console.log("Lỗi: ", error);
-    }
-  };
+  // useEffect(() => {
+  //   editBookItem();
+  // }, []);
+  // const editBookItem = async () => {
+  //   try {
+  //     const dataBook = await customAxios.get(`/bookList/${bookId}`);
+  //     seteditBook(dataBook.data);
+  //     console.log("id: ", bookId);
+  //   } catch (error) {
+  //     console.log("Lỗi: ", error);
+  //   }
+  // };
 
   return (
     <div>
