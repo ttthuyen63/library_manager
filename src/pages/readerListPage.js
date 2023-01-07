@@ -85,21 +85,19 @@ export default function ReaderListPage(props) {
     setSearch(searchList);
     setShow(true);
   };
-  function getFilterList() {
-    if (!filterReader) {
-      return readerState;
-    }
-    return readerState.filter(
-      (item) => item.statusReader.props.value === filterReader
-      // (item) => item.statusReader === filterReader
-      // console.log("fil", item.statusReader.props.value)
-    );
-  }
+  // function getFilterList() {
+  //   if (!filterReader) {
+  //     return readerState;
+  //   }
+  //   return readerState.filter(
+  //     (item) => item.statusReader.props.value === filterReader
+  //   );
+  // }
 
-  var filterList = useMemo(getFilterList, [filterReader, readerState]);
-  function handleChange(event) {
-    setfilterReader(event.target.value);
-  }
+  // var filterList = useMemo(getFilterList, [filterReader, readerState]);
+  // function handleChange(event) {
+  //   setfilterReader(event.target.value);
+  // }
 
   // const statusReaders = Array.from(
   //   new Set(readerState.map((item) => item.statusReader))
@@ -119,7 +117,7 @@ export default function ReaderListPage(props) {
     <div>
       {show === false ? (
         <div>
-          {filterList?.map((item, index) => (
+          {readerState?.map((item, index) => (
             <Modal show={showDel} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Bạn có chắc là sẽ xóa?</Modal.Title>
@@ -218,7 +216,7 @@ export default function ReaderListPage(props) {
                   <select
                     className="browser-default custom-select w-30 mb-2 mr-3"
                     // value={filterStatus}
-                    onChange={handleChange}
+                    // onChange={handleChange}
                   >
                     <option selected disabled>
                       Lọc trạng thái
@@ -240,8 +238,8 @@ export default function ReaderListPage(props) {
                   <thead>
                     <tr>
                       {/* <th scope="col">ID</th> */}
-                      <th scope="col">Mã bạn đọc</th>
                       <th scope="col">Tên bạn đọc</th>
+                      <th scope="col">Mã bạn đọc</th>
                       <th scope="col">Giới tính</th>
                       <th scope="col">Ngày sinh</th>
                       <th scope="col">Trạng thái</th>
@@ -250,7 +248,7 @@ export default function ReaderListPage(props) {
                   </thead>
                   {show === false ? (
                     <tbody id="myTable">
-                      {filterList?.map((item, index) => (
+                      {readerState?.map((item, index) => (
                         <tr>
                           {/* <td>{item.id}</td> */}
                           <td>{item.codeReader}</td>
@@ -263,27 +261,25 @@ export default function ReaderListPage(props) {
                                 .slice(0, 10)
                                 .split("-")
                                 .join("")
-                            ) > nowDate
-                              ? (item.statusReader = (
-                                  <button
-                                    value="Active"
-                                    type="button"
-                                    className="btn btn-success btn-xs"
-                                    disabled
-                                  >
-                                    Active
-                                  </button>
-                                ))
-                              : (item.statusReader = (
-                                  <button
-                                    value="Inactive"
-                                    type="button"
-                                    className="btn btn-danger btn-xs"
-                                    disabled
-                                  >
-                                    Inactive
-                                  </button>
-                                ))}
+                            ) > nowDate ? (
+                              <button
+                                value="Active"
+                                type="button"
+                                className="btn btn-success btn-xs"
+                                disabled
+                              >
+                                Active
+                              </button>
+                            ) : (
+                              <button
+                                value="Inactive"
+                                type="button"
+                                className="btn btn-danger btn-xs"
+                                disabled
+                              >
+                                Inactive
+                              </button>
+                            )}
                             {/* {item.statusReader === "active" ? (
                               <button
                                 type="button"
@@ -375,27 +371,25 @@ export default function ReaderListPage(props) {
                                 .slice(0, 10)
                                 .split("-")
                                 .join("")
-                            ) > nowDate
-                              ? (item.statusReader = (
-                                  <button
-                                    value="Active"
-                                    type="button"
-                                    className="btn btn-success btn-xs"
-                                    disabled
-                                  >
-                                    Active
-                                  </button>
-                                ))
-                              : (item.statusReader = (
-                                  <button
-                                    value="Inactive"
-                                    type="button"
-                                    className="btn btn-danger btn-xs"
-                                    disabled
-                                  >
-                                    Inactive
-                                  </button>
-                                ))}
+                            ) > nowDate ? (
+                              <button
+                                value="Active"
+                                type="button"
+                                className="btn btn-success btn-xs"
+                                disabled
+                              >
+                                Active
+                              </button>
+                            ) : (
+                              <button
+                                value="Inactive"
+                                type="button"
+                                className="btn btn-danger btn-xs"
+                                disabled
+                              >
+                                Inactive
+                              </button>
+                            )}
                           </td>
                           <td>
                             <button
