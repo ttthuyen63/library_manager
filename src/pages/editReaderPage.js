@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { customAxios } from "../config/api";
 import { addListReader } from "../redux/readerSlice";
+import { logout } from "../redux/userSlice";
 
 export default function EditReaderPage() {
   const navigate = useNavigate();
@@ -109,7 +110,16 @@ export default function EditReaderPage() {
         <div className="col-sm-10" style={{ padding: 0 }}>
           <div className="content">
             <div className="content-header">
-              <h6 className="content-account">Admin</h6>
+              <h5 className="content-account">
+                <Button
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </Button>
+              </h5>
             </div>
 
             <div className="control-addReader container">

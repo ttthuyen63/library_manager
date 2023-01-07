@@ -239,9 +239,9 @@ export default function ReaderListPage(props) {
                 <table className="table recently-violated">
                   <thead>
                     <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Tên bạn đọc</th>
+                      {/* <th scope="col">ID</th> */}
                       <th scope="col">Mã bạn đọc</th>
+                      <th scope="col">Tên bạn đọc</th>
                       <th scope="col">Giới tính</th>
                       <th scope="col">Ngày sinh</th>
                       <th scope="col">Trạng thái</th>
@@ -252,9 +252,9 @@ export default function ReaderListPage(props) {
                     <tbody id="myTable">
                       {filterList?.map((item, index) => (
                         <tr>
-                          <td>{item.id}</td>
-                          <td>{item.nameReader}</td>
+                          {/* <td>{item.id}</td> */}
                           <td>{item.codeReader}</td>
+                          <td>{item.nameReader}</td>
                           <td>{item.genderReader}</td>
                           <td>{item.birthReader}</td>
                           <td>
@@ -364,9 +364,9 @@ export default function ReaderListPage(props) {
                     <tbody id="myTable">
                       {search?.map((item, index) => (
                         <tr>
-                          <td>{item.id}</td>
-                          <td>{item.nameReader}</td>
+                          {/* <td>{item.id}</td> */}
                           <td>{item.codeReader}</td>
+                          <td>{item.nameReader}</td>
                           <td>{item.genderReader}</td>
                           <td>{item.birthReader}</td>
                           <td>

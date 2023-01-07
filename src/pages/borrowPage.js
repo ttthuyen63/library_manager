@@ -52,8 +52,6 @@ export default function BorrowPage() {
 
   const handleDelete = async (id) => {
     console.log("id: ", id);
-    // const convertIdNumber = Number(id);
-    // console.log("convert: ", convertIdNumber);
     try {
       await customAxios.delete(`borrowList/${id}`);
       getBorrowApi();
@@ -198,17 +196,14 @@ export default function BorrowPage() {
                             <th scope="col">Ngày mượn</th>
                             <th scope="col">Hết hạn</th>
                             <th scope="col">Trạng thái</th>
-                            {/* <th scope="col">Hành động</th> */}
                           </tr>
                         </thead>
                         <tbody id="myTable">
                           {filterList?.map((item, index) => (
                             <tr>
-                              {/* <th scope="row"></th> */}
                               <td>{item.id}</td>
                               <td>{item.codeBookBorrow}</td>
                               <td>{item.nameBookBorrow}</td>
-                              {/* <td>{item.nameReaderBorrow}</td> */}
                               <td>{item.quantityBorrow}</td>
                               <td>{item.typeBorrow}</td>
                               <td>{item.dateAddBorrow}</td>

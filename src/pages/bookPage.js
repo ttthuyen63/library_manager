@@ -246,9 +246,9 @@ export default function BookPage() {
                 <table className="table recently-violated">
                   <thead>
                     <tr>
-                      <th scope="col">ID</th>
-                      <th scope="col">Tên sách</th>
+                      {/* <th scope="col">ID</th> */}
                       <th scope="col">Mã sách</th>
+                      <th scope="col">Tên sách</th>
                       <th scope="col">Thể loại</th>
                       <th scope="col">Số lượng</th>
                       <th scope="col">Tác giả</th>
@@ -259,10 +259,9 @@ export default function BookPage() {
                     <tbody id="myTable">
                       {search?.map((item, index) => (
                         <tr>
-                          {/* <th scope="row"></th> */}
-                          <td>{item.id}</td>
-                          <td>{item.nameBook}</td>
+                          {/* <td>{item.id}</td> */}
                           <td>{item.codeBook}</td>
+                          <td>{item.nameBook}</td>
                           <td>{item.genreBook}</td>
                           <td>{item.quantityBook}</td>
                           <td>{item.authorBook}</td>
@@ -330,9 +329,9 @@ export default function BookPage() {
                       {filterList?.map((item, index) => (
                         <tr>
                           {/* <th scope="row"></th> */}
-                          <td>{item.id}</td>
-                          <td>{item.nameBook}</td>
+                          {/* <td>{item.id}</td> */}
                           <td>{item.codeBook}</td>
+                          <td>{item.nameBook}</td>
                           <td>{item.genreBook}</td>
                           <td>{item.quantityBook}</td>
                           <td>{item.authorBook}</td>
