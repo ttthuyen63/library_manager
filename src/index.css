@@ -1,3 +1,8 @@
+body{
+  height: 100%;
+  width: 100%;
+}
+
 .col-sm-3 {
   padding: 0px;
 }
@@ -244,3 +249,5 @@ table.dataTable thead .sorting_desc_disabled:before {
 .footer-register {
   text-align: center;
 }
+
+

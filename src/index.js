@@ -121,8 +121,8 @@ const router = createBrowserRouter([
     ),
   },
   {
-    // path: "/borrow/:borrowId",
-    path: "/borrow",
+    path: "/borrow/:borrowId",
+    // path: "/borrow",
     element: (
       <ProtectRouter>
         <BorrowDetail />

@@ -96,16 +96,36 @@ export default function BorrowDetail() {
             <h4 className="menu-header">Library Manager</h4>
             <div className="d-flex align-items-start">
               <div className="nav flex-column nav-pills">
-                <Link className="nav-link" type="button" to="/">
+                <Link
+                  className="nav-link"
+                  type="button"
+                  to="/"
+                  style={{ color: "white" }}
+                >
                   <FontAwesomeIcon icon={faHome} /> Home
                 </Link>
-                <Link className="nav-link" type="button" to="/readerList">
+                <Link
+                  className="nav-link"
+                  type="button"
+                  to="/readerList"
+                  style={{ color: "white" }}
+                >
                   <FontAwesomeIcon icon={faAddressBook} /> Quản lý bạn đọc
                 </Link>
-                <Link className="nav-link" type="button" to="/bookList">
+                <Link
+                  className="nav-link"
+                  type="button"
+                  to="/bookList"
+                  style={{ color: "white" }}
+                >
                   <FontAwesomeIcon icon={faBook} /> Quản lý sách
                 </Link>
-                <Link className="nav-link active" type="button" to="/borrow">
+                <Link
+                  className="nav-link active"
+                  type="button"
+                  to="/borrow"
+                  style={{ color: "white" }}
+                >
                   <FontAwesomeIcon icon={faBookBookmark} /> Quản lý mượn/trả
                 </Link>
               </div>
