@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addBorrow, addListBorrow } from "../redux/borrowSlice";
 import { logout } from "../redux/userSlice";
+import moment from "moment";
 
 export default function AddBorrowPage() {
   const navigate = useNavigate();
@@ -24,7 +25,13 @@ export default function AddBorrowPage() {
   const borrowId = params.borrowId;
   const [imageBookData, setImageBookData] = useState();
   const [typeBorrowData, settypeBorrowData] = useState();
+  console.log("typeBorrowData...", typeBorrowData);
   const [statusBorrowData, setstatusBorrowData] = useState();
+  const [startDate, setStartDate] = useState(null);
+  console.log("startDate", startDate);
+  const [endDate, setEndDate] = useState(null);
+  console.log("endDate", endDate);
+
   const codeBookBorrowRef = useRef(null);
   const codeReaderBorrowRef = useRef(null);
   const quantityBorrowRef = useRef(null);
@@ -39,7 +46,7 @@ export default function AddBorrowPage() {
 
   const getBorrowApi = async () => {
     try {
-      const res = await customAxios.post(`/borrowList/${borrowId}`);
+      const res = await customAxios.post(`/borrowList`);
       dispatch(addListBorrow(res.data));
       // setbookState(res?.data);
     } catch (error) {
@@ -54,9 +61,12 @@ export default function AddBorrowPage() {
         codeReaderBorrow: codeReaderBorrowRef.current.value,
         quantityBorrow: quantityBorrowRef.current.value,
         descriptionBorrow: descriptionBorrowRef.current.value,
-        dateAddBorrow: dateAddBorrowRef.current.value,
-        dateEndBorrow: dateEndBorrowRef.current.value,
-        typeBorrow: typeBorrowRef.current.value,
+        // dateAddBorrow: dateAddBorrowRef.current.value,
+        // dateEndBorrow: dateEndBorrowRef.current.value,
+        typeBorrow: typeBorrowData ? typeBorrowData : null,
+        dateAddBorrow: startDate ? startDate : null,
+        dateEndBorrow: endDate ? endDate : null,
+
         // codeBook: codeBookRef.current.value,
         // dateAddBook: dateAddBookRef.current.value,
         // imageBook: imageBookData,
@@ -73,18 +83,43 @@ export default function AddBorrowPage() {
     navigate("/borrow");
   };
 
-  // const handleDate = () => {
-  //   dateAddBorrowRef.setDate(dateAddBorrowRef.getDate() + 7); // add 7 days
-  //   var dateThongThuong =
-  //     dateAddBorrowRef.getFullYear() +
-  //     "-" +
-  //     (dateAddBorrowRef.getMonth() + 1 < 10 ? "0" : "") +
-  //     (dateAddBorrowRef.getMonth() + 1) +
-  //     "-" +
-  //     dateAddBorrowRef.getDate();
-  //   return dateThongThuong;
-  //   console.log("datetest", dateThongThuong);
-  // };
+  const handleChangeStartDate = (e) => {
+    if (typeBorrowData === "Ấn định hạn trả") {
+      setStartDate(e.target.value);
+      const newDate = new Date(e.target.value).getDate();
+      const newMonth = new Date(e.target.value).getMonth() + 1;
+      const newYear = new Date(e.target.value).getFullYear();
+
+      const addDate = newDate + 4;
+      const newDateEnd = `${newYear} ${newMonth} ${addDate}`;
+      const newEndDate = moment(newDateEnd).format("YYYY-MM-DD");
+      setEndDate(newEndDate);
+    } else {
+      setStartDate(e.target.value);
+      setEndDate("");
+    }
+  };
+
+  const handleChangeTypeBorrowData = (e) => {
+    settypeBorrowData(e.target.value);
+    if (e.target.value === "Ấn định hạn trả") {
+      const newDate = new Date(startDate).getDate();
+      const newMonth = new Date(startDate).getMonth() + 1;
+      const newYear = new Date(startDate).getFullYear();
+
+      const addDate = newDate + 4;
+      const newDateEnd = `${newYear} ${newMonth} ${addDate}`;
+      const newEndDate = moment(newDateEnd).format("YYYY-MM-DD");
+      setEndDate(newEndDate);
+    } else {
+      setEndDate("");
+    }
+  };
+
+  const handleChangeEndDate = (e) => {
+    setEndDate(e.target.value);
+  };
+
   return (
     <div>
       <div className="row">
@@ -194,15 +229,18 @@ export default function AddBorrowPage() {
                         <input
                           type="date"
                           className="form-control"
-                          ref={dateAddBorrowRef}
+                          // ref={dateAddBorrowRef}
+                          value={startDate}
+                          onChange={handleChangeStartDate}
                         />
                       </div>
                       <div className="form-group">
                         <label for="">Kiểu cho mượn:</label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
-                          ref={typeBorrowRef}
-                          onChange={(e) => settypeBorrowData(e.target.value)}
+                          // ref={typeBorrowRef}
+                          value={typeBorrowData}
+                          onChange={handleChangeTypeBorrowData}
                         >
                           <option selected disabled>
                             Chọn
@@ -220,7 +258,9 @@ export default function AddBorrowPage() {
                         <input
                           type="date"
                           className="form-control"
-                          ref={dateEndBorrowRef}
+                          // ref={dateEndBorrowRef}
+                          value={endDate}
+                          onChange={handleChangeEndDate}
                         />
                       </div>
                       <div className="form-group">

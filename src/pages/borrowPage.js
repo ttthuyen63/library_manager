@@ -27,13 +27,13 @@ export default function BorrowPage() {
   const params = useParams();
   const borrowId = params.borrowId;
   const codeReaderBorrow = params.codeReaderBorrow;
-  console.log("borrowState...", borrowState);
+  // console.log("borrowState...", borrowState);
   const borrowList = useSelector((state) => state.borrowReducer);
   // const bookList = Object.entries(bookState);
   // const bookList = Object.values(bookState).map(Object.values);
   // bookList.push(bookState);
 
-  console.log("borrowList...", borrowList);
+  // console.log("borrowList...", borrowList);
 
   const queryParams = new URLSearchParams(window.location.search);
   const dispatch = useDispatch();
@@ -180,7 +180,7 @@ export default function BorrowPage() {
                         <Link
                           className="btn btn-success mb-2 mr-3 mg-right"
                           type="button"
-                          to={`/addBorrow/${borrowId}`}
+                          to={`/addBorrow`}
                         >
                           <FontAwesomeIcon icon={faPlusCircle} /> Thêm
                         </Link>
