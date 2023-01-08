@@ -102,20 +102,16 @@ export default function ReaderDetail() {
                   <h4 class="ml-0 mt-0" style={{ textAlign: "center" }}>
                     Chi tiết bạn đọc
                   </h4>
-                  <div class="row" style={{ display: "block" }}>
-                    {/* <div class="form-horizontal col-sm-5">
-              <button type="button" className="close" data-dismiss="modal">
-                &times;
-              </button>
-            </div> */}
-                    <div className="form-group">
-                      {/* <div className="col-sm-6 text-center">
-                <img
-                  className="avatar-wrapper mt-1 mb-1"
-                  src="./OK.jpg"
-                  alt=""
-                />
-              </div> */}
+                  <div class="row">
+                    <div class="col-sm-4 position-left">
+                      <img
+                        variant="bottom"
+                        width={350}
+                        height={350}
+                        src="https://www.niams.nih.gov/sites/default/files/default_images/profile-image-placeholder_0.png"
+                      />
+                    </div>
+                    <div class="col-sm-8 position-right">
                       <div
                         className="form-group"
                         style={{ display: "flex", justifyContent: "center" }}
