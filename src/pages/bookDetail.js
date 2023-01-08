@@ -12,6 +12,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
 import { logout } from "../redux/userSlice";
 import QRCode from "react-qr-code";
+import { addListBook } from "../redux/bookSlice";
 
 export default function BookDetail() {
   const params = useParams();
@@ -19,7 +20,21 @@ export default function BookDetail() {
   console.log("id: ", bookId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [bookState, setbookState] = useState(null);
+  const queryParams = new URLSearchParams(window.location.search);
+  useEffect(() => {
+    getBookApi();
+  }, []);
+  const getBookApi = async () => {
+    try {
+      const res = await customAxios.get("/lbm/v1/book/get-all");
+      dispatch(addListBook(res.data));
+      setbookState(res?.data);
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+  console.log("data...", bookState);
   const [detailBook, setdetailBook] = useState(null);
   useEffect(() => {
     getDetail();
@@ -34,6 +49,12 @@ export default function BookDetail() {
     }
   };
   // console.log("detail: ", detailBook);
+  const test = bookState?.content?.map((item) => {
+    return item?.id;
+  });
+
+  console.log("testid...", test);
+
   return (
     <div>
       <div className="row">
@@ -165,6 +186,20 @@ export default function BookDetail() {
                           </th>
                           <td>{detailBook?.data.description}</td>
                         </tr>
+                        <tr>
+                          <th
+                            scope="row"
+                            style={{ padding: "10px", width: "100px" }}
+                          >
+                            ID sách hiện có:{" "}
+                          </th>
+                          <td>
+                            {bookState?.content?.map((item) => {
+                              <a>{item.id}</a>;
+                            })}
+                          </td>
+                        </tr>
+
                         {/* <tr>
                         <th>Số phát hành: </th>
                         <td>{detailBook?.issueBook}</td>

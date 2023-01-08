@@ -364,7 +364,16 @@ export default function BookPage() {
                       {search?.map((item, index) => (
                         <tr>
                           {/* <td>{item.id}</td> */}
-                          <td>{item.id}</td>
+                          <td
+                            style={{
+                              width: "50px",
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {item.id}
+                          </td>
                           <td>{item.bookName}</td>
                           <td>{item.category}</td>
                           <td>{item.amount}</td>
