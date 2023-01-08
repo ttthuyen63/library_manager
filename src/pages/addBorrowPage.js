@@ -90,7 +90,7 @@ export default function AddBorrowPage() {
       const newMonth = new Date(e.target.value).getMonth() + 1;
       const newYear = new Date(e.target.value).getFullYear();
 
-      const addDate = newDate + 4;
+      const addDate = newDate + 7;
       const newDateEnd = `${newYear} ${newMonth} ${addDate}`;
       const newEndDate = moment(newDateEnd).format("YYYY-MM-DD");
       setEndDate(newEndDate);
@@ -107,7 +107,7 @@ export default function AddBorrowPage() {
       const newMonth = new Date(startDate).getMonth() + 1;
       const newYear = new Date(startDate).getFullYear();
 
-      const addDate = newDate + 4;
+      const addDate = newDate + 7;
       const newDateEnd = `${newYear} ${newMonth} ${addDate}`;
       const newEndDate = moment(newDateEnd).format("YYYY-MM-DD");
       setEndDate(newEndDate);
