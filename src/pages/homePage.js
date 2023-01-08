@@ -35,7 +35,7 @@ export default function HomePage() {
   }, []);
   const getBookApi = async () => {
     try {
-      const res = await customAxios.get("/bookList");
+      const res = await customAxios.get("/lbm/v1/book/info/get-all");
       dispatch(addListBook(res.data));
       setbookStateLength(res?.data);
     } catch (error) {
@@ -44,7 +44,7 @@ export default function HomePage() {
   };
   const getReaderApi = async () => {
     try {
-      const res = await customAxios.get("/readerList");
+      const res = await customAxios.get("/lbm/v1/users/get-all");
       dispatch(addListReader(res.data));
       setreaderStateLength(res?.data);
     } catch (error) {
@@ -126,7 +126,9 @@ export default function HomePage() {
           <div className="statistical">
             <div className="statistical-card bg-blue m-2">
               <div className="statistical-info ml-4 mt-4">
-                <h2 className="number-reader">{readerStateLength?.length}</h2>
+                <h2 className="number-reader">
+                  {readerStateLength?.content?.length}
+                </h2>
                 <p className="statistical-item">Bạn đọc</p>
               </div>
               <span className="statistical-icon">
@@ -142,7 +144,9 @@ export default function HomePage() {
 
             <div className="statistical-card bg-green m-2">
               <div className="statistical-info ml-4 mt-4">
-                <h2 className="number-reader">{bookStateLength?.length}</h2>
+                <h2 className="number-reader">
+                  {bookStateLength?.content?.length}
+                </h2>
                 <p className="statistical-item">Cuốn sách</p>
               </div>
               <span className="statistical-icon">
@@ -204,7 +208,7 @@ export default function HomePage() {
                   </tr>
                 </thead>
                 <tbody id="myTable">
-                  {bookStateLength?.map((item, index) => (
+                  {bookStateLength?.content?.map((item, index) => (
                     <tr>
                       {/* <th scope="row"></th> */}
                       <td>{item.id}</td>

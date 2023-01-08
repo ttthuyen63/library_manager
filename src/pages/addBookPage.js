@@ -21,22 +21,22 @@ import { logout } from "../redux/userSlice";
 export default function AddBookPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [imageBookData, setImageBookData] = useState();
-  const [genreBookData, setgenreBookData] = useState();
+  const [bookImageData, setbookImageData] = useState();
+  const [categoryData, setcategoryData] = useState();
   const [statusBookData, setstatusBookData] = useState();
-  const nameBookRef = useRef(null);
-  const genreBookRef = useRef(null);
-  const descriptionBookRef = useRef(null);
-  const issueBookRef = useRef(null);
-  const authorBookRef = useRef(null);
-  const quantityBookRef = useRef(null);
+  const bookNameRef = useRef(null);
+  const categoryRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const publisherRef = useRef(null);
+  const authRef = useRef(null);
+  const amountRef = useRef(null);
   const codeBookRef = useRef(null);
   const dateAddBookRef = useRef(null);
-  const imageBookRef = useRef(null);
+  const bookImageRef = useRef(null);
 
   const getBookApi = async () => {
     try {
-      const res = await customAxios.post("/bookList");
+      const res = await customAxios.post("/lbm/v1/book/info/create");
       dispatch(addListBook(res.data));
       // setbookState(res?.data);
     } catch (error) {
@@ -45,24 +45,49 @@ export default function AddBookPage() {
   };
   const handleSubmit = (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
-    dispatch(
-      addBook({
-        nameBook: nameBookRef.current.value,
-        genreBook: genreBookRef.current.value,
-        descriptionBook: descriptionBookRef.current.value,
-        issueBook: issueBookRef.current.value,
-        authorBook: authorBookRef.current.value,
-        quantityBook: quantityBookRef.current.value,
-        codeBook: codeBookRef.current.value,
-        dateAddBook: dateAddBookRef.current.value,
-        imageBook: imageBookData,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        navigate("/bookList");
-        // getBookApi();
-      });
+    // dispatch(
+    //   addBook({
+    //     bookName: bookNameRef.current.value,
+    //     category: categoryRef.current.value,
+    //     description: descriptionRef.current.value,
+    //     publisher: publisherRef.current.value,
+    //     auth: authRef.current.value,
+    //     amount: amountRef.current.value,
+    //     // codeBook: codeBookRef.current.value,
+    //     // dateAddBook: dateAddBookRef.current.value,
+    //     bookImage: bookImageData,
+    //   })
+    // )
+    //   .unwrap()
+    //   .then(() => {
+    //     navigate("/bookList");
+    //     // getBookApi();
+    //   });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      amount: amountRef.current.value,
+      auth: authRef.current.value,
+      bookImage: bookImageData,
+      bookName: bookNameRef.current.value,
+      category: categoryRef.current.value,
+      description: descriptionRef.current.value,
+      price: 0,
+      publisher: publisherRef.current.value,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://172.31.99.192:9992/lbm/v1/book/info/create", requestOptions)
+      .then((response) => response.text())
+      .then((result) => navigate("/bookList"))
+      .catch((error) => console.log("error", error));
   };
 
   const handleCancel = (e) => {
@@ -138,7 +163,7 @@ export default function AddBookPage() {
                       <div className="form-group">
                         <label className="control-label">Tên sách:</label>
                         <input
-                          ref={nameBookRef}
+                          ref={bookNameRef}
                           type="text"
                           className="form-control"
                           placeholder="Enter name"
@@ -148,8 +173,8 @@ export default function AddBookPage() {
                         <label for="">Thể loại: </label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
-                          ref={genreBookRef}
-                          onChange={(e) => setgenreBookData(e.target.value)}
+                          ref={categoryRef}
+                          onChange={(e) => setcategoryData(e.target.value)}
                         >
                           <option selected disabled>
                             Thể loại
@@ -168,7 +193,7 @@ export default function AddBookPage() {
                       <div className="form-group">
                         <label for="">Số phát hành:</label>
                         <input
-                          ref={issueBookRef}
+                          ref={publisherRef}
                           type="number"
                           className="form-control"
                           placeholder="Enter number"
@@ -178,7 +203,7 @@ export default function AddBookPage() {
                       <div className="form-group">
                         <label>Tác giả:</label>
                         <input
-                          ref={authorBookRef}
+                          ref={authRef}
                           type="text"
                           className="form-control"
                           placeholder="Enter Author"
@@ -188,19 +213,28 @@ export default function AddBookPage() {
                       <div className="form-group">
                         <label for="email">Số lượng:</label>
                         <input
-                          ref={quantityBookRef}
+                          ref={amountRef}
                           type="number"
                           className="form-control"
                           placeholder="Enter quantity"
                         />
                       </div>
+                      <div className="form-group">
+                        <label className="control-label">Mô tả:</label>
+                        <textarea
+                          ref={descriptionRef}
+                          className="form-control"
+                          rows="4"
+                          cols="50"
+                        ></textarea>
+                      </div>
                     </div>
 
                     <div class="form-horizontal col-sm-5">
                       <input
-                        value={imageBookData}
-                        ref={imageBookRef}
-                        onChange={(e) => setImageBookData(e.target.value)}
+                        value={bookImageData}
+                        ref={bookImageRef}
+                        onChange={(e) => setbookImageData(e.target.value)}
                         name="image"
                         type="text"
                       />
@@ -208,22 +242,22 @@ export default function AddBookPage() {
                         variant="bottom"
                         width={400}
                         height={400}
-                        src={imageBookData}
+                        src={bookImageData}
                       />
                     </div>
 
-                    <div className="form-horizontal col-sm-5">
-                      <div className="form-group">
-                        <label className="control-label">Mô tả:</label>
-                        <textarea
-                          ref={descriptionBookRef}
-                          className="form-control"
-                          rows="4"
-                          cols="50"
-                        ></textarea>
-                      </div>
+                    {/* <div className="form-horizontal col-sm-5"> */}
+                    {/* <div className="form-group">
+                      <label className="control-label">Mô tả:</label>
+                      <textarea
+                        ref={descriptionRef}
+                        className="form-control"
+                        rows="4"
+                        cols="50"
+                      ></textarea> */}
+                    {/* </div> */}
 
-                      <div className="form-group">
+                    {/* <div className="form-group">
                         <label className="control-label" for="pwd">
                           Mã sách:
                         </label>
@@ -233,9 +267,9 @@ export default function AddBookPage() {
                           className="form-control"
                           placeholder="Enter code book"
                         />
-                      </div>
+                      </div> */}
 
-                      <div className="form-group">
+                    {/* <div className="form-group">
                         <label className="control-label" for="email">
                           Ngày thêm:
                         </label>
@@ -245,24 +279,23 @@ export default function AddBookPage() {
                           className="form-control"
                           placeholder="dd-mm-yy"
                         />
-                      </div>
-                      <div className="form-group">
-                        <div className="col-sm-offset-2 col-sm-10">
-                          <Button
-                            type="submit"
-                            className="btn btn-success"
-                            onClick={handleSubmit}
-                          >
-                            <FontAwesomeIcon icon={faSave} /> Lưu
-                          </Button>
-                          <Button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={handleCancel}
-                          >
-                            &times; Cancel
-                          </Button>
-                        </div>
+                      </div> */}
+                    <div className="form-group">
+                      <div className="col-sm-offset-2 col-sm-10">
+                        <Button
+                          type="submit"
+                          className="btn btn-success"
+                          onClick={handleSubmit}
+                        >
+                          <FontAwesomeIcon icon={faSave} /> Lưu
+                        </Button>
+                        <Button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleCancel}
+                        >
+                          &times; Cancel
+                        </Button>
                       </div>
                     </div>
                   </div>

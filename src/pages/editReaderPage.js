@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { customAxios } from "../config/api";
 import { addListReader } from "../redux/readerSlice";
 import { logout } from "../redux/userSlice";
+import moment from "moment";
 
 export default function EditReaderPage() {
   const navigate = useNavigate();
@@ -27,14 +28,23 @@ export default function EditReaderPage() {
   const { ...stateLocation } = useLocation();
   const itemDetail = stateLocation?.state;
   console.log("itemDetail...", itemDetail);
+  const birthDateDetail = itemDetail?.birthDate
+    ?.toString()
+    ?.replace(/[^a-zA-Z0-9 ]/g, "");
+  console.log("birthDateDetail...", birthDateDetail);
+
+  const createDateDetail = new Date(itemDetail?.createDate);
+  const createDateFormat = moment(createDateDetail).format("YYYY-MM-DD");
   const [readerState, setreaderState] = useState(null);
-  const [nameReader, setnameReader] = useState(itemDetail?.nameReader);
-  const [codeReader, setcodeReader] = useState(itemDetail?.codeReader);
-  const [genderReader, setgenderReader] = useState(itemDetail?.genderReader);
-  const [birthReader, setbirthReader] = useState(itemDetail?.birthReader);
-  const [phoneReader, setphoneReader] = useState(itemDetail?.phoneReader);
-  const [addressReader, setaddressReader] = useState(itemDetail?.addressReader);
-  const [dateAddReader, setdateAddReader] = useState(itemDetail?.dateAddReader);
+  const [nameReader, setnameReader] = useState(itemDetail?.userName);
+  const [codeReader, setcodeReader] = useState(itemDetail?.userCode);
+  const [genderReader, setgenderReader] = useState(itemDetail?.gender);
+  const [birthReader, setbirthReader] = useState(birthDateDetail);
+  const [phoneReader, setphoneReader] = useState(itemDetail?.phoneNumber);
+  const [addressReader, setaddressReader] = useState(
+    itemDetail?.currentAddress
+  );
+  const [dateAddReader, setdateAddReader] = useState(createDateFormat);
   const [dateEndReader, setdateEndReader] = useState(itemDetail?.dateEndReader);
   // const [statusReader, setstatusReader] = useState(itemDetail?.statusReader);
 
@@ -44,7 +54,7 @@ export default function EditReaderPage() {
   }, []);
   const getReaderApi = async () => {
     try {
-      const res = await customAxios.get("/readerList");
+      const res = await customAxios.get("/lbm/v1/users/get-all");
       dispatch(addListReader(res.data));
       setreaderState(res?.data);
     } catch (error) {
@@ -66,7 +76,10 @@ export default function EditReaderPage() {
       dateEndReader: dateEndReader,
       // statusReader: statusReader,
     };
-    const response = await customAxios.put(`/readerList/${readId}`, newData);
+    const response = await customAxios.post(
+      `/lbm/v1/users/update/${readId}`,
+      newData
+    );
     // seteditBook(response.data);
     navigate("/readerList");
     console.log("testdata", response.data);

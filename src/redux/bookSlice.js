@@ -10,26 +10,28 @@ const initialState = {
 export const addBook = createAsyncThunk("/addBook", async (arg, thunkApi) => {
   const token = thunkApi.getState().userReducer.token;
   // const res = await customAxios.post(`/bookList.json?auth=${token}`, {
-  const res = await customAxios.post(`/bookList`, {
-    nameBook: arg.nameBook,
-    genreBook: arg.genreBook,
-    descriptionBook: arg.descriptionBook,
-    issueBook: arg.issueBook,
-    authorBook: arg.authorBook,
-    quantityBook: arg.quantityBook,
-    statusBook: arg.statusBook,
-    codeBook: arg.codeBook,
-    dateAddBook: arg.dateAddBook,
-    imageBook: arg.imageBook,
+  const res = await customAxios.post(`/lbm/v1/book/info/create`, {
+    bookName: arg.bookName,
+    category: arg.category,
+    description: arg.description,
+    publisher: arg.publisher,
+    auth: arg.auth,
+    amount: arg.amount,
+    // statusBook: arg.statusBook,
+    // codeBook: arg.codeBook,
+    // dateAddBook: arg.dateAddBook,
+    bookImage: arg.bookImage,
   });
   return res.data;
 });
 
 export const getListBook = createAsyncThunk(
-  "bookList/getList",
+  "/lbm/v1/book/info/get-all",
   async (arg, thunkApi) => {
     const token = thunkApi.getState().userReducer.token;
-    const res = await customAxios.get(`/bookList.json?auth=${token}`);
+    const res = await customAxios.get(
+      `/lbm/v1/book/info/get-all.json?auth=${token}`
+    );
     return res.data;
   }
 );

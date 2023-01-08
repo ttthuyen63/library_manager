@@ -11,11 +11,12 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
 import { logout } from "../redux/userSlice";
+import QRCode from "react-qr-code";
 
 export default function BookDetail() {
   const params = useParams();
   const bookId = params.bookId;
-  // console.log("id: ", bookId);
+  console.log("id: ", bookId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ export default function BookDetail() {
   }, []);
   const getDetail = async () => {
     try {
-      const dataDetail = await customAxios.get(`/bookList/${bookId}`);
+      const dataDetail = await customAxios.get(`/lbm/v1/book/info/${bookId}`);
       setdetailBook(dataDetail.data);
       console.log("id: ", bookId);
     } catch (error) {
@@ -105,7 +106,7 @@ export default function BookDetail() {
                       variant="bottom"
                       width={400}
                       height={400}
-                      src={detailBook?.imageBook}
+                      src={detailBook?.data.bookImage}
                     />
                   </div>
                   <div class="col-sm-8 position-right">
@@ -126,9 +127,9 @@ export default function BookDetail() {
                           >
                             Tên sách:
                           </th>
-                          <td>{detailBook?.nameBook}</td>
+                          <td>{detailBook?.data.bookName}</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                           <th
                             scope="row"
                             style={{ padding: "10px", width: "100px" }}
@@ -136,7 +137,7 @@ export default function BookDetail() {
                             Mã sách:{" "}
                           </th>
                           <td>{detailBook?.codeBook}</td>
-                        </tr>
+                        </tr> */}
                         <tr>
                           <th
                             scope="row"
@@ -144,7 +145,7 @@ export default function BookDetail() {
                           >
                             Tác giả:{" "}
                           </th>
-                          <td>{detailBook?.authorBook}</td>
+                          <td>{detailBook?.data.auth}</td>
                         </tr>
                         <tr>
                           <th
@@ -153,7 +154,7 @@ export default function BookDetail() {
                           >
                             Thể loại:{" "}
                           </th>
-                          <td>{detailBook?.genreBook}</td>
+                          <td>{detailBook?.data.category}</td>
                         </tr>
                         <tr>
                           <th
@@ -162,12 +163,22 @@ export default function BookDetail() {
                           >
                             Mô tả:{" "}
                           </th>
-                          <td>{detailBook?.descriptionBook}</td>
+                          <td>{detailBook?.data.description}</td>
                         </tr>
                         {/* <tr>
                         <th>Số phát hành: </th>
                         <td>{detailBook?.issueBook}</td>
                       </tr> */}
+                        {/* <QRCode
+                          size={256}
+                          style={{
+                            height: "auto",
+                            maxWidth: "100%",
+                            width: "100%",
+                          }}
+                          value={"hello"}
+                          viewBox={`0 0 256 256`}
+                        /> */}
                       </Table>
                     </div>
                   </div>

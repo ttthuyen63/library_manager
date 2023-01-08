@@ -21,22 +21,24 @@ export default function AddReaderPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [imageReaderData, setImageReaderData] = useState();
-  const [genderReaderData, setgenderReaderData] = useState();
+  const [genderData, setgenderData] = useState();
   const [activeReaderData, setactiveReaderData] = useState();
-  const nameReaderRef = useRef(null);
-  const codeReaderRef = useRef(null);
-  const genderReaderRef = useRef(null);
-  const birthReaderRef = useRef(null);
-  const addressReaderRef = useRef(null);
-  const phoneReaderRef = useRef(null);
+  const [status, setStatus] = useState("");
+  const userNameRef = useRef(null);
+  const userCodeRef = useRef(null);
+  const genderRef = useRef(null);
+  const birthDateRef = useRef(null);
+  const currentAddressRef = useRef(null);
+  const phoneNumberRef = useRef(null);
   const statusReaderRef = useRef(null);
   const dateAddReaderRef = useRef(null);
   const imageReaderRef = useRef(null);
-  const dateEndReaderRef = useRef(null);
+  const expireDateRef = useRef(null);
+  const statusRef = useRef(null);
 
   const getReaderApi = async () => {
     try {
-      const res = await customAxios.post("/readerList");
+      const res = await customAxios.post("/lbm/v1/users/create");
       dispatch(addListReader(res.data));
       // setbookState(res?.data);
     } catch (error) {
@@ -45,27 +47,58 @@ export default function AddReaderPage() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
-    dispatch(
-      addReader({
-        nameReader: nameReaderRef.current.value,
-        codeReader: codeReaderRef.current.value,
-        genderReader: genderReaderRef.current.value,
-        birthReader: birthReaderRef.current.value,
-        addressReader: addressReaderRef.current.value,
-        phoneReader: phoneReaderRef.current.value,
-        // statusReader: statusReaderRef.current.value,
-        // codeReader: codeReaderRef.current.value,
-        dateAddReader: dateAddReaderRef.current.value,
-        // imageBook: imageBookData,
-        dateEndReader: dateEndReaderRef.current.value,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        navigate("/readerList");
-        // getReaderApi();
-      });
+    //   e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
+    //   dispatch(
+    //     addReader({
+    //       userName: userNameRef.current.value,
+    //       userCode: userCodeRef.current.value,
+    //       gender: genderRef.current.value,
+    //       birthDate: birthDateRef.current.value,
+    //       currentAddress: currentAddressRef.current.value,
+    //       phoneNumber: phoneNumberRef.current.value,
+    //       // statusReader: statusReaderRef.current.value,
+    //       // userCode: userCodeRef.current.value,
+    //       // dateAddReader: dateAddReaderRef.current.value,
+    //       // imageBook: imageBookData,
+    //       expireDate: expireDateRef.current.value,
+    //     })
+    //   )
+    //     .unwrap()
+    //     .then(() => {
+    //       navigate("/readerList");
+    //       // getReaderApi();
+    //     });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    // var birth = new Date(birthDateRef.current.value);
+    var raw = JSON.stringify({
+      birthDate: new Date(birthDateRef.current.value),
+      currentAddress: currentAddressRef.current.value,
+      description: "",
+      emailAddress: currentAddressRef.current.value,
+      expireDate: new Date(expireDateRef.current.value),
+      gender: genderRef.current.value,
+      isDisable: false,
+      phoneNumber: phoneNumberRef.current.value,
+      // status: statusRef.current.value,
+      userCode: userCodeRef.current.value,
+      userName: userNameRef.current.value,
+    });
+    console.log("tese..", new Date(birthDateRef.current.value));
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    try {
+    } catch (error) {}
+
+    fetch("http://172.31.99.192:9992/lbm/v1/users/create", requestOptions)
+      .then((response) => response.text())
+      .then((result) => navigate("/readerList"))
+      .catch((error) => console.log("error", error));
   };
 
   const handleCancel = (e) => {
@@ -141,7 +174,7 @@ export default function AddReaderPage() {
                       <div className="form-group">
                         <label className="control-label">Họ và tên:</label>
                         <input
-                          ref={nameReaderRef}
+                          ref={userNameRef}
                           type="text"
                           className="form-control"
                           placeholder="Enter name"
@@ -151,21 +184,21 @@ export default function AddReaderPage() {
                         <label for="">Giới tính</label>
                         <select
                           className="browser-default custom-select mb-2 mr-3"
-                          ref={genderReaderRef}
-                          onChange={(e) => setgenderReaderData(e.target.value)}
+                          ref={genderRef}
+                          onChange={(e) => setgenderData(e.target.value)}
                         >
                           <option selected disabled>
-                            Choose gender
+                            Chọn giới tính
                           </option>
-                          <option value="Nam">Nam</option>
-                          <option value="Nữ">Nữ</option>
+                          <option value="MALE">Nam</option>
+                          <option value="FEMALE">Nữ</option>
                         </select>
                       </div>
 
                       <div className="form-group">
                         <label for="">Ngày sinh:</label>
                         <input
-                          ref={birthReaderRef}
+                          ref={birthDateRef}
                           type="date"
                           className="form-control"
                           placeholder="dd-mm-yy"
@@ -173,18 +206,18 @@ export default function AddReaderPage() {
                       </div>
 
                       <div className="form-group">
-                        <label for="email">Địa chỉ:</label>
+                        <label for="email">Địa chỉ email:</label>
                         <input
-                          ref={addressReaderRef}
+                          ref={currentAddressRef}
                           type="text"
                           className="form-control"
-                          placeholder="Enter address"
+                          placeholder="Enter address email"
                         />
                       </div>
                       <div className="form-group">
                         <label for="email">Số điện thoại:</label>
                         <input
-                          ref={phoneReaderRef}
+                          ref={phoneNumberRef}
                           type="tel"
                           className="form-control"
                           placeholder="Enter telephone number"
@@ -213,14 +246,14 @@ export default function AddReaderPage() {
                           Mã bạn đọc:
                         </label>
                         <input
-                          ref={codeReaderRef}
+                          ref={userCodeRef}
                           type="text"
                           className="form-control"
                           placeholder="Enter code reader"
                         />
                       </div>
 
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label className="control-label" for="date">
                           Ngày tạo:
                         </label>
@@ -230,19 +263,35 @@ export default function AddReaderPage() {
                           className="form-control"
                           placeholder="dd-mm-yy"
                         />
-                      </div>
+                      </div> */}
 
                       <div className="form-group">
                         <label className="control-label" for="date">
                           Ngày hết hạn:
                         </label>
                         <input
-                          ref={dateEndReaderRef}
+                          ref={expireDateRef}
                           type="date"
                           className="form-control"
                           placeholder="dd-mm-yy"
                         />
                       </div>
+
+                      {/* <div className="form-group">
+                        <label for="">Trạng thái</label>
+                        <select
+                          className="browser-default custom-select mb-2 mr-3"
+                          ref={statusRef}
+                          // value={status}
+                          onChange={(e) => setStatus(e.target.value)}
+                        >
+                          <option selected disabled>
+                            Chọn trạng thái
+                          </option>
+                          <option value="BORROWING">BORROWING</option>
+                        </select>
+                      </div> */}
+
                       <div className="form-group">
                         <div className="col-sm-offset-2 col-sm-10">
                           <Button

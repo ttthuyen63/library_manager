@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { addBook, addListBook } from "../redux/bookSlice";
 import { useEffect } from "react";
 import { logout } from "../redux/userSlice";
+import moment from "moment";
 
 export default function EditBookPage() {
   const navigate = useNavigate();
@@ -25,25 +26,26 @@ export default function EditBookPage() {
   const { ...stateLocation } = useLocation();
   const itemDetail = stateLocation?.state;
   console.log("itemDetail...", itemDetail);
+  const newDate = new Date(itemDetail?.createDate[6]);
+  const createdDateDetail = moment(newDate).format("YYYY-MM-DD");
   const [bookState, setbookState] = useState(null);
-  const [nameBook, setNameBook] = useState(itemDetail?.nameBook);
-  const [genreBook, setgenreBook] = useState(itemDetail?.genreBook);
-  const [issueBook, setIssueBook] = useState(itemDetail?.issueBook);
-  const [authorBook, setAuthorBook] = useState(itemDetail?.authorBook);
-  const [quantityBook, setQuantityBook] = useState(itemDetail?.quantityBook);
+  const [nameBook, setNameBook] = useState(itemDetail?.bookName);
+  const [genreBook, setgenreBook] = useState(itemDetail?.category);
+  const [issueBook, setIssueBook] = useState(itemDetail?.publisher);
+  const [authorBook, setAuthorBook] = useState(itemDetail?.auth);
+  const [quantityBook, setQuantityBook] = useState(itemDetail?.amount);
   const [descriptionBook, setDescriptionBook] = useState(
-    itemDetail?.descriptionBook
+    itemDetail?.description
   );
   const [codeBook, setCodeBook] = useState(itemDetail?.codeBook);
-  const [dateAddBook, setDateAddBook] = useState(itemDetail?.dateAddBook);
-
+  const [dateAddBook, setDateAddBook] = useState(createdDateDetail);
   const queryParams = new URLSearchParams(window.location.search);
   useEffect(() => {
     getBookApi();
   }, []);
   const getBookApi = async () => {
     try {
-      const res = await customAxios.get("/bookList");
+      const res = await customAxios.get("/lbm/v1/book/info/get-all");
       dispatch(addListBook(res.data));
       setbookState(res?.data);
     } catch (error) {
@@ -54,17 +56,29 @@ export default function EditBookPage() {
   const handleSubmit = async (e) => {
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
     const newData = {
-      ...itemDetail,
-      nameBook: nameBook,
-      genreBook: genreBook,
-      issueBook: issueBook,
-      authorBook: authorBook,
-      quantityBook: Number(quantityBook),
-      descriptionBook: descriptionBook,
-      codeBook: codeBook,
-      dateAddBook: dateAddBook,
+      data: {
+        auth: authorBook,
+        bookImage: itemDetail?.bookImage,
+        bookName: nameBook,
+        category: genreBook,
+        description: descriptionBook,
+        price: itemDetail?.price,
+        publisher: issueBook,
+      },
+      updateFields: [
+        "auth",
+        "bookImage",
+        "bookName",
+        "category",
+        "description",
+        "price",
+        "publisher",
+      ],
     };
-    const response = await customAxios.put(`/bookList/${bookId}`, newData);
+    const response = await customAxios.post(
+      `/lbm/v1/book/info/update?id=${bookId}`,
+      newData
+    );
     // seteditBook(response.data);
     navigate("/bookList");
     console.log("testdata", response.data);
@@ -221,6 +235,7 @@ export default function EditBookPage() {
                           className="form-control"
                           placeholder="Enter quantity"
                           onChange={(e) => setQuantityBook(e.target.value)}
+                          disabled={true}
                         />
                       </div>
                     </div>
@@ -260,7 +275,7 @@ export default function EditBookPage() {
                         ></textarea>
                       </div>
 
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label className="control-label" for="pwd">
                           Mã sách:
                         </label>
@@ -272,7 +287,7 @@ export default function EditBookPage() {
                           placeholder="Enter code book"
                           onChange={(e) => setCodeBook(e.target.value)}
                         />
-                      </div>
+                      </div> */}
 
                       <div className="form-group">
                         <label className="control-label" for="email">
@@ -285,6 +300,7 @@ export default function EditBookPage() {
                           className="form-control"
                           placeholder="dd-mm-yy"
                           onChange={(e) => setDateAddBook(e.target.value)}
+                          disabled={true}
                         />
                       </div>
                       <div className="form-group">

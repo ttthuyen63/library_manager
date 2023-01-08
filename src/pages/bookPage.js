@@ -26,15 +26,21 @@ import { customAxios } from "../config/api";
 import { addListBook } from "../redux/bookSlice";
 import HomePage from "./homePage";
 import { logout } from "../redux/userSlice";
+import { useRef } from "react";
 
 export default function BookPage() {
   const [bookState, setbookState] = useState(null);
   const [search, setSearch] = useState(bookState);
+  const [searchBookName, setSearchBookName] = useState("");
   const [show, setShow] = useState(false);
   const [filterBorrow, setfilterBorrow] = useState();
   const [showDel, setshowDel] = useState(false);
+  const [bookData, setBookData] = useState(null);
+  const [categorySearch, setCategorySearch] = useState();
 
-  console.log("bookState...", bookState);
+  const categorySearchRef = useRef(null);
+
+  // console.log("bookState...", bookState);
   const bookList = useSelector((state) => state.bookReducer);
 
   const goToDetail = (id) => {
@@ -47,13 +53,62 @@ export default function BookPage() {
   }, []);
   const getBookApi = async () => {
     try {
-      const res = await customAxios.get("/bookList");
+      const res = await customAxios.get("/lbm/v1/book/info/get-all");
       dispatch(addListBook(res.data));
       setbookState(res?.data);
     } catch (error) {
       console.log("Lỗi");
     }
   };
+
+  // const filterBook = async () => {
+  //   // var myHeaders = new Headers();
+  //   // myHeaders.append("Content-Type", "application/json");
+  //   // var raw = JSON.stringify({
+  //   //   auths: ["123afdsdf"],
+  //   //   bookName: searchBookName,
+  //   //   categorys: [],
+  //   //   createDate: null,
+  //   //   createUser: [],
+  //   //   modifiedUser: [],
+  //   //   modifyDate: null,
+  //   //   price: null,
+  //   //   publisher: [],
+  //   // });
+  //   // var requestOptions = {
+  //   //   method: "POST",
+  //   //   headers: myHeaders,
+  //   //   body: raw,
+  //   //   redirect: "follow",
+  //   // };
+  //   // fetch("http://172.31.99.192:9992/lbm/v1/book/info/search", requestOptions)
+  //   //   .then((response) => {
+  //   //     console.log("respon...", response);
+  //   //   })
+  //   //   .catch((error) => console.log("error", error));
+  //   try {
+  //     const data = {
+  //       auths: ["123afdsdf"],
+  //       bookName: "",
+  //       categorys: [categorySearchRef?.current?.value],
+  //       createDate: null,
+  //       createUser: [],
+  //       modifiedUser: [],
+  //       modifyDate: null,
+  //       price: null,
+  //       publisher: [],
+  //     };
+  //     const res = await customAxios.post("/lbm/v1/book/info/search", data);
+  //     console.log("res...", res);
+  //     setBookData(res?.data?.content);
+  //   } catch (error) {
+  //     console.log("Lỗi");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   filterBook();
+  // }, []);
 
   const handleEdit = (item) => {
     console.log("item...", item);
@@ -68,35 +123,26 @@ export default function BookPage() {
 
   const handleClickDelete = (id) => {
     setshowDel(true);
+    console.log("id...", id);
   };
   const handleDelete = async (id) => {
     console.log("id: ", id);
     try {
-      await customAxios.delete(`bookList/${id}`);
+      await customAxios.post(`/lbm/v1/book/info/delete?id=${id}`);
       getBookApi();
     } catch (error) {
       console.log("Lỗi", error);
     }
     setshowDel(false);
   };
-  // const handleDelete = async (id) => {
-  //   console.log("id: ", id);
-  //   try {
-  //     await customAxios.delete(`bookList/${id}`);
-  //     getBookApi();
-  //     // console.log(dataID.id);
-  //   } catch (error) {
-  //     console.log("Lỗi", error);
-  //   }
-  // };
 
   const handleChangeSearch = (e) => {
     const query = e.target.value;
-    var searchList = [...bookState];
+    var searchList = [...bookState?.content];
     // console.log("search bookstate", bookState);
-    searchList = searchList.filter((item) => {
-      return item.nameBook.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      // console.log("item", typeof item.nameBook);
+    searchList = searchList?.filter((item) => {
+      return item.bookName.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      // console.log("item", typeof item.bookName);
     });
     setSearch(searchList);
     setShow(true);
@@ -104,17 +150,51 @@ export default function BookPage() {
 
   function getFilterList() {
     if (!filterBorrow) {
-      return bookState;
+      return bookState?.content;
     }
-    return bookState.filter((item) => item.genreBook === filterBorrow);
+    return bookState?.content.filter(
+      (item) => item.category === filterBorrow
+      // console.log("cate...", item)
+    );
   }
 
-  var filterList = useMemo(getFilterList, [filterBorrow, bookState]);
+  var filterList = useMemo(getFilterList, [filterBorrow, bookState?.content]);
   function handleChange(event) {
     setfilterBorrow(event.target.value);
+    // console.log("test...", event);
   }
 
-  console.log("test", bookState);
+  // var filterList = useMemo(getFilterList, [filterBorrow, bookState?.content]);
+  // async function handleChange(event) {
+  //   // setfilterBorrow(event.target.value);
+  //   try {
+  //     const data = {
+  //       auths: ["123afdsdf"],
+  //       bookName: "",
+  //       categorys: [categorySearchRef?.current?.value],
+  //       createDate: null,
+  //       createUser: [],
+  //       modifiedUser: [],
+  //       modifyDate: null,
+  //       price: null,
+  //       publisher: [],
+  //     };
+  //     const res = await customAxios.post("/lbm/v1/book/info/search", data);
+  //     console.log("res...", res);
+  //     setBookData(res?.data?.content);
+  //   } catch (error) {
+  //     console.log("Lỗi");
+  //   }
+  // }
+
+  // console.log("test", bookState?.content);
+  // console.log("testsearch..", search);
+  // console.log("testfilter..", filterList);
+
+  // const handleChangeSearchBookName = (e) => {
+  //   console.log("e...", e.target.value);
+  //   setSearchBookName(e.target.value);
+  // };
 
   const navigate = useNavigate();
   return (
@@ -234,16 +314,20 @@ export default function BookPage() {
                     name="search"
                     id="search"
                     // value={search}
+                    // value={searchBookName}
+                    // onChange={handleChangeSearch}
                     onChange={handleChangeSearch}
+                    // onChange={handleChangeSearchBookName}
                   />
 
                   <select
                     className="browser-default custom-select w-30 mb-2 mr-3"
                     onChange={handleChange}
+                    // ref={categorySearchRef}
                   >
-                    <option selected disabled>
+                    {/* <option selected disabled>
                       Thể loại
-                    </option>
+                    </option> */}
                     <option value="">Tất cả</option>
                     <option value="Kinh dị">Kinh dị</option>
                     <option value="Tình cảm">Tình cảm</option>
@@ -280,11 +364,11 @@ export default function BookPage() {
                       {search?.map((item, index) => (
                         <tr>
                           {/* <td>{item.id}</td> */}
-                          <td>{item.codeBook}</td>
-                          <td>{item.nameBook}</td>
-                          <td>{item.genreBook}</td>
-                          <td>{item.quantityBook}</td>
-                          <td>{item.authorBook}</td>
+                          <td>{item.id}</td>
+                          <td>{item.bookName}</td>
+                          <td>{item.category}</td>
+                          <td>{item.amount}</td>
+                          <td>{item.auth}</td>
 
                           <td>
                             <button
@@ -350,11 +434,11 @@ export default function BookPage() {
                         <tr>
                           {/* <th scope="row"></th> */}
                           {/* <td>{item.id}</td> */}
-                          <td>{item.codeBook}</td>
-                          <td>{item.nameBook}</td>
-                          <td>{item.genreBook}</td>
-                          <td>{item.quantityBook}</td>
-                          <td>{item.authorBook}</td>
+                          <td>{item.id}</td>
+                          <td>{item.bookName}</td>
+                          <td>{item.category}</td>
+                          <td>{item.amount}</td>
+                          <td>{item.auth}</td>
 
                           <td>
                             <button

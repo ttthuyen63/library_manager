@@ -20,15 +20,18 @@ import { addListReader } from "../redux/readerSlice";
 import HomePage from "./homePage";
 import { logout } from "../redux/userSlice";
 import { useMemo } from "react";
+import moment from "moment";
+import ConvertToString from "../components/ConvertToString";
+import StatusReader from "../components/StatusReader";
 
-export default function ReaderListPage(props) {
+export default function ReaderListPage() {
   const [readerState, setreaderState] = useState(null);
   const [show, setShow] = useState(false);
-  const [search, setSearch] = useState(readerState);
+  const [search, setSearch] = useState(readerState?.content);
   const [filterReader, setfilterReader] = useState();
   const [showDel, setshowDel] = useState(false);
 
-  console.log("bookState...", readerState);
+  console.log("readerState...", readerState);
   const readerList = useSelector((state) => state.readerReducer);
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -38,14 +41,14 @@ export default function ReaderListPage(props) {
   }, []);
   const getReaderApi = async () => {
     try {
-      const res = await customAxios.get("/readerList");
+      const res = await customAxios.get("/lbm/v1/users/get-all");
       dispatch(addListReader(res.data));
       setreaderState(res?.data);
     } catch (error) {
       console.log("Lỗi");
     }
   };
-  console.log("test", readerState);
+  // console.log("test", readerState);
 
   const handleEdit = (item) => {
     console.log("item...", item);
@@ -60,12 +63,13 @@ export default function ReaderListPage(props) {
 
   const handleClickDelete = (id) => {
     setshowDel(true);
+    console.log("id...", id);
   };
 
   const handleDelete = async (id) => {
     console.log("id: ", id);
     try {
-      await customAxios.delete(`readerList/${id}`);
+      await customAxios.post(`/lbm/v1/users/delete?id=${id}`);
       getReaderApi();
     } catch (error) {
       console.log("Lỗi", error);
@@ -78,9 +82,9 @@ export default function ReaderListPage(props) {
 
   const handleChangeSearch = (e) => {
     const query = e.target.value;
-    var searchList = [...readerState];
-    searchList = searchList.filter((item) => {
-      return item.codeReader.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    var searchList = [...readerState?.content];
+    searchList = searchList?.filter((item) => {
+      return item?.userCode.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     });
     setSearch(searchList);
     setShow(true);
@@ -113,11 +117,12 @@ export default function ReaderListPage(props) {
   const nowDate = Number(date.slice(0, 10).split("-").join(""));
 
   const navigate = useNavigate();
+
   return (
     <div>
       {show === false ? (
         <div>
-          {readerState?.map((item, index) => (
+          {readerState?.content?.map((item, index) => (
             <Modal show={showDel} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Bạn có chắc là sẽ xóa?</Modal.Title>
@@ -225,7 +230,7 @@ export default function ReaderListPage(props) {
                 <form className="form-inline w-100">
                   <input
                     type="text"
-                    className="input-codeReader form-control w-30 mb-2 mr-3"
+                    className="input-userCode form-control w-30 mb-2 mr-3"
                     placeholder="Tìm kiếm theo mã bạn đọc"
                     onChange={handleChangeSearch}
                   />
@@ -254,8 +259,8 @@ export default function ReaderListPage(props) {
                   <thead>
                     <tr>
                       {/* <th scope="col">ID</th> */}
-                      <th scope="col">Tên bạn đọc</th>
                       <th scope="col">Mã bạn đọc</th>
+                      <th scope="col">Tên bạn đọc</th>
                       <th scope="col">Giới tính</th>
                       <th scope="col">Ngày sinh</th>
                       <th scope="col">Trạng thái</th>
@@ -264,19 +269,19 @@ export default function ReaderListPage(props) {
                   </thead>
                   {show === false ? (
                     <tbody id="myTable">
-                      {readerState?.map((item, index) => (
+                      {readerState?.content?.map((item, index) => (
                         <tr>
                           {/* <td>{item.id}</td> */}
-                          <td>{item.codeReader}</td>
-                          <td>{item.nameReader}</td>
-                          <td>{item.genderReader}</td>
-                          <td>{item.birthReader}</td>
+                          <td>{item.userCode}</td>
+                          <td>{item.userName}</td>
+                          <td>{item.gender === "MALE" ? "Nam" : "Nữ"}</td>
+                          {/* <td>{moment(item.birthDate).format("YYYY-MM-DD")}</td> */}
                           <td>
-                            {Number(
-                              item.dateEndReader
-                                .slice(0, 10)
-                                .split("-")
-                                .join("")
+                            <ConvertToString item={item.birthDate} />
+                          </td>
+                          <td>
+                            {/* {Number(
+                              item.expireDate?.slice(0, 10).split("-").join("")
                             ) > nowDate ? (
                               <button
                                 value="Active"
@@ -295,24 +300,8 @@ export default function ReaderListPage(props) {
                               >
                                 Inactive
                               </button>
-                            )}
-                            {/* {item.statusReader === "active" ? (
-                              <button
-                                type="button"
-                                className="btn btn-success btn-xs"
-                                disabled
-                              >
-                                Active
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                className="btn btn-danger btn-xs"
-                                disabled
-                              >
-                                Inactive
-                              </button>
                             )} */}
+                            <StatusReader item={item?.status} />
                           </td>
                           <td>
                             <button
@@ -377,16 +366,16 @@ export default function ReaderListPage(props) {
                       {search?.map((item, index) => (
                         <tr>
                           {/* <td>{item.id}</td> */}
-                          <td>{item.codeReader}</td>
-                          <td>{item.nameReader}</td>
-                          <td>{item.genderReader}</td>
-                          <td>{item.birthReader}</td>
+                          <td>{item.userCode}</td>
+                          <td>{item.userName}</td>
+                          <td>{item.gender === "MALE" ? "Nam" : "Nữ"}</td>
+                          <td>{moment(item.birthDate).format("YYYY-MM-DD")}</td>
                           <td>
-                            {Number(
-                              item.dateEndReader
-                                .slice(0, 10)
-                                .split("-")
-                                .join("")
+                            <ConvertToString item={item.birthDate} />
+                          </td>
+                          <td>
+                            {/* {Number(
+                              item.expireDate?.slice(0, 10).split("-").join("")
                             ) > nowDate ? (
                               <button
                                 value="Active"
@@ -405,7 +394,8 @@ export default function ReaderListPage(props) {
                               >
                                 Inactive
                               </button>
-                            )}
+                            )} */}
+                            <StatusReader item={item?.status} />
                           </td>
                           <td>
                             <button

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../config/api";
 import { logout } from "../redux/userSlice";
+import ConvertToString from "../components/ConvertToString";
 
 export default function ReaderDetail() {
   const params = useParams();
@@ -21,7 +22,7 @@ export default function ReaderDetail() {
 
   const getDetail = async () => {
     try {
-      const dataDetail = await customAxios.get(`/readerList/${readerId}`);
+      const dataDetail = await customAxios.get(`/lbm/v1/users/${readerId}`);
       setdetailReader(dataDetail.data);
       console.log("id: ", readerId);
     } catch (error) {
@@ -36,7 +37,7 @@ export default function ReaderDetail() {
   const goToDetail = (id) => {
     navigate("/borrow/" + id);
   };
-  // console.log("detail: ", detailReader);
+  console.log("detail: ", detailReader?.data.birthDate);
   return (
     <div>
       <div className="row">
@@ -129,44 +130,63 @@ export default function ReaderDetail() {
                             <th style={{ padding: "10px", width: "200px" }}>
                               Mã bạn đọc:{" "}
                             </th>
-                            <td>{detailReader?.codeReader}</td>
+                            <td>{detailReader?.data.userCode}</td>
                           </tr>
                           <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Tên bạn đọc:{" "}
                             </th>
-                            <td>{detailReader?.nameReader}</td>
+                            <td>{detailReader?.data.userName}</td>
                           </tr>
                           <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Giới tính:{" "}
                             </th>
-                            <td>{detailReader?.genderReader}</td>
+                            <td>
+                              {detailReader?.data.gender === "MALE"
+                                ? "Nam"
+                                : "Nữ"}
+                            </td>
                           </tr>
                           <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Ngày sinh:{" "}
                             </th>
-                            <td>{detailReader?.birthReader}</td>
+                            {/* <td>{detailReader?.data.birthDate}</td> */}
+                            <td>
+                              <ConvertToString
+                                item={detailReader?.data?.birthDate}
+                              />
+                            </td>
                           </tr>
                           <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Địa chỉ:{" "}
                             </th>
-                            <td>{detailReader?.addressReader}</td>
+                            <td>{detailReader?.data.emailAddress}</td>
                           </tr>
                           <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Số điện thoại:{" "}
                             </th>
-                            <td>{detailReader?.phoneReader}</td>
+                            <td>{detailReader?.data.phoneNumber}</td>
+                          </tr>
+                          <tr>
+                            <th style={{ padding: "10px", width: "200px" }}>
+                              ID bạn đọc:{" "}
+                            </th>
+                            <td>{detailReader?.data.id}</td>
                           </tr>
                           <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Đang mượn:{" "}
                             </th>
                             <td>
-                              <a onClick={() => goToDetail(detailReader?.id)}>
+                              <a
+                                onClick={() =>
+                                  goToDetail(detailReader?.data.id)
+                                }
+                              >
                                 {}/10
                               </a>
                             </td>
