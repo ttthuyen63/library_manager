@@ -110,7 +110,7 @@ export default function BookDetail() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>

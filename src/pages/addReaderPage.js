@@ -160,17 +160,20 @@ export default function AddReaderPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>
 
-            <div className="control-addReader container">
+            <div
+              className="control-addReader container"
+              style={{ marginLeft: "20px" }}
+            >
               <div className="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
                 <h4 className="ml-0 mt-0">Thêm bạn đọc</h4>
                 <Form>
                   <div className="row">
-                    <div className="form-horizontal col-sm-5">
+                    <div className="form-horizontal col-sm-7">
                       <div className="form-group">
                         <label className="control-label">Họ và tên:</label>
                         <input
@@ -214,15 +217,6 @@ export default function AddReaderPage() {
                           placeholder="Enter address email"
                         />
                       </div>
-                      <div className="form-group">
-                        <label for="email">Số điện thoại:</label>
-                        <input
-                          ref={phoneNumberRef}
-                          type="tel"
-                          className="form-control"
-                          placeholder="Enter telephone number"
-                        />
-                      </div>
 
                       {/* <div className="form-group">
                         <label for="">Trạng thái bạn đọc:</label>
@@ -238,9 +232,15 @@ export default function AddReaderPage() {
                           <option value="inactive">Inactive</option>
                         </select>
                       </div> */}
-                    </div>
-
-                    <div className="form-horizontal col-sm-5">
+                      <div className="form-group">
+                        <label for="email">Số điện thoại:</label>
+                        <input
+                          ref={phoneNumberRef}
+                          type="tel"
+                          className="form-control"
+                          placeholder="Enter telephone number"
+                        />
+                      </div>
                       <div className="form-group">
                         <label className="control-label" for="pwd">
                           Mã bạn đọc:
@@ -253,18 +253,6 @@ export default function AddReaderPage() {
                         />
                       </div>
 
-                      {/* <div className="form-group">
-                        <label className="control-label" for="date">
-                          Ngày tạo:
-                        </label>
-                        <input
-                          ref={dateAddReaderRef}
-                          type="date"
-                          className="form-control"
-                          placeholder="dd-mm-yy"
-                        />
-                      </div> */}
-
                       <div className="form-group">
                         <label className="control-label" for="date">
                           Ngày hết hạn:
@@ -276,43 +264,37 @@ export default function AddReaderPage() {
                           placeholder="dd-mm-yy"
                         />
                       </div>
+                    </div>
 
-                      {/* <div className="form-group">
-                        <label for="">Trạng thái</label>
-                        <select
-                          className="browser-default custom-select mb-2 mr-3"
-                          ref={statusRef}
-                          // value={status}
-                          onChange={(e) => setStatus(e.target.value)}
-                        >
-                          <option selected disabled>
-                            Chọn trạng thái
-                          </option>
-                          <option value="BORROWING">BORROWING</option>
-                        </select>
-                      </div> */}
-
-                      <div className="form-group">
-                        <div className="col-sm-offset-2 col-sm-10">
-                          <Button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={handleSubmit}
-                          >
-                            <FontAwesomeIcon icon={faSave} /> Lưu
-                          </Button>
-                          <Button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={handleCancel}
-                          >
-                            &times; Cancel
-                          </Button>
-                        </div>
-                      </div>
+                    <div
+                      className="form-horizontal col-sm-4"
+                      style={{ marginLeft: "10px", marginTop: "40px" }}
+                    >
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/1512/1512910.png"
+                        style={{ width: "250px", height: "350px" }}
+                      />
                     </div>
                   </div>
                 </Form>
+                <div className="form-group">
+                  <div className="col-sm-offset-2 col-sm-10">
+                    <Button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={handleSubmit}
+                    >
+                      <FontAwesomeIcon icon={faSave} /> Lưu
+                    </Button>
+                    <Button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={handleCancel}
+                    >
+                      &times; Cancel
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

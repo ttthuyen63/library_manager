@@ -134,7 +134,7 @@ export default function EditBorrowPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>

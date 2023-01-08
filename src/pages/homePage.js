@@ -115,11 +115,17 @@ export default function HomePage() {
                   navigate("/");
                 }}
               >
-                Logout
+                Thoát
               </Button>
             </h5>
           </div>
 
+          <div style={{ textAlign: "center" }}>
+            <img
+              src="https://cdn.5minvideo.id/images/logo/logo-buku-terbuka-png.png"
+              style={{ width: "200px" }}
+            />
+          </div>
           <h2 className="mt-4" style={{ textAlign: "center" }}>
             Thống kê
           </h2>

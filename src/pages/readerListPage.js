@@ -218,7 +218,7 @@ export default function ReaderListPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>

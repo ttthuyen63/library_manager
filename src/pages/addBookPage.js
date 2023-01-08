@@ -149,7 +149,7 @@ export default function AddBookPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>

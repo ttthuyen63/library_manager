@@ -143,7 +143,7 @@ export default function BorrowDetail() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>

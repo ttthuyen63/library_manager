@@ -175,17 +175,20 @@ export default function AddBorrowPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>
 
-            <div className="control-addReader container">
+            <div
+              className="control-addReader container"
+              style={{ marginLeft: "20px" }}
+            >
               <div className="mt-3 control-reader-table shadow-sm p-3 mb-5 bg-white rounded">
                 <h4 className="ml-0 mt-0">Mượn sách</h4>
                 <Form>
                   <div className="row">
-                    <div className="form-horizontal col-sm-5">
+                    <div className="form-horizontal col-sm-7">
                       <div className="form-group">
                         <label className="control-label">Mã sách:</label>
                         <input
@@ -206,7 +209,7 @@ export default function AddBorrowPage() {
                         />
                       </div>
 
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label for="email">Số lượng:</label>
                         <input
                           ref={quantityBorrowRef}
@@ -214,7 +217,7 @@ export default function AddBorrowPage() {
                           className="form-control"
                           placeholder="Enter number"
                         />
-                      </div>
+                      </div> */}
 
                       {/* <div className="form-group">
                         <label for="">Trạng thái:</label>
@@ -230,9 +233,6 @@ export default function AddBorrowPage() {
                           <option value="Quá hạn">Quá hạn</option>
                         </select>
                       </div> */}
-                    </div>
-
-                    <div className="form-horizontal col-sm-5">
                       <div className="form-group">
                         <label className="control-label">Ghi chú:</label>
                         <textarea
@@ -283,27 +283,38 @@ export default function AddBorrowPage() {
                           onChange={handleChangeEndDate}
                         />
                       </div>
-                      <div className="form-group">
-                        <div className="col-sm-offset-2 col-sm-10">
-                          <Button
-                            type="button"
-                            className="btn btn-success"
-                            onClick={handleSubmit}
-                          >
-                            <FontAwesomeIcon icon={faSave} /> Lưu
-                          </Button>
-                          <Button
-                            type="button"
-                            className="btn btn-danger"
-                            onClick={handleCancel}
-                          >
-                            &times; Cancel
-                          </Button>
-                        </div>
-                      </div>
+                    </div>
+
+                    <div
+                      className="form-horizontal col-sm-4"
+                      style={{ marginLeft: "10px" }}
+                    >
+                      <img
+                        src="https://cdn1.iconfinder.com/data/icons/borrow-book-filled-outline/340/borrow_book_library_booking_period_online-512.png"
+                        style={{ width: "300px", height: "400px" }}
+                      />
                     </div>
                   </div>
                 </Form>
+                <div className="form-group">
+                  <div className="col-sm-offset-2 col-sm-10">
+                    <Button
+                      type="button"
+                      className="btn btn-success"
+                      onClick={handleSubmit}
+                      // style={{ marginRight: "15px" }}
+                    >
+                      <FontAwesomeIcon icon={faSave} /> Lưu
+                    </Button>
+                    <Button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={handleCancel}
+                    >
+                      &times; Cancel
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

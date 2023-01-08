@@ -146,7 +146,7 @@ export default function EditReaderPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>

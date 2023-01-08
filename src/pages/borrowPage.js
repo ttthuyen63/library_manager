@@ -156,7 +156,7 @@ export default function BorrowPage() {
                     navigate("/");
                   }}
                 >
-                  Logout
+                  Thoát
                 </Button>
               </h5>
             </div>
