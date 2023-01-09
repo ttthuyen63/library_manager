@@ -17,6 +17,8 @@ import { useDispatch } from "react-redux";
 import { addBorrow, addListBorrow } from "../redux/borrowSlice";
 import { logout } from "../redux/userSlice";
 import moment from "moment";
+import { useEffect } from "react";
+import Select from "react-select";
 
 export default function AddBorrowPage() {
   const navigate = useNavigate();
@@ -25,18 +27,19 @@ export default function AddBorrowPage() {
   const borrowId = params.borrowId;
   const [imageBookData, setImageBookData] = useState();
   const [typeBorrowData, settypeBorrowData] = useState();
-  console.log("typeBorrowData...", typeBorrowData);
   const [statusBorrowData, setstatusBorrowData] = useState();
   const [startDate, setStartDate] = useState(null);
-  console.log("startDate", startDate);
   const [endDate, setEndDate] = useState(null);
-  console.log("endDate", endDate);
+  const [bookData, setBookData] = useState(null);
+  console.log("bookData", bookData);
+  const [codeBook, setCodeBook] = useState(null);
+  console.log("codeBook...", codeBook);
 
-  const codeBookBorrowRef = useRef(null);
-  const codeReaderBorrowRef = useRef(null);
-  const quantityBorrowRef = useRef(null);
+  const userCodeRef = useRef(null);
+  const bookIdRef = useRef(null);
+  const borrowEndCompulsoryRef = useRef(null);
   const statusBorrowRef = useRef(null);
-  const descriptionBorrowRef = useRef(null);
+  const descriptionRef = useRef(null);
   const dateAddBorrowRef = useRef(null);
   const dateEndBorrowRef = useRef(null);
   const typeBorrowRef = useRef(null);
@@ -44,9 +47,27 @@ export default function AddBorrowPage() {
   // const dateAddBookRef = useRef(null);
   // const imageBookRef = useRef(null);
 
+  const getBookApi = async () => {
+    try {
+      const res = await customAxios.get(`/lbm/v1/book/get-all`);
+      const newData = res?.data?.content?.map((item) => ({
+        ...item,
+        value: item?.id,
+        label: item?.id,
+      }));
+      setBookData(newData);
+    } catch (error) {
+      console.log("Lỗi", error);
+    }
+  };
+
+  useEffect(() => {
+    getBookApi();
+  }, []);
+
   const getBorrowApi = async () => {
     try {
-      const res = await customAxios.post(`/borrowList`);
+      const res = await customAxios.post(`/lbm/v1/borrow/create`);
       dispatch(addListBorrow(res.data));
       // setbookState(res?.data);
     } catch (error) {
@@ -54,29 +75,52 @@ export default function AddBorrowPage() {
     }
   };
   const handleSubmit = (e) => {
+    // debugger;
     e.preventDefault(); //chặn trước khi action đẩy dữ liệu lên thanh url
-    dispatch(
-      addBorrow({
-        codeBookBorrow: codeBookBorrowRef.current.value,
-        codeReaderBorrow: codeReaderBorrowRef.current.value,
-        quantityBorrow: quantityBorrowRef.current.value,
-        descriptionBorrow: descriptionBorrowRef.current.value,
-        // dateAddBorrow: dateAddBorrowRef.current.value,
-        // dateEndBorrow: dateEndBorrowRef.current.value,
-        typeBorrow: typeBorrowData ? typeBorrowData : null,
-        dateAddBorrow: startDate ? startDate : null,
-        dateEndBorrow: endDate ? endDate : null,
+    // dispatch(
+    //   addBorrow({
+    //     codeBookBorrow: codeBookBorrowRef.current.value,
+    //     codeReaderBorrow: codeReaderBorrowRef.current.value,
+    //     quantityBorrow: quantityBorrowRef.current.value,
+    //     descriptionBorrow: descriptionBorrowRef.current.value,
+    //     // dateAddBorrow: dateAddBorrowRef.current.value,
+    //     // dateEndBorrow: dateEndBorrowRef.current.value,
+    //     typeBorrow: typeBorrowData ? typeBorrowData : null,
+    //     dateAddBorrow: startDate ? startDate : null,
+    //     dateEndBorrow: endDate ? endDate : null,
 
-        // codeBook: codeBookRef.current.value,
-        // dateAddBook: dateAddBookRef.current.value,
-        // imageBook: imageBookData,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        navigate(`/borrow`);
-        // getBorrowApi();
-      });
+    //     // codeBook: codeBookRef.current.value,
+    //     // dateAddBook: dateAddBookRef.current.value,
+    //     // imageBook: imageBookData,
+    //   })
+    // )
+    //   .unwrap()
+    //   .then(() => {
+    //     navigate(`/borrow`);
+    //     // getBorrowApi();
+    //   });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      userCode: userCodeRef.current.value,
+      bookId: codeBook?.id,
+      typeBorrow: typeBorrowData,
+      borrowEndCompulsory: new Date(endDate),
+      description: descriptionRef.current.value,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://192.168.189.75:9992/lbm/v1/borrow/create", requestOptions)
+      .then((response) => response.text())
+      .then((result) => navigate("/borrow"))
+      .catch((error) => <alert>{error}</alert>);
   };
 
   const handleCancel = (e) => {
@@ -84,11 +128,11 @@ export default function AddBorrowPage() {
   };
 
   const handleChangeStartDate = (e) => {
-    if (typeBorrowData === "Ấn định hạn trả") {
+    if (typeBorrowData === "SET_RETURN_TERM") {
       setStartDate(e.target.value);
-      const newDate = new Date(e.target.value).getDate();
-      const newMonth = new Date(e.target.value).getMonth() + 1;
-      const newYear = new Date(e.target.value).getFullYear();
+      const newDate = new Date().getDate();
+      const newMonth = new Date().getMonth() + 1;
+      const newYear = new Date().getFullYear();
 
       const addDate = newDate + 7;
       const newDateEnd = `${newYear} ${newMonth} ${addDate}`;
@@ -102,10 +146,10 @@ export default function AddBorrowPage() {
 
   const handleChangeTypeBorrowData = (e) => {
     settypeBorrowData(e.target.value);
-    if (e.target.value === "Ấn định hạn trả") {
-      const newDate = new Date(startDate).getDate();
-      const newMonth = new Date(startDate).getMonth() + 1;
-      const newYear = new Date(startDate).getFullYear();
+    if (e.target.value === "SET_RETURN_TERM") {
+      const newDate = new Date().getDate();
+      const newMonth = new Date().getMonth() + 1;
+      const newYear = new Date().getFullYear();
 
       const addDate = newDate + 7;
       const newDateEnd = `${newYear} ${newMonth} ${addDate}`;
@@ -118,6 +162,10 @@ export default function AddBorrowPage() {
 
   const handleChangeEndDate = (e) => {
     setEndDate(e.target.value);
+  };
+
+  const handleChangeCodeBook = (e) => {
+    setCodeBook(e);
   };
 
   return (
@@ -189,20 +237,31 @@ export default function AddBorrowPage() {
                 <Form>
                   <div className="row">
                     <div className="form-horizontal col-sm-7">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label className="control-label">Mã sách:</label>
                         <input
-                          ref={codeBookBorrowRef}
+                          ref={bookIdRef}
                           type="text"
                           className="form-control"
                           placeholder="Enter code book"
+                        />
+                      </div> */}
+
+                      <div className="form-group">
+                        <label for="">Mã sách</label>
+                        <Select
+                          options={bookData}
+                          placeholder="Nhập/chọn mã sách"
+                          isClearable={true}
+                          value={codeBook}
+                          onChange={handleChangeCodeBook}
                         />
                       </div>
 
                       <div className="form-group">
                         <label for="">Mã bạn đọc:</label>
                         <input
-                          ref={codeReaderBorrowRef}
+                          ref={userCodeRef}
                           type="text"
                           className="form-control"
                           placeholder="Enter code reader"
@@ -236,13 +295,13 @@ export default function AddBorrowPage() {
                       <div className="form-group">
                         <label className="control-label">Ghi chú:</label>
                         <textarea
-                          ref={descriptionBorrowRef}
+                          ref={descriptionRef}
                           rows="4"
                           cols="50"
                           className="form-control"
                         ></textarea>
                       </div>
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label className="control-label" for="email">
                           Ngày thêm:
                         </label>
@@ -253,7 +312,7 @@ export default function AddBorrowPage() {
                           value={startDate}
                           onChange={handleChangeStartDate}
                         />
-                      </div>
+                      </div> */}
                       <div className="form-group">
                         <label for="">Kiểu cho mượn:</label>
                         <select
@@ -265,12 +324,13 @@ export default function AddBorrowPage() {
                           <option selected disabled>
                             Chọn
                           </option>
-                          <option value="Thông thường">Thông thường</option>
-                          <option value="Ấn định hạn trả">
+                          <option value="NOMAL">Thông thường</option>
+                          <option value="SET_RETURN_TERM">
                             Ấn định hạn trả
                           </option>
                         </select>
                       </div>
+
                       <div className="form-group">
                         <label className="control-label" for="email">
                           Hết hạn:
@@ -278,7 +338,7 @@ export default function AddBorrowPage() {
                         <input
                           type="date"
                           className="form-control"
-                          // ref={dateEndBorrowRef}
+                          // ref={borrowEndCompulsoryRef}
                           value={endDate}
                           onChange={handleChangeEndDate}
                         />

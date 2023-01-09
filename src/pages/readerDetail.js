@@ -16,18 +16,15 @@ import ConvertToString from "../components/ConvertToString";
 export default function ReaderDetail() {
   const params = useParams();
   const readerId = params.readId;
-  console.log("id: ", readerId);
 
   const [detailReader, setdetailReader] = useState(null);
+  console.log("detailReader...", detailReader);
 
   const getDetail = async () => {
     try {
       const dataDetail = await customAxios.get(`/lbm/v1/users/${readerId}`);
       setdetailReader(dataDetail.data);
-      console.log("id: ", readerId);
-    } catch (error) {
-      console.log("Lỗi: ", error);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     getDetail();
@@ -177,7 +174,7 @@ export default function ReaderDetail() {
                             </th>
                             <td>{detailReader?.data.id}</td>
                           </tr>
-                          <tr>
+                          {/* <tr>
                             <th style={{ padding: "10px", width: "200px" }}>
                               Đang mượn:{" "}
                             </th>
@@ -190,7 +187,7 @@ export default function ReaderDetail() {
                                 {}/10
                               </a>
                             </td>
-                          </tr>
+                          </tr> */}
                           {/* <tr>
                         <th>Số phát hành: </th>
                         <td>{detailBook?.issueBook}</td>

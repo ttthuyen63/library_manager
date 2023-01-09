@@ -69,7 +69,7 @@ export default function ReaderListPage() {
   const handleDelete = async (id) => {
     console.log("id: ", id);
     try {
-      await customAxios.post(`/lbm/v1/users/delete?id=${id}`);
+      await customAxios.get(`/lbm/v1/users/delete?id=${id}`);
       getReaderApi();
     } catch (error) {
       console.log("Lỗi", error);

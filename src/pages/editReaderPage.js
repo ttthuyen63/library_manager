@@ -30,10 +30,11 @@ export default function EditReaderPage() {
   console.log("itemDetail...", itemDetail);
   const birthDateDetail = itemDetail?.birthDate
     ?.toString()
-    ?.replace(/[^a-zA-Z0-9 ]/g, "");
-  console.log("birthDateDetail...", birthDateDetail);
+    ?.replace(/[^a-zA-Z0-9 ]/g, "-")
+    .slice(0, 10);
+  console.log("birthDateDetail", birthDateDetail);
 
-  const createDateDetail = new Date(itemDetail?.createDate);
+  const createDateDetail = new Date();
   const createDateFormat = moment(createDateDetail).format("YYYY-MM-DD");
   const [readerState, setreaderState] = useState(null);
   const [nameReader, setnameReader] = useState(itemDetail?.userName);

@@ -116,7 +116,10 @@ export default function BookDetail() {
             </div>
 
             {/* <div className="col-sm-10" style={{ padding: 0 }}> */}
-            <div class="control-addReader container">
+            <div
+              class="control-addReader container"
+              style={{ marginRight: "20px" }}
+            >
               <div class="mt-3 control-reader-table shadow-sm p-0 mb-5 bg-white rounded">
                 <h4 class="ml-0 mt-0" style={{ textAlign: "center" }}>
                   Chi tiết sách
@@ -186,7 +189,7 @@ export default function BookDetail() {
                           </th>
                           <td>{detailBook?.data.description}</td>
                         </tr>
-                        <tr>
+                        {/* <tr>
                           <th
                             scope="row"
                             style={{ padding: "10px", width: "100px" }}
@@ -198,7 +201,7 @@ export default function BookDetail() {
                               <a>{item.id}</a>;
                             })}
                           </td>
-                        </tr>
+                        </tr> */}
 
                         {/* <tr>
                         <th>Số phát hành: </th>

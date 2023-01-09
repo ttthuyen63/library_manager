@@ -128,7 +128,8 @@ export default function BookPage() {
   const handleDelete = async (id) => {
     console.log("id: ", id);
     try {
-      await customAxios.post(`/lbm/v1/book/info/delete?id=${id}`);
+      await customAxios.get(`/lbm/v1/book/info/delete?id=${id}`);
+      // await customAxios.post(`/lbm/v1/book/info/delete?id=${id}`);
       getBookApi();
     } catch (error) {
       console.log("Lỗi", error);
@@ -364,19 +365,21 @@ export default function BookPage() {
                       {search?.map((item, index) => (
                         <tr>
                           {/* <td>{item.id}</td> */}
-                          <td
-                            style={{
-                              width: "50px",
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            {item.id}
+                          <td>
+                            <p
+                              style={{
+                                width: "50px",
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {item.id}
+                            </p>
                           </td>
                           <td>{item.bookName}</td>
                           <td>{item.category}</td>
-                          <td>{item.amount}</td>
+                          <td>{item.availableAmount}</td>
                           <td>{item.auth}</td>
 
                           <td>
@@ -443,10 +446,22 @@ export default function BookPage() {
                         <tr>
                           {/* <th scope="row"></th> */}
                           {/* <td>{item.id}</td> */}
-                          <td>{item.id}</td>
+                          <td>
+                            {" "}
+                            <p
+                              style={{
+                                width: "50px",
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {item.id}
+                            </p>
+                          </td>
                           <td>{item.bookName}</td>
                           <td>{item.category}</td>
-                          <td>{item.amount}</td>
+                          <td>{item.availableAmount}</td>
                           <td>{item.auth}</td>
 
                           <td>

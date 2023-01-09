@@ -67,13 +67,14 @@ export default function AddBookPage() {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      amount: amountRef.current.value,
+      amount: Number(amountRef.current.value),
       auth: authRef.current.value,
       bookImage: bookImageData,
       bookName: bookNameRef.current.value,
       category: categoryRef.current.value,
       description: descriptionRef.current.value,
       price: 0,
+      isDisable: true,
       publisher: publisherRef.current.value,
     });
 
@@ -84,7 +85,7 @@ export default function AddBookPage() {
       redirect: "follow",
     };
 
-    fetch("http://172.31.99.192:9992/lbm/v1/book/info/create", requestOptions)
+    fetch("http://192.168.189.75:9992/lbm/v1/book/info/create", requestOptions)
       .then((response) => response.text())
       .then((result) => navigate("/bookList"))
       .catch((error) => console.log("error", error));

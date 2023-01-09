@@ -95,7 +95,7 @@ export default function AddReaderPage() {
     try {
     } catch (error) {}
 
-    fetch("http://172.31.99.192:9992/lbm/v1/users/create", requestOptions)
+    fetch("http://192.168.189.75:9992/lbm/v1/users/create", requestOptions)
       .then((response) => response.text())
       .then((result) => navigate("/readerList"))
       .catch((error) => console.log("error", error));

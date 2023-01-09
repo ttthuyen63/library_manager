@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { customAxios } from "../config/api";
 import { addListBorrow } from "../redux/borrowSlice";
 import { logout } from "../redux/userSlice";
+import StatusReader from "../components/StatusReader";
 
 export default function BorrowPage() {
   const [borrowState, setborrowState] = useState(null);
@@ -42,7 +43,7 @@ export default function BorrowPage() {
   }, []);
   const getBorrowApi = async () => {
     try {
-      const res = await customAxios.get("/borrowList");
+      const res = await customAxios.get("/lbm/v1/borrow/get-all");
       dispatch(addListBorrow(res.data));
       setborrowState(res?.data);
     } catch (error) {
@@ -98,9 +99,31 @@ export default function BorrowPage() {
   const day =
     current.getDate() < 10 ? "0" + current.getDate() : current.getDate();
   const date = `${current.getFullYear()}-${month}-${day}`;
-  const nowDate = Number(date.slice(0, 10).split("-").join(""));
+  const nowDate = Number(date?.slice(0, 10).split("-").join(""));
   console.log("test", filterList);
   const navigate = useNavigate();
+
+  const hanldeClick = async (item) => {
+    console.log("item...", item);
+    const data = {
+      listBook: [
+        {
+          bookCondition: "DAMAGED",
+          bookId: item?.bookId,
+        },
+      ],
+      userCode: item?.userCode,
+    };
+    try {
+      const res = await customAxios.post("/lbm/v1/borrow/return", data);
+      if (res) {
+        alert("Thay đổi trạng thái thành công");
+      }
+    } catch (error) {
+      console.log("Lỗi");
+    }
+  };
+
   return (
     <div>
       <div className="row">
@@ -208,10 +231,9 @@ export default function BorrowPage() {
                       <table className="table recently-violated">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
+                            {/* <th scope="col">#</th> */}
                             <th scope="col">Mã sách</th>
-                            <th scope="col">Tên sách</th>
-                            <th scope="col">Số lượng</th>
+                            <th scope="col">Mã bạn đọc</th>
                             <th scope="col">Kiểu mượn</th>
                             <th scope="col">Ngày mượn</th>
                             <th scope="col">Hết hạn</th>
@@ -219,19 +241,34 @@ export default function BorrowPage() {
                           </tr>
                         </thead>
                         <tbody id="myTable">
-                          {filterList?.map((item, index) => (
+                          {filterList?.content?.map((item, index) => (
                             <tr>
-                              <td>{item.id}</td>
-                              <td>{item.codeBookBorrow}</td>
-                              <td>{item.nameBookBorrow}</td>
-                              <td>{item.quantityBorrow}</td>
-                              <td>{item.typeBorrow}</td>
-                              <td>{item.dateAddBorrow}</td>
-                              <td>{item.dateEndBorrow}</td>
+                              <td>{item.bookId}</td>
+                              <td>{item.userCode}</td>
                               <td>
-                                {Number(
+                                {item.typeBorrow === "NOMAL"
+                                  ? "Thông Thường"
+                                  : "Ấn định hạn trả"}
+                              </td>
+                              <td>
+                                {item?.borrowDate
+                                  ?.toString()
+                                  ?.replace(/[^a-zA-Z0-9 ]/g, "-")
+                                  ?.slice(0, 8)}
+                              </td>
+                              <td>
+                                {item?.borrowEndCompulsory
+                                  ?.toString()
+                                  ?.replace(/[^a-zA-Z0-9 ]/g, "-")
+                                  ?.slice(0, 9)}
+                              </td>
+                              <td>
+                                <StatusReader item={item?.status} />
+                              </td>
+                              <td>
+                                {/* {Number(
                                   item.dateEndBorrow
-                                    .slice(0, 10)
+                                    ?.slice(0, 10)
                                     .split("-")
                                     .join("")
                                 ) > nowDate ? (
@@ -252,9 +289,9 @@ export default function BorrowPage() {
                                   >
                                     Quá hạn
                                   </button>
-                                )}
+                                )} */}
                               </td>
-                              <td>
+                              {/* <td>
                                 <button
                                   onClick={() => handleDelete(item?.id)}
                                   type="button"
@@ -271,7 +308,10 @@ export default function BorrowPage() {
                                     <FontAwesomeIcon icon={faTrash} />
                                   </span>
                                 </button>
-                              </td>
+                                <button onClick={() => hanldeClick(item)}>
+                                  Đã trả
+                                </button>
+                              </td> */}
                             </tr>
                           ))}
                         </tbody>

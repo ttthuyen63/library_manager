@@ -53,7 +53,7 @@ export default function HomePage() {
   };
   const getBorrowApi = async () => {
     try {
-      const res = await customAxios.get("/borrowList");
+      const res = await customAxios.get("/lbm/v1/borrow/get-all");
       dispatch(addListBorrow(res.data));
       setborrowStateLength(res?.data);
     } catch (error) {
@@ -168,7 +168,9 @@ export default function HomePage() {
 
             <div className="statistical-card bg-orange m-2">
               <div className="statistical-info ml-4 mt-4">
-                <h2 className="number-reader">{borrowStateLength?.length}</h2>
+                <h2 className="number-reader">
+                  {borrowStateLength?.content?.length}
+                </h2>
                 <p className="statistical-item">Số lượng đang mượn</p>
               </div>
               <span className="statistical-icon">
@@ -182,7 +184,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="statistical-card bg-red m-2">
+            {/* <div className="statistical-card bg-red m-2">
               <div className="statistical-info ml-4 mt-4">
                 <h2 className="number-reader">12</h2>
                 <p className="statistical-item">Vi phạm</p>
@@ -196,7 +198,7 @@ export default function HomePage() {
                   <FontAwesomeIcon icon={faArrowAltCircleRight} />
                 </span>
               </button>
-            </div>
+            </div> */}
           </div>
 
           <div className="recently mt-5">
@@ -205,7 +207,7 @@ export default function HomePage() {
               <table className="table recently-book">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    {/* <th scope="col">#</th> */}
                     <th scope="col">Mã sách</th>
                     <th scope="col">Tên sách</th>
                     <th scope="col">Số lượng</th>
@@ -217,20 +219,20 @@ export default function HomePage() {
                   {bookStateLength?.content?.map((item, index) => (
                     <tr>
                       {/* <th scope="row"></th> */}
-                      <td>{item.id}</td>
-                      <td>{item.codeBook}</td>
-                      <td>{item.nameBook}</td>
+                      {/* <td>{item.id}</td> */}
+                      <td>{item?.id}</td>
+                      <td>{item?.bookName}</td>
                       {/* <td>{item.codeBook}</td>
                       <td>{item.genreBook}</td> */}
-                      <td>{item.quantityBook}</td>
-                      <td>{item.dateAddBook}</td>
+                      <td>{item?.amount}</td>
+                      <td>{item?.createDate}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            <div className="recently-table shadow-sm p-3 mb-5 bg-white rounded">
+            {/* <div className="recently-table shadow-sm p-3 mb-5 bg-white rounded">
               <h4>Bạn đọc vi phạm</h4>
               <table className="table recently-violated">
                 <thead>
@@ -254,7 +256,7 @@ export default function HomePage() {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
