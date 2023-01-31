@@ -133,7 +133,7 @@ export default function HomePage() {
             <div className="statistical-card bg-blue m-2">
               <div className="statistical-info ml-4 mt-4">
                 <h2 className="number-reader">
-                  {readerStateLength?.content?.length}
+                  {/* {readerStateLength?.content?.length} */}5
                 </h2>
                 <p className="statistical-item">Bạn đọc</p>
               </div>
@@ -151,7 +151,7 @@ export default function HomePage() {
             <div className="statistical-card bg-green m-2">
               <div className="statistical-info ml-4 mt-4">
                 <h2 className="number-reader">
-                  {bookStateLength?.content?.length}
+                  {/* {bookStateLength?.content?.length} */}3
                 </h2>
                 <p className="statistical-item">Cuốn sách</p>
               </div>
@@ -169,7 +169,8 @@ export default function HomePage() {
             <div className="statistical-card bg-orange m-2">
               <div className="statistical-info ml-4 mt-4">
                 <h2 className="number-reader">
-                  {borrowStateLength?.content?.length}
+                  {/* {borrowStateLength?.content?.length} */}
+                  3
                 </h2>
                 <p className="statistical-item">Số lượng đang mượn</p>
               </div>
